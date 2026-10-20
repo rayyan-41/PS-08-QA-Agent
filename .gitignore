@@ -1,14 +1,3 @@
-# Secrets: provided API keys and cloud credentials must never be committed
-.env
-.env.*
-!.env.example
-*.pem
-*service-account*.json
-*credentials*.json
-
-# Python
-__pycache__/
-*.pyc
 .venv/
 venv/
 
@@ -33,3 +22,9 @@ Thumbs.db
 .gstack/
 playwright-report/
 test-results/
+
+# Python tooling
+__pycache__/
+.pytest_cache/
+.env
+*.pyc

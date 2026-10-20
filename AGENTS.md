@@ -14,7 +14,7 @@ Full brief: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-problem
 
 Full notes: [docs/strategy/vision-and-competitors.md](docs/strategy/vision-and-competitors.md)
 
-Current build boundary: [initial problem scope](docs/problem/initial-problem-scope.md) and [first iteration journey](docs/problem/first-iteration-solution.md). These describe the single upload-to-submission path and saved profiles; the vision includes later capabilities. Technology remains undecided. `docs/team/PlanWRTJudges(notFinal).md` is an unapproved proposal.
+Current build boundary: [initial problem scope](docs/problem/initial-problem-scope.md) and [first iteration journey](docs/problem/first-iteration-solution.md). These describe the single upload-to-submission path and saved profiles; the vision includes later capabilities. The six-phase choices are in [docs/phases.md](docs/phases.md) and its phase documents. `docs/team/PlanWRTJudges(notFinal).md` is an unapproved proposal.
 
 - Data observability tools (Monte Carlo, Anomalo, Acceldata, Soda) work on tables and pipelines after data is stored. This product works **in the write path, before the database**. Monitoring stored tables is out of scope.
 - **Vision: an automated QA layer (SaaS) in front of the client database.** After setup, agents pass, hold, or auto-fix each entry before it is written, and send only uncertain cases to an analyst. Autonomy grows as precision is proven. The event build is the proof of concept of this loop.
@@ -110,7 +110,17 @@ Read [data/README.md](data/README.md) before touching the CSV. Key points:
 
 ## Commands
 
-The platform console calls the real backend routes in `docs/api.md`. Run frontend commands from `frontend/` using Node 22 LTS and pnpm 11.25.0:
+Backend, from the repository root:
+
+```bash
+uv venv .venv --python 3.12
+uv pip install --python .venv/bin/python -r backend/requirements.txt
+.venv/bin/uvicorn backend.app:app --host 127.0.0.1 --port 8080
+.venv/bin/python -m pytest -q tests
+gcloud run deploy ps08-quality-agent --source . --project=ps08-quality-agent-20261020-ib --region=asia-south1
+```
+
+Frontend: the platform console calls the real backend routes in `docs/api.md`. Run frontend commands from `frontend/` using Node 22 LTS and pnpm 11.25.0:
 
 ```bash
 pnpm install --frozen-lockfile

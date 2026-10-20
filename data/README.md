@@ -43,3 +43,7 @@ The sample dataset provided with problem statement PS-08. It has 300 rows, one p
   - Every field, including `acquisition_date` and `completion_status`, stores a plain number in `entered_value`.
 - Treat the labels as provisional until reviewed. Rule checks (range, missing document, duplicates, date order) and the historical labels will disagree on many rows. Evaluate on the human-reviewed set described in the scoping doc, and say what each check is based on.
 - `rejection_reason` and `was_rejected` are derived from `error_type`. Do not use them as input features when predicting `error_type`, or the evaluation leaks the answer.
+
+## Synthetic forecast integration fixture
+
+`generate_forecast_demo.py` produces `synthetic_forecast_history.csv` and `synthetic_forecast_incoming.csv`. This is generated demonstration data, not a real customer dataset or evidence of forecast accuracy. The history has 48 regular monthly `revenue_ttm` values for one explicitly synthetic entity, with the incoming entry dated the next month. Use it to verify that the forecast tools execute and that a large deviation can be shown as an advisory. Do not pool it with the supplied PS-08 labels or report metrics from it as real-world performance.
