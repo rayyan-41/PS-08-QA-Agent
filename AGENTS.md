@@ -14,8 +14,9 @@ Full brief: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-problem
 
 Full notes: [docs/strategy/vision-and-competitors.md](docs/strategy/vision-and-competitors.md)
 
-- Data observability tools (Monte Carlo, Anomalo, Acceldata, Soda) work on tables and pipelines. This product works **at the entry form, before the analyst submits**. Keep features at that layer; pipeline monitoring is out of scope.
-- **Suggest, do not silently change.** The agent proposes fixes and the analyst decides. Never auto-apply a correction to an entry without an explicit analyst action.
+- Data observability tools (Monte Carlo, Anomalo, Acceldata, Soda) work on tables and pipelines after data is stored. This product works **in the write path, before the database**. Monitoring stored tables is out of scope.
+- **Vision: an automated QA layer (SaaS) in front of the client database.** After setup, agents pass, hold, or auto-fix each entry before it is written, and send only uncertain cases to an analyst. Autonomy grows as precision is proven. The event build is the proof of concept of this loop.
+- Every gate decision (pass, hold, auto-fix, ask) is explained and logged. Auto-fix runs only for action types the configuration allows.
 - Every suggestion must say why it was flagged, how severe it is, and what to do. Keep false alarms low; it is a scored metric.
 - Target user: an analyst entering company financials at a data provider. Use their domain language in UI text and issue messages.
 - Every flag shows its evidence (range, previous value, related field, similar past rejection, duplicate record). Feature priorities (Must / Should / Could) are in section 7 of the vision doc; build Must items first.

@@ -19,9 +19,20 @@ Where PS-08 fits in the market, what already exists, where the open space is, an
 
 ## 1. Vision
 
-**Stop bad data at the moment an analyst types it, and explain why, before it is submitted.**
+**An automated data QA layer, delivered as SaaS, that sits in front of the client's database and stops bad data before it is written.**
 
-Almost every data quality product on the market watches tables and pipelines and alerts a data engineer after something lands. Our agent works one step earlier, at the entry form. It reviews each entry against the analyst's history, related fields, related records, and the organization's procedures, then returns a short, severity-ranked list of likely problems. Each finding has its evidence, a severity, a proposed action, and the procedure to follow. The analyst decides, and every decision teaches the agent. A spell-check for data.
+Almost every data quality product on the market watches tables and pipelines and alerts a data engineer after something lands. We sit one step earlier. Every entry, whether typed by an analyst or arriving from a feed or import, passes through our agents on the way to the database.
+
+After an initial setup (connect the entry points, load history, procedures, and business rules), the platform learns the client's data: normal ranges per field and entity, how values move over time, which errors each team tends to make, and which flags analysts confirm or dismiss. From then on it runs on its own:
+
+- **Pass:** clean entries go straight through to the database.
+- **Hold:** likely errors are stopped before they are written, with the evidence, a severity, a proposed fix, and the linked procedure.
+- **Auto-fix:** where the client allows it and confidence is proven, routine errors (formats, units, obvious duplicates) are corrected automatically and logged.
+- **Ask:** only the uncertain cases go to an analyst. Their decision becomes training signal.
+
+**Autonomy grows with confidence.** On day one, more cases go to people. As the platform proves its precision on a field or error type, it takes over that slice. Over time, human review shrinks to the genuinely hard cases. A spell-check for data that turns into an autopilot for data quality.
+
+**The proof of concept** we build today demonstrates this loop end to end on the PS-08 dataset: entries arrive, agents check them, the gate passes or holds them, findings come with evidence and procedures, and analyst decisions change what the system does next.
 
 ### Who it is for
 
@@ -32,9 +43,9 @@ Secondary user: the **QA reviewer or team lead** who today checks analysts' work
 ### Product principles
 
 - **Prevent, then explain.** Catch the issue before submission and say why, in the analyst's terms.
-- **Suggest, do not silently change.** The agent proposes; the analyst accepts or rejects. An unexplained automatic edit to a financial figure is itself a quality risk, and the brief scores analyst trust.
+- **Automated by default, accountable always.** The gate decides pass, hold, or auto-fix without waiting for a person. Every decision is explained and logged, and the client sets which actions may run automatically.
 - **Show the evidence.** Every flag points to what triggered it: a range, a past value, a related field, a similar past rejection, a duplicate record.
-- **Learn from the analyst.** Accept and reject decisions change future predictions (brief requirement 5).
+- **Learn from every decision.** Analyst confirmations and dismissals change future predictions and widen what the platform handles on its own (brief requirement 5).
 - **Few, accurate flags.** A checker that cries wolf gets ignored. False alarm rate is a scored metric.
 
 ---
@@ -169,7 +180,8 @@ This is what we replace first. In the pitch, compare against this, not against M
 | Ranks issues by importance | ✗ | ✓ alerts | ? | ? | ? | ? | ✗ | ? | ◐ warning / error | **✓ severity + confidence** |
 | Learns from user decisions | ✗ | ◐ accepted monitors | ? | ◐ approvals | ✗ | ✓ pass / suppress | ✗ | ◐ survey | ◐ mapping choices | **✓ per entry** |
 | AI agents | ✗ | ✓ | ✓ | ✓ | ✓ | ? | ◐ via Antigravity codelab | ◐ ExpectAI | ✗ | **✓** |
-| Data changed only with human approval | n/a | ✓ read-only | ? | ✓ | ✗ not described | n/a | n/a | n/a | ◐ auto-formats | **✓** |
+| Data changed only with human approval | n/a | ✓ read-only | ? | ✓ | ✗ not described | n/a | n/a | n/a | ◐ auto-formats | **◐ client policy, every action logged** |
+| Gates writes before the database, automatically | ◐ static rules | ✗ (pipeline jobs) | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ◐ import step | **✓** |
 
 **Reading the matrix:** the top four rows are empty for everyone except the static status quo and import tools. That row block is our position.
 
@@ -180,7 +192,7 @@ This is what we replace first. In the pitch, compare against this, not against M
 1. **No one coaches the person entering the data.** Observability and governance tools serve engineers and stewards after the fact. Import tools serve the uploader but only against a fixed schema.
 2. **No one links an issue to the procedure.** The brief asks for "linked procedures". None of the tools above document this.
 3. **Feedback loops exist, but at the wrong grain.** Collibra, Metaplane, and GX learn from engineers' responses to table-level alerts. Nobody learns from an analyst's accept or dismiss decision, with a reason, on a single finding.
-4. **Autonomy is the industry trend, and it is the wrong default for financial entries.** Ataccama and Acceldata emphasize agents that act. For figures that feed ratings and prices, an agent that changes values silently creates a new risk. "Agent investigates, human decides, agent learns" is a defensible differentiator, and it matches the brief's trust metric.
+4. **Autonomous agents exist, but they act after the data is stored.** Ataccama and Acceldata have agents that remediate, on tables and pipelines that already hold the bad data. Nobody runs autonomous QA in the write path, before the database, with autonomy that is earned per field and error type from measured precision and analyst feedback.
 5. **Vendor metrics are unaudited.** "83% faster", "80% faster", "60% acceptance" come with no method. An honest evaluation panel (catch rate, false alarm rate, precision, set size, method, and real vs synthetic results shown separately) stands out in front of technical judges.
 
 ---
@@ -191,6 +203,7 @@ Ordered by value for the demo. **Must** = needed for the core journey. **Should*
 
 | # | Feature | Gap it fills | Brief req. | Judging criterion | Priority |
 |---|---|---|---|---|---|
+| 0 | **Automated gate**: entries arrive (from the form, or a simulated feed replaying the CSV) and the agents pass, hold, or auto-fix each one before it is written; a live view shows the stream and every decision | Open space 4, the vision itself | 1, 3, 4 | Innovation, Scalability, Functionality | Must |
 | 1 | **Pre-submit review**: analyst fills an entry, clicks "Check", gets ranked issues before "Submit" is enabled | Open space 1 | 1, 4 | Functionality, Real-world impact | Must |
 | 2 | **Visible agent plan**: show the agent choosing tools (range check, history lookup, duplicate search, cross-field check, pattern lookup, LLM reasoning) and what each returned | Agentic requirement, Q&A defence | 1, 2, 3 | Technical execution, Innovation | Must |
 | 3 | **Evidence on every flag**, for example: "Entered 31,158; expected -57 to 25,161; last value 35,343; 3 similar entries were rejected for Range Violation" | Status quo error text says nothing useful | 2, 3, 4 | Real-world impact (trust) | Must |
@@ -201,11 +214,12 @@ Ordered by value for the demo. **Must** = needed for the core journey. **Should*
 | 8 | **Evaluation panel**: catch rate, false alarm rate, and precision on the frozen, human-reviewed evaluation set (see the scoping doc), with real and synthetic results separate; acceptance rate from real clicks shown as an adoption signal | Open space 5, brief metrics | Eval criteria | Technical execution, Scalability | Should |
 | 9 | **Batch pre-flight**: run the agent over all `Draft` entries and show a ranked queue for the reviewer | Secondary user (checker) | 1, 3 | Scalability, Impact | Should |
 | 10 | **Analyst pattern hints**: "on `dividend_yield`, Stale Data is your most common rejection" | Historical patterns per person | 2 | Innovation | Could. Frame as coaching, not blame |
-| 11 | **Audit trail**: every suggestion, decision, and reason stored with time and analyst | Compliance story for finance | 5 | Scalability (market-ready) | Could |
+| 11 | **Audit trail**: every gate decision, suggestion, analyst decision, and reason stored with time | Compliance story for finance | 5 | Scalability (market-ready) | Should |
+| 12 | **Autonomy dial**: per field or error type, show whether the platform handles it on its own or asks a person, based on measured precision; a confirmed decision moves the dial | Open space 4 | 5 | Innovation | Could |
 
 ### The demo story in one paragraph
 
-Based on the journey in [problem-scoping.md](../problem/problem-scoping.md). An analyst enters a company's revenue as 100 million; the previous value was 10 million. A static range rule may pass it. Before submission, the agent shows its plan, pulls the history and supporting context, and flags the tenfold jump as **High: verify**, noting that an extra zero is one possible cause but that the increase may be legitimate. It also finds an acquisition date later than the reporting cutoff, checks the procedure, and raises that as a separate **Date Conflict** finding with the procedure linked. The analyst confirms the extra zero and corrects it, and dismisses another low-severity flag with the reason "value is correct". On the next similar entry, that flag is down-ranked and the reason is shown. The evaluation panel shows measured results on the reviewed set.
+Based on the journey in [problem-scoping.md](../problem/problem-scoping.md). An analyst enters a company's revenue as 100 million; the previous value was 10 million. A static range rule may pass it. Before submission, the agent shows its plan, pulls the history and supporting context, and flags the tenfold jump as **High: verify**, noting that an extra zero is one possible cause but that the increase may be legitimate. It also finds an acquisition date later than the reporting cutoff, checks the procedure, and raises that as a separate **Date Conflict** finding with the procedure linked. The analyst confirms the extra zero and corrects it, and dismisses another low-severity flag with the reason "value is correct". On the next similar entry, that flag is down-ranked and the reason is shown. Then switch to the automated view: a feed of entries flows through the gate, clean ones pass to the database, errors are held with their findings, and the analyst queue contains only the uncertain cases. The evaluation panel shows measured results on the reviewed set.
 
 ---
 
@@ -214,6 +228,7 @@ Based on the journey in [problem-scoping.md](../problem/problem-scoping.md). An 
 - **Do not claim "first" or "only".** We found no entry-time analyst-facing competitor; that does not prove there is none. Say "we found no tool that does this at the point of entry".
 - **Do not quote a catch rate we have not measured.** The sample labels are inconsistent with the columns (see [data/README.md](../../data/README.md)). Report measured numbers with the counting unit, set size, split, and method from the scoping doc, keep real and synthetic results separate, and do not call the labels synthetic as fact; say they disagree with the visible fields.
 - **Do not present S&P Global as our client or sponsor.**
+- **Pitch the full vision, demo only what runs.** The participant guide disqualifies "features shown that do not exist". Slides can show the whole SaaS platform; mark roadmap items as roadmap, and keep the live demo to the working proof of concept.
 - **Do not compare against competitor features we have not checked.** Use only rows from the matrix above.
 - **Do not repeat vendor claims as facts.** If used, say "Monte Carlo reports...".
 
@@ -231,19 +246,18 @@ Answers assume the planned work is done by demo time. Drop any part that the run
 | How do you keep false alarms down? | Confidence scores, severity thresholds, low-confidence items collapsed, and analyst rejections that down-rank similar flags. We measure false alarm rate on the frozen, human-reviewed evaluation set and show it. |
 | Your dataset labels look noisy. How do you know it works? | Yes, and we say so. We kept the raw CSV, built a human-reviewed evaluation set with reasons for each label, froze it before tuning, and kept its answers away from the agent. We report results on it separately from synthetic challenge cases, with set size and method. Acceptance rate tracks adoption, but acceptance alone does not prove a suggestion was correct. |
 | Isn't sending financial data to an LLM a risk? | Prototype: only the single entry and its derived evidence go to the model, through the backend; keys stay server-side. Product: a private model endpoint on Vertex AI within the client's GCP project, plus redaction of identifiers. |
-| What stops the agent from changing data wrongly? | It never writes. It suggests; the analyst accepts. Every decision is logged. |
+| What stops the agent from changing data wrongly? | The client decides which actions run automatically. By default the platform passes or holds; auto-fix is switched on per error type only after its precision is proven. Every decision is logged and reversible, and uncertain cases always go to a person. |
+| Why would a bank trust an automated gate? | It earns autonomy the same way a new analyst does: starts supervised, takes over the slices where it has proven accurate, and keeps a full audit trail. The client can see the measured precision behind every automated decision. |
 | How does it scale? | Stateless check service on Cloud Run, history and patterns in BigQuery, feedback in Firestore. Show measured latency and concurrency results if we have them; otherwise state the plan as a plan. |
 | Who pays? | Data providers, banks, and back-office teams with manual entry and maker-checker review. Saving is fewer rejections, less rework, fewer second-person reviews. Pricing hypothesis: per analyst seat or per thousand checks. |
 
 ---
 
-## 10. Path from prototype to product
+## 10. Path from proof of concept to platform
 
-This is a plan, not a description of the prototype.
-
-1. **Prototype (event day):** web UI over the sample dataset; agent reviews an entry, returns ranked findings with evidence, proposed actions, and procedures; analyst decisions recorded and used; deployed on GCP; evaluation panel with measured numbers on the reviewed set.
-2. **MVP:** check API and an embeddable widget for existing entry forms; history and error patterns in BigQuery; feedback in Firestore; scheduled re-learning from decisions; per-client procedure library; batch pre-flight for reviewers.
-3. **Market-ready:** connectors for common entry and data management tools; export learned rules to Dataplex and other DQ tools; per-team dashboards (catch rate, false alarm rate, acceptance rate, time saved); full audit trail for compliance review; private model hosting per client.
+1. **Proof of concept (event day):** the PS-08 dataset flows through the agents; the gate passes, holds, or auto-fixes entries; findings carry evidence, severity, proposed actions, and procedures; analyst decisions feed back; deployed on GCP; evaluation panel with measured numbers.
+2. **MVP:** multi-tenant SaaS. Connectors for entry forms, file imports, and API feeds placed in front of the client database; setup wizard that loads history, rules, and procedures; per-client learning from history and decisions in BigQuery and Firestore; autonomy dial per field and error type.
+3. **Platform:** the QA layer for every write into the client's data estate. Self-tuning thresholds, cross-client pattern models (privacy-preserving) so new clients start smarter, export of learned rules to Dataplex and other DQ tools, compliance-grade audit trail, private model hosting per client.
 
 ---
 

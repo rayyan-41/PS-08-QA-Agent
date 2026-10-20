@@ -1,6 +1,6 @@
 # PS-08 QA Agent
 
-A predictive data quality agent for the atomcamp National AI Hackathon Finale (20 October 2026, NIC Islamabad). It reviews analyst data entries before submission and returns a severity-ranked list of likely errors with suggested corrections, like a spell-check for data.
+An automated data QA layer that sits in front of a database and stops bad data before it is written, built as a proof of concept at the atomcamp National AI Hackathon Finale (20 October 2026, NIC Islamabad). Agents check each entry against history, related fields, and other records, then pass it, hold it with severity-ranked findings and suggested corrections, or send uncertain cases to an analyst, whose decisions teach the system. A spell-check for data.
 
 Problem statement: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-problem-statement.md)
 
