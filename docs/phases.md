@@ -51,7 +51,7 @@ Model fitting, evaluation, and later refreshes form a separate maintenance lifec
 
 Discuss one phase at a time. For each phase, establish its inputs, outputs, responsibilities, relevant data assumptions, use of ordinary code versus statistics/ML versus LLMs, implementation alternatives, trade-offs, and evidence needed to verify it.
 
-Create separate Phase 1 through Phase 6 documents as the corresponding decisions are confirmed. Record both selected choices and unresolved questions clearly. This overview does not select the Python framework, parsing library, model providers, agent framework, storage services, or API shapes.
+The six detailed phase documents below record selected choices, delegated engineering defaults, and remaining implementation work. They do not claim that the application or analytical models are already implemented. Exact route shapes belong in the API contract when defined.
 
 ## Phase 1 decisions
 
@@ -61,19 +61,37 @@ The default CSV format is UTF-8 (including a byte-order mark), comma-separated, 
 
 The first iteration accepts up to 10,000 data rows per upload (excluding the header), 10 MB per file, and 100 columns. The preview shows the first 50 data rows, while inspection covers all accepted rows. Uploads exceeding a limit receive a clear message rather than being silently truncated. These are agreed product limits to verify during implementation, not measured capacity claims.
 
-Cloud Storage holds original uploads and versioned working files. Firestore holds draft metadata, file references, inspection summaries, status, and saved profiles. Retain files, drafts, and profiles without automatic expiry for the hackathon. Region remains an implementation choice; organizer credits are expected. The final accepted-records destination is a separate Phase 6 decision.
+Cloud Storage holds original uploads and versioned working files. Firestore holds draft metadata, file references, inspection summaries, status, and saved profiles. Retain files, drafts, and profiles without automatic expiry for the hackathon. Region remains an implementation choice; organizer credits are expected. Phase 6 reuses these services for the accepted snapshot and authoritative acceptance record.
 
 FastAPI is confirmed. Upload and inspection use separate requests, with inspection returning when complete rather than introducing a job queue initially. Phase 2 loads a persisted inspection identified by draft ID and version; the frontend receives its preview and summary.
 
 Phase 1 is locked: unreadable or structurally invalid files and exceeded limits block progression; readable mixed types and ambiguous values proceed as warnings after preview confirmation. See the detailed phase document for the full behavior. Remaining detector, version, region, and route details belong to implementation planning.
 
-## Related documents
+## Phase 2 decisions
 
-- [Phase 2 working decisions](phases/phase-2.md): one Google ADK ReAct planner with deterministic validation, summaries first with bounded examples on demand, a configurable supported-check catalog, and profile reuse after compatibility and meaning confirmation. Use Gemini Developer API free-tier inference during development, with no automatic paid fallback; OpenAI access is planned later.
+[Phase 2](phases/phase-2.md) uses one Google ADK ReAct planner with deterministic validation, summaries first with bounded examples on demand, a configurable supported-check catalog, and profile reuse after compatibility and meaning confirmation. Use Gemini Developer API free-tier inference during development, with no automatic paid fallback; OpenAI access is planned later.
 
 Phase 2 asks adaptive batches of 3–5 unresolved questions, with suggested answers and optional text. Optional context initially includes built-in demo references, text/Markdown, and historical CSVs; PDF and Word ingestion are deferred.
 
 Phase 2 is locked. Initial reference retrieval uses direct lookup and keyword search without a vector database. One consolidated profile approval saves the plan and begins review; ordinary tool calls and individual checks do not prompt for approval. Compatible profile reuse combines meaning/units confirmation and running in a single action. Material plan changes receive a concise change summary for reapproval.
+
+## Phase 3 decisions
+
+Phase 3 uses Streamable HTTP MCP and broad first-iteration statistical/ML coverage, including forecasting. Split supplied records into development/reference and reviewed evaluation roles, supplementing with identified suitable forecasting history. The [Phase 3 document](phases/phase-3.md) specifies the concrete initial catalog and engineering defaults; availability and results still require implementation and verification.
+
+## Phase 4 decisions
+
+[Phase 4](phases/phase-4.md) validates and consolidates evidence, investigates through ReAct/MCP, and produces validated actionable findings. The confirmed gate is risk-based: required-rule violations and material suspicions under the approved profile hold submission; lower-risk anomalies remain advisories. Code enforces this policy, not an unconstrained LLM verdict.
+
+## Phase 5 workflow
+
+[Phase 5](phases/phase-5.md) provides grouped review, individual or selected-group correction approval, recorded verification reasons, new draft versions, and dependency-aware rechecks. Routine edits use ordinary code; contextual investigation invokes the existing agent only when needed. Feedback affects advisory ranking within explicit limits and does not waive required checks.
+
+## Phase 6 workflow
+
+[Phase 6](phases/phase-6.md) enforces the gate on the exact reviewed version, then publishes a whole accepted batch. The prototype uses an immutable Cloud Storage payload plus a transactionally published Firestore acceptance record. Submission retries return the same receipt. No LLM release approval or new database service is added. External database connectors and per-row materialization are later integrations.
+
+## Related documents
 
 - [Initial problem scope](problem/initial-problem-scope.md)
 - [First iteration journey](problem/first-iteration-solution.md)

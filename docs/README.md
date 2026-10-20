@@ -5,6 +5,10 @@
 | `docs/` | [phases.md](phases.md) | Six agreed outer phases, handoffs, and roles of ordinary code, statistics/ML, and LLM agents; detailed choices remain open |
 | `phases/` | [phase-1.md](phases/phase-1.md) | Confirmed CSV inspection behavior and remaining Phase 1 implementation decisions |
 | `phases/` | [phase-2.md](phases/phase-2.md) | Google ADK ReAct planner, free-tier Gemini development, configurable checks, and confirmed profile-reuse behavior |
+| `phases/` | [phase-3.md](phases/phase-3.md) | MCP analytical tools and broad first-iteration model coverage; catalog and dataset roles under discussion |
+| `phases/` | [phase-4.md](phases/phase-4.md) | Evidence investigation, actionable findings, and the confirmed risk-based submission gate |
+| `phases/` | [phase-5.md](phases/phase-5.md) | Grouped review, approved corrections, versioning, rechecks, and bounded feedback |
+| `phases/` | [phase-6.md](phases/phase-6.md) | Whole-batch release, accepted snapshot/receipt, backend gate enforcement, and retry behavior |
 | `problem/` | [ps-08-problem-statement.md](problem/ps-08-problem-statement.md) | The PS-08 brief: problem, technical requirements, suggested GCP stack, evaluation criteria |
 | `problem/` | [problem-scoping.md](problem/problem-scoping.md) | Problem discussion, example user journey, evaluation definitions, dataset concerns, and proposed data preparation approach |
 | `problem/` | [initial-problem-scope.md](problem/initial-problem-scope.md) | Current user, problem, saved profiles, boundaries, and success criteria in plain language |
