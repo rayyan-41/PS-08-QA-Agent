@@ -1,0 +1,16 @@
+{
+  "name": "@pokayoke/widget",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@pokayoke/brand": "workspace:*"
+  }
+}

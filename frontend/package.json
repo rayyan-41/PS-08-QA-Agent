@@ -1,0 +1,51 @@
+{
+  "name": "pokayoke-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @pokayoke/marketing --filter @pokayoke/platform --filter @pokayoke/client-portal dev",
+    "dev:marketing": "pnpm --filter @pokayoke/marketing dev",
+    "dev:platform": "pnpm --filter @pokayoke/platform dev",
+    "dev:portal": "pnpm --filter @pokayoke/client-portal dev",
+    "build": "pnpm --filter @pokayoke/widget build && pnpm --filter @pokayoke/marketing build && pnpm --filter @pokayoke/platform build && pnpm --filter @pokayoke/client-portal build && node scripts/copy-widget.mjs",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "api:generate": "node scripts/generate-api.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/js": "9.39.5",
+    "@playwright/test": "1.64.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "eslint": "9.39.5",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.7",
+    "globals": "17.13.0",
+    "jsdom": "30.1.3",
+    "prettier": "3.9.10",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vite": "8.3.4",
+    "vitest": "5.0.5",
+    "openapi-typescript": "7.13.0",
+    "msw": "3.0.3",
+    "zod": "4.6.7"
+  }
+}

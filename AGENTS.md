@@ -70,7 +70,8 @@ Breaking these can disqualify the team. Never work around them.
 When code is added, use this layout unless the team agrees otherwise, and update this section:
 
 - `backend/` : agent workflow and API (deployed to Cloud Run)
-- `frontend/` : main website
+- `frontend/` : pnpm workspace with marketing, platform, client portal, and shared brand/UI/API/widget packages; see `frontend/README.md`
+- `frontend/apps/platform/` : the Pokayoke console, served by the FastAPI backend at `/` (see `BACKEND_INTEGRATION.md`; gaps in `BACKEND_REQUESTS.md`)
 - `fallback/` : backup website, built against the same backend
 - `docs/api.md` : the endpoint contract (see below)
 
@@ -109,10 +110,28 @@ Read [data/README.md](data/README.md) before touching the CSV. Key points:
 
 ## Commands
 
+Backend, from the repository root:
+
 ```bash
 uv venv .venv --python 3.12
 uv pip install --python .venv/bin/python -r backend/requirements.txt
 .venv/bin/uvicorn backend.app:app --host 127.0.0.1 --port 8080
 .venv/bin/python -m pytest -q tests
 gcloud run deploy ps08-quality-agent --source . --project=ps08-quality-agent-20261020-ib --region=asia-south1
+```
+
+Frontend: the platform console calls the real backend routes in `docs/api.md`. Run frontend commands from `frontend/` using Node 22 LTS and pnpm 11.25.0:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm test:e2e
+pnpm dev:platform        # console on :5174, proxies /api to POKAYOKE_BACKEND_URL (default http://localhost:8080)
+pnpm api:generate        # types from http://localhost:8080/openapi.json (or POKAYOKE_OPENAPI_URL)
+# Console build served by the backend (same origin), see frontend/apps/platform/BACKEND_INTEGRATION.md:
+pnpm --filter @pokayoke/widget build && pnpm --filter @pokayoke/platform build && node scripts/copy-widget.mjs
 ```

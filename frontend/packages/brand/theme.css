@@ -1,0 +1,17 @@
+@import './tokens.css';
+@import 'tailwindcss';
+@source "../ui/src";
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-mark: var(--mark);
+  --color-pass: var(--pass);
+  --color-hold: var(--hold);
+  --color-ask: var(--ask);
+  --color-fix: var(--fix);
+  --font-sans: var(--font-ui);
+}

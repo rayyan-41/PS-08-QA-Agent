@@ -1,0 +1,116 @@
+/*
+  Pokayoke brand tokens
+  Import once at the app root. Light theme is the default.
+  Dark theme: add data-theme="dark" to <html> (used by the console).
+  Source of truth: docs/brand/README.md
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  /* Brand colours, sampled from the logo */
+  --pk-navy: #102248;
+  --pk-coral: #FB5A5B;
+  --pk-cream: #F6F2E4;
+
+  /* Type families */
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Type scale (px values; line-height in brackets) */
+  --text-display: 56px;   /* (1.05) marketing hero only */
+  --text-h1: 40px;        /* (1.1) */
+  --text-h2: 30px;        /* (1.2) */
+  --text-h3: 22px;        /* (1.3) */
+  --text-h4: 18px;        /* (1.4) */
+  --text-body-lg: 17px;   /* (1.6) marketing body */
+  --text-body: 15px;      /* (1.55) app body */
+  --text-small: 13px;     /* (1.5) */
+  --text-caption: 12px;   /* (1.4) minimum size for slate text */
+
+  /* Spacing, 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Radii */
+  --radius-sm: 6px;     /* inputs, buttons, chips with text */
+  --radius-md: 10px;    /* cards, findings, panels */
+  --radius-lg: 16px;    /* modals, hero panels */
+  --radius-pill: 999px; /* status chips, counts */
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 400ms;
+
+  /* Layout */
+  --content-max: 1200px;
+  --sidebar-w: 240px;
+
+  /* Light theme */
+  --bg: #F6F2E4;          /* cream page */
+  --surface: #FFFFFF;     /* cards, drawers */
+  --surface-2: #FBF9F2;   /* inner panels, hover rows */
+  --ink: #102248;         /* main text, 13.9:1 on cream */
+  --ink-2: #5A6378;       /* slate secondary text, 5.4:1 on cream */
+  --line: #DDD6C3;        /* hairline borders */
+  --primary-bg: #102248;  /* primary button */
+  --primary-fg: #F6F2E4;
+  --link: #2F5FD0;
+  --mark: #FB5A5B;        /* coral: attention marks only, never text on light */
+  --mark-text: #C23B3C;   /* coral when it must be text, 4.7:1 on cream */
+  --focus: #2F5FD0;
+
+  /* Status: always colour + icon + word */
+  --pass: #0F7B6C;
+  --fix: #2F5FD0;
+  --hold: #C23B3C;
+  --ask: #9A5B00;
+  --tint-pass: #E3F2EF;
+  --tint-fix: #E6ECFB;
+  --tint-hold: #FBE6E5;
+  --tint-ask: #F8EDDC;
+}
+
+[data-theme="dark"] {
+  --bg: #0A1430;
+  --surface: #14234A;
+  --surface-2: #1A2B57;
+  --ink: #F6F2E4;
+  --ink-2: #A3ACC2;
+  --line: #26355E;
+  --primary-bg: #F6F2E4;
+  --primary-fg: #102248;
+  --link: #8FB0FF;
+  --mark: #FB5A5B;
+  --mark-text: #FF8A80;
+  --focus: #8FB0FF;
+
+  --pass: #4FD1B5;
+  --fix: #8FB0FF;
+  --hold: #FF8A80;
+  --ask: #F5B544;
+  --tint-pass: rgba(79, 209, 181, 0.12);
+  --tint-fix: rgba(143, 176, 255, 0.12);
+  --tint-hold: rgba(255, 138, 128, 0.12);
+  --tint-ask: rgba(245, 181, 68, 0.12);
+}
+
+/* Base */
+html { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: var(--text-body); line-height: 1.55; }
+h1, h2, h3, h4, .display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
+h3, h4 { font-weight: 600; letter-spacing: -0.01em; }
+code, kbd, .mono, .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

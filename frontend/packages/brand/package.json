@@ -1,0 +1,14 @@
+{
+  "name": "@pokayoke/brand",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./theme.css": "./theme.css",
+    "./tokens.css": "./tokens.css",
+    "./logo/*": "./logo/*"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
+}

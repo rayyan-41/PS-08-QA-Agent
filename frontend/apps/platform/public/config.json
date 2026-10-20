@@ -1,0 +1,6 @@
+{
+  "apiBaseUrl": "",
+  "auth": "none",
+  "devtools": true,
+  "backendPresets": { "same-origin": "", "local": "http://localhost:8080" }
+}

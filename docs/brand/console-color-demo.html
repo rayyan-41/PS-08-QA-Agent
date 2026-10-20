@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pokayoke console demo</title>
+<link rel="icon" href="logo/pokayoke-app-icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #102248;
+  --coral: #FB5A5B;
+  --cream: #F6F2E4;
+  --night: #0A1430;
+}
+
+/* Dark theme (default for the console) */
+.app {
+  --bg: #0A1430;
+  --surface: #14234A;
+  --surface-2: #1A2B57;
+  --ink: #F6F2E4;
+  --ink-2: #A3ACC2;
+  --line: #26355E;
+  --primary-bg: #F6F2E4;
+  --primary-fg: #102248;
+  --link: #8FB0FF;
+  --mark: #FB5A5B;
+  --pass: #4FD1B5;
+  --fix: #8FB0FF;
+  --hold: #FF8A80;
+  --ask: #F5B544;
+  --tint-pass: rgba(79, 209, 181, .12);
+  --tint-fix: rgba(143, 176, 255, .12);
+  --tint-hold: rgba(255, 138, 128, .12);
+  --tint-ask: rgba(245, 181, 68, .12);
+  --nav-bg: #0C1A3A;
+  --nav-active: #1A2B57;
+}
+
+/* Light theme */
+#theme:checked ~ .app {
+  --bg: #F6F2E4;
+  --surface: #FFFFFF;
+  --surface-2: #FBF9F3;
+  --ink: #102248;
+  --ink-2: #5A6378;
+  --line: #DDD6C3;
+  --primary-bg: #102248;
+  --primary-fg: #F6F2E4;
+  --link: #2F5FD0;
+  --mark: #FB5A5B;
+  --pass: #0F7B6C;
+  --fix: #2F5FD0;
+  --hold: #C23B3C;
+  --ask: #9A5B00;
+  --tint-pass: #E3F2EF;
+  --tint-fix: #E6ECFB;
+  --tint-hold: #FBE7E5;
+  --tint-ask: #F8EDDC;
+  --nav-bg: #102248;
+  --nav-active: #1A2E5E;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Inter", system-ui, sans-serif; }
+#theme { position: absolute; opacity: 0; pointer-events: none; }
+
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Sidebar: always navy-family so the brand reads in both themes */
+.nav {
+  background: var(--nav-bg);
+  color: #F6F2E4;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.logo { display: flex; align-items: center; gap: 10px; padding: 4px 8px 20px; font-family: "Plus Jakarta Sans", "Inter", sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+.logo-svg { width: 30px; height: 30px; flex: none; }
+.top h1, .panel-title h2, .job-head h3 { font-family: "Plus Jakarta Sans", "Inter", sans-serif; letter-spacing: -0.01em; }
+.logo-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--mark); position: relative; }
+.logo-mark::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 7px; height: 3px; border-radius: 2px; background: #102248; }
+.nav a {
+  color: #C9CFDC; text-decoration: none; padding: 8px 10px; border-radius: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav a:hover { background: var(--nav-active); color: #F6F2E4; }
+.nav a.active { background: var(--nav-active); color: #F6F2E4; box-shadow: inset 3px 0 0 var(--mark); }
+.nav .count { font-family: "JetBrains Mono", monospace; font-size: 12px; background: var(--mark); color: #102248; border-radius: 999px; padding: 0 8px; }
+.nav .section { color: #8C95A9; font-size: 12px; padding: 16px 10px 4px; }
+.nav .foot { margin-top: auto; color: #8C95A9; font-size: 12px; padding: 8px 10px; }
+
+/* Main */
+.main { padding: 20px 28px 40px; min-width: 0; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.top h1 { font-size: 20px; font-weight: 600; margin: 0; }
+.top .sub { color: var(--ink-2); font-size: 13px; margin: 2px 0 0; }
+.top-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.live { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-2); font-size: 13px; }
+.live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pass); box-shadow: 0 0 0 4px var(--tint-pass); }
+.toggle {
+  cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  padding: 7px 12px; border-radius: 8px; font-size: 13px; user-select: none;
+}
+.toggle:hover { border-color: var(--ink-2); }
+.toggle .to-light { display: inline; }
+.toggle .to-dark { display: none; }
+#theme:checked ~ .app .toggle .to-light { display: none; }
+#theme:checked ~ .app .toggle .to-dark { display: inline; }
+.note { font-size: 12px; color: var(--ink-2); border: 1px dashed var(--line); border-radius: 8px; padding: 6px 10px; }
+
+/* Metric cards */
+.metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.metric .label { color: var(--ink-2); font-size: 12px; display: flex; align-items: center; gap: 6px; }
+.metric .value { font-size: 24px; font-weight: 600; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.metric .delta { color: var(--ink-2); font-size: 12px; }
+.metric.pass .value { color: var(--pass); }
+.metric.fix .value { color: var(--fix); }
+.metric.hold .value { color: var(--hold); }
+.metric.ask .value { color: var(--ask); }
+
+/* Layout grid */
+.grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.panel-title { display: flex; justify-content: space-between; align-items: center; margin: 0 0 12px; }
+.panel-title h2 { font-size: 15px; font-weight: 600; margin: 0; }
+.panel-title span { color: var(--ink-2); font-size: 12px; }
+
+/* Status chips: colour + icon + word, never colour alone */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500;
+  padding: 3px 10px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap;
+}
+.chip svg { width: 12px; height: 12px; }
+.chip.pass { color: var(--pass); background: var(--tint-pass); }
+.chip.fix { color: var(--fix); background: var(--tint-fix); }
+.chip.hold { color: var(--hold); background: var(--tint-hold); }
+.chip.ask { color: var(--ask); background: var(--tint-ask); }
+
+/* Feed table */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; color: var(--ink-2); font-weight: 500; font-size: 12px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--surface-2); }
+tr.selected { background: var(--surface-2); box-shadow: inset 3px 0 0 var(--mark); }
+.mono { font-family: "JetBrains Mono", monospace; font-size: 12.5px; }
+.muted { color: var(--ink-2); }
+.num { font-variant-numeric: tabular-nums; text-align: right; }
+.table-wrap { overflow-x: auto; }
+
+/* Job detail */
+.job-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.job-head h3 { margin: 0; font-size: 16px; font-weight: 600; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 0 0 16px; font-size: 13px; }
+.kv dt { color: var(--ink-2); }
+.kv dd { margin: 0; }
+.redpen { text-decoration: underline wavy var(--mark); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+
+.finding { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: var(--surface-2); }
+.finding-top { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 6px; }
+.finding-top strong { font-weight: 600; }
+.sev { font-size: 11px; font-weight: 600; letter-spacing: .02em; padding: 2px 8px; border-radius: 6px; }
+.sev.high { color: var(--hold); background: var(--tint-hold); }
+.sev.med { color: var(--ask); background: var(--tint-ask); }
+.sev.low { color: var(--ink-2); background: var(--surface); border: 1px solid var(--line); }
+.evidence { margin: 0 0 6px; }
+.suggest { margin: 0 0 8px; }
+.suggest b { font-weight: 600; }
+.meta { color: var(--ink-2); font-size: 12px; display: flex; gap: 12px; flex-wrap: wrap; }
+.meta a { color: var(--link); text-decoration: none; }
+.meta a:hover { text-decoration: underline; }
+.actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.btn:hover { border-color: var(--ink-2); }
+.btn.primary { background: var(--primary-bg); color: var(--primary-fg); border-color: var(--primary-bg); }
+.btn.primary:hover { opacity: .9; }
+.btn:focus-visible, .toggle:focus-visible, .nav a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+/* Trace */
+.trace { list-style: none; margin: 0; padding: 0; }
+.trace li { display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: start; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+.trace li:last-child { border-bottom: none; }
+.trace .pip { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; border: 2px solid var(--ink-2); }
+.trace .pip.ok { border-color: var(--pass); background: var(--pass); }
+.trace .pip.fail { border-color: var(--hold); background: var(--hold); }
+.trace .pip.plan { border-color: var(--link); }
+.trace .step { font-size: 13px; }
+.trace .step .mono { color: var(--ink); }
+.trace .ms { color: var(--ink-2); font-family: "JetBrains Mono", monospace; font-size: 12px; }
+
+/* Autonomy */
+.auto-row { display: grid; grid-template-columns: 1fr 120px 70px; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.auto-row:last-child { border-bottom: none; }
+.bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+.bar span { display: block; height: 100%; background: var(--pass); }
+.mode { font-size: 12px; text-align: right; font-weight: 500; }
+.mode.auto { color: var(--pass); }
+.mode.ask { color: var(--ask); }
+
+.stack { display: grid; gap: 16px; }
+
+
+/* Colour wheel panel */
+.cw-open { cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 7px 12px; border-radius: 8px; font: inherit; font-size: 13px; }
+.cw-open:hover { border-color: var(--ink-2); }
+.cw {
+  position: fixed; top: 0; right: 0; height: 100vh; width: 360px; max-width: 100vw; z-index: 50;
+  background: #FFFFFF; color: #102248; border-left: 1px solid #DDD6C3;
+  box-shadow: -12px 0 32px rgba(11, 20, 38, .25);
+  display: flex; flex-direction: column; transform: translateX(105%); transition: transform .2s ease;
+  font-size: 13px;
+}
+.cw.open { transform: none; }
+.cw header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #E6E1D5; }
+.cw header h2 { margin: 0; font-size: 15px; font-weight: 600; }
+.cw header small { color: #5A6378; display: block; font-size: 12px; }
+.cw-theme { cursor: pointer; border: 1px solid #DDD6C3; border-radius: 8px; padding: 5px 10px; font-size: 12px; color: #102248; background: #fff; }
+.cw-theme:hover { border-color: #5A6378; }
+.cw .x { border: 1px solid #DDD6C3; background: #fff; border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 16px; color: #102248; }
+.cw .body { overflow-y: auto; padding: 14px 16px 18px; }
+.wheel-wrap { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: start; }
+#wheel { width: 200px; height: 200px; border-radius: 50%; cursor: crosshair; touch-action: none; display: block; }
+.picked { display: grid; gap: 8px; }
+.picked .big { height: 56px; border-radius: 10px; border: 1px solid #DDD6C3; }
+.picked label { color: #5A6378; font-size: 12px; display: grid; gap: 4px; }
+.picked input[type=text] { font-family: "JetBrains Mono", monospace; font-size: 13px; padding: 6px 8px; border: 1px solid #DDD6C3; border-radius: 8px; width: 100%; color: #102248; }
+.picked input[type=range] { width: 100%; accent-color: #102248; }
+.cw .which { margin: 12px 0 6px; color: #5A6378; font-size: 12px; }
+.cw .which b { color: #102248; }
+.tok { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 7px 8px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
+.tok:hover { background: #F6F2E4; }
+.tok.sel { border-color: #102248; background: #F6F2E4; }
+.tok .sw { width: 26px; height: 26px; border-radius: 7px; border: 1px solid #DDD6C3; }
+.tok .nm { line-height: 1.25; }
+.tok .nm small { display: block; color: #5A6378; font-family: "JetBrains Mono", monospace; font-size: 11px; }
+.cr { font-family: "JetBrains Mono", monospace; font-size: 11px; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+.cr.ok { background: #E3F2EF; color: #0F6B5E; }
+.cr.bad { background: #FBE7E5; color: #A8352F; }
+.cw .group { color: #5A6378; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; margin: 14px 0 4px; }
+.cw footer { border-top: 1px solid #E6E1D5; padding: 12px 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.cw footer button { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 8px; border: 1px solid #DDD6C3; background: #fff; color: #102248; cursor: pointer; }
+.cw footer button.pri { background: #102248; color: #F6F2E4; border-color: #102248; }
+.cw .msg { color: #0F6B5E; font-size: 12px; align-self: center; }
+
+@media (max-width: 1100px) {
+  .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; }
+  .nav { flex-direction: row; overflow-x: auto; padding: 10px; }
+  .nav .section, .nav .foot { display: none; }
+  .logo { padding: 4px 8px; }
+  .main { padding: 16px; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+</head>
+<body>
+<input type="checkbox" id="theme" aria-label="Use light theme">
+<div class="app">
+
+  <nav class="nav" aria-label="Console">
+    <div class="logo"><svg class="logo-svg" viewBox="143.7 133.7 365.0 365.0" aria-hidden="true"><path fill="#F6F2E4" fill-rule="evenodd" d="M283.19 476.97 C281.73 476.81 280.09 476.53 279.55 476.34 C279.01 476.15 278.23 476.00 277.82 476.00 C275.83 476.00 266.28 472.73 260.33 470.02 C254.34 467.28 244.98 462.04 240.37 458.83 C231.16 452.43 225.28 447.59 217.71 440.17 C209.10 431.74 203.20 424.78 195.31 413.76 C188.80 404.66 180.02 387.92 175.43 375.83 C173.65 371.13 172.47 367.82 171.98 366.17 C171.82 365.62 171.47 364.42 171.19 363.50 C165.07 343.24 162.50 322.51 163.82 304.00 C164.42 295.58 164.85 292.36 167.01 280.26 C167.90 275.29 170.87 265.34 175.00 253.50 C179.20 241.46 190.18 221.33 198.63 210.17 C212.90 191.32 230.37 175.30 248.00 164.86 C250.11 163.61 252.66 162.10 253.67 161.50 C257.64 159.13 270.56 153.09 274.00 151.98 C274.46 151.84 275.66 151.40 276.67 151.01 C277.68 150.62 280.15 149.78 282.17 149.14 C284.18 148.51 286.51 147.77 287.33 147.51 C302.09 142.85 326.40 140.56 342.34 142.34 C343.90 142.51 346.67 142.81 348.50 142.99 C350.33 143.18 352.58 143.48 353.50 143.67 C354.42 143.85 356.89 144.31 359.00 144.69 C362.63 145.36 367.12 146.43 370.83 147.52 C375.15 148.79 376.34 149.16 378.67 149.92 C380.04 150.37 382.44 151.27 384.00 151.91 C385.56 152.55 387.58 153.37 388.50 153.74 C409.97 162.31 424.96 175.86 431.94 193.00 C432.49 194.38 433.20 196.33 433.51 197.33 C433.82 198.34 434.23 199.69 434.43 200.33 C434.86 201.72 435.17 203.57 435.83 208.50 C438.88 231.57 427.19 258.42 406.83 275.15 C395.11 284.78 387.68 288.92 370.33 295.49 C368.36 296.23 360.52 298.49 358.17 298.99 C351.98 300.30 344.42 301.75 342.50 301.99 C331.95 303.32 329.18 303.64 327.00 303.84 C309.32 305.39 290.12 311.18 280.17 317.98 C279.43 318.48 278.08 319.39 277.17 320.01 C265.86 327.61 256.71 339.24 251.49 352.67 C245.10 369.08 244.77 387.55 250.52 407.17 C256.77 428.49 270.41 449.46 286.00 461.71 C290.06 464.89 294.62 468.21 297.17 469.81 C299.92 471.55 300.62 472.26 300.86 473.55 C301.17 475.18 300.78 476.26 299.68 476.83 C298.58 477.40 288.12 477.49 283.19 476.97 Z M213.93 319.48 C223.63 303.17 235.40 291.96 251.36 283.84 C256.50 281.23 256.80 281.10 263.33 278.83 C276.82 274.15 291.22 272.44 308.41 273.47 C321.57 274.25 326.22 274.01 333.26 272.19 C344.80 269.19 354.12 261.74 359.33 251.35 C365.24 239.56 363.22 224.01 354.44 213.81 C348.01 206.34 340.24 201.97 329.19 199.63 C321.61 198.03 304.86 199.46 295.83 202.49 C295.10 202.74 293.53 203.24 292.33 203.62 C283.09 206.53 268.65 214.24 260.63 220.55 C238.25 238.16 222.87 261.87 215.80 289.67 C213.79 297.58 212.82 304.70 212.16 316.57 C211.88 321.52 212.30 322.22 213.93 319.48 Z"/><path fill="var(--mark)" fill-rule="evenodd" d="M363.37 490.62 C355.75 489.36 348.62 484.15 345.16 477.33 C342.71 472.48 342.88 474.62 342.65 446.67 C342.50 429.53 342.30 420.70 342.03 419.00 C339.60 403.94 333.34 391.57 323.00 381.37 C315.91 374.38 311.10 371.15 299.16 365.34 C292.89 362.29 292.34 361.95 290.58 360.00 C286.69 355.71 284.62 349.96 285.28 345.32 C287.03 332.93 297.31 325.00 311.62 325.00 C317.56 325.00 317.92 325.07 337.67 329.80 C351.59 333.13 359.43 333.54 369.33 331.45 C382.03 328.76 396.53 319.69 411.29 305.18 C425.83 290.89 435.22 278.19 443.60 261.48 C451.16 246.39 456.27 227.37 456.32 214.11 C456.34 210.79 456.65 209.86 458.02 209.16 C460.31 207.97 461.12 208.81 466.78 218.26 C471.81 226.68 477.64 238.16 479.01 242.33 C479.16 242.79 479.61 243.99 480.00 245.00 C480.39 246.01 480.84 247.21 481.00 247.67 C481.16 248.12 481.60 249.33 482.00 250.33 C482.82 252.44 483.59 254.72 483.98 256.17 C484.13 256.72 484.59 258.37 485.00 259.83 C488.15 271.16 489.16 278.19 489.14 288.67 C489.10 305.66 485.65 316.70 476.53 329.00 C469.15 338.94 460.21 345.89 445.00 353.50 C425.15 363.43 416.08 370.16 407.61 381.21 C402.13 388.36 396.62 398.84 395.00 405.17 C394.86 405.72 394.42 407.35 394.02 408.81 C391.93 416.45 391.92 416.62 391.66 444.33 C391.53 459.20 391.29 470.39 391.10 471.17 C388.90 480.06 383.08 486.58 374.76 489.49 C370.70 490.91 367.19 491.26 363.37 490.62 Z"/></svg>Pokayoke</div>
+    <a href="#" class="active">Live feed</a>
+    <a href="#">Review queue <span class="count">3</span></a>
+    <a href="#">Jobs</a>
+    <div class="section">Configure</div>
+    <a href="#">Checks and rules</a>
+    <a href="#">Autonomy</a>
+    <a href="#">Procedures</a>
+    <div class="section">Trust</div>
+    <a href="#">Metrics</a>
+    <a href="#">Audit log</a>
+    <div class="foot">Client: Halden Research (demo)</div>
+  </nav>
+
+  <main class="main">
+    <div class="top">
+      <div>
+        <h1>Live feed</h1>
+        <p class="sub">Entries checked before they reach the client database</p>
+      </div>
+      <div class="top-actions">
+        <span class="note">Colour demo, sample data</span>
+        <span class="live"><span class="dot" aria-hidden="true"></span>Gate running</span>
+        <button type="button" class="cw-open" id="cwOpen">Colour wheel</button>
+        <label for="theme" class="toggle" tabindex="0"><span class="to-light">Switch to light</span><span class="to-dark">Switch to dark</span></label>
+      </div>
+    </div>
+
+    <section class="metrics" aria-label="Today">
+      <div class="card metric"><div class="label">Entries checked</div><div class="value">1,284</div><div class="delta">today</div></div>
+      <div class="card metric pass"><div class="label">Passed</div><div class="value">1,102</div><div class="delta">85.8% of entries</div></div>
+      <div class="card metric fix"><div class="label">Auto-fixed</div><div class="value">64</div><div class="delta">format and unit fixes</div></div>
+      <div class="card metric hold"><div class="label">Held</div><div class="value">87</div><div class="delta">stopped before write</div></div>
+      <div class="card metric ask"><div class="label">Asked reviewer</div><div class="value">31</div><div class="delta">3 waiting now</div></div>
+    </section>
+
+    <div class="grid">
+      <div class="stack">
+        <section class="card">
+          <div class="panel-title"><h2>Recent jobs</h2><span>Updated 2s ago</span></div>
+          <div class="table-wrap">
+          <table>
+            <thead><tr><th>Job</th><th>Entity</th><th>Field</th><th class="num">Value</th><th>Verdict</th><th class="num">Time</th></tr></thead>
+            <tbody>
+              <tr class="selected"><td class="mono">#1042</td><td>GlobalTech Inc</td><td class="mono muted">revenue_ttm</td><td class="num mono">311,583.70</td><td><span class="chip hold"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" rx="1.5" fill="currentColor"/></svg>Held</span></td><td class="num muted mono">3.4s</td></tr>
+              <tr><td class="mono">#1041</td><td>Vertex Energy</td><td class="mono muted">net_income</td><td class="num mono">29,082.10</td><td><span class="chip pass"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Pass</span></td><td class="num muted mono">1.9s</td></tr>
+              <tr><td class="mono">#1040</td><td>Cascade Industries</td><td class="mono muted">acquisition_date</td><td class="num mono">2026-07-14</td><td><span class="chip fix"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 10l6-6M7 2l.6 1.4L9 4l-1.4.6L7 6l-.6-1.4L5 4l1.4-.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Auto-fixed</span></td><td class="num muted mono">2.1s</td></tr>
+              <tr><td class="mono">#1039</td><td>Pinnacle Systems</td><td class="mono muted">eps</td><td class="num mono">45,188.93</td><td><span class="chip ask"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M4.3 4.3a1.8 1.8 0 113 1.4c-.7.5-1.3.8-1.3 1.7M6 9.3v.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Asked</span></td><td class="num muted mono">4.0s</td></tr>
+              <tr><td class="mono">#1038</td><td>GlobalTech Inc</td><td class="mono muted">market_cap</td><td class="num mono">18,402.55</td><td><span class="chip pass"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Pass</span></td><td class="num muted mono">1.7s</td></tr>
+              <tr><td class="mono">#1037</td><td>Cascade Industries</td><td class="mono muted">dividend_yield</td><td class="num mono">3,411.02</td><td><span class="chip hold"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" rx="1.5" fill="currentColor"/></svg>Held</span></td><td class="num muted mono">3.1s</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="panel-title"><h2>Autonomy by error type</h2><span>Precision on reviewed set</span></div>
+          <div class="auto-row"><span>Format Error</span><div class="bar" aria-hidden="true"><span style="width:96%"></span></div><span class="mode auto">Auto</span></div>
+          <div class="auto-row"><span>Duplicate Entry</span><div class="bar" aria-hidden="true"><span style="width:91%"></span></div><span class="mode auto">Auto</span></div>
+          <div class="auto-row"><span>Range Violation</span><div class="bar" aria-hidden="true"><span style="width:78%"></span></div><span class="mode ask">Ask</span></div>
+          <div class="auto-row"><span>Stale Data</span><div class="bar" aria-hidden="true"><span style="width:64%"></span></div><span class="mode ask">Ask</span></div>
+          <div class="auto-row"><span>Logical Inconsistency</span><div class="bar" aria-hidden="true"><span style="width:52%"></span></div><span class="mode ask">Ask</span></div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="card" aria-label="Job 1042">
+          <div class="job-head">
+            <div>
+              <h3>Job <span class="mono">#1042</span></h3>
+              <p class="muted" style="margin:2px 0 0;font-size:13px">GlobalTech Inc · revenue_ttm · analyst ANA-132</p>
+            </div>
+            <span class="chip hold"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2" y="2" width="8" height="8" rx="1.5" fill="currentColor"/></svg>Held</span>
+          </div>
+
+          <dl class="kv">
+            <dt>Entered value</dt><dd class="mono"><span class="redpen">311,583.70</span></dd>
+            <dt>Previous value</dt><dd class="mono">35,342.91</dd>
+            <dt>Expected range</dt><dd class="mono">-57.41 to 25,161.04</dd>
+            <dt>Supporting doc</dt><dd>Attached</dd>
+          </dl>
+
+          <div class="finding">
+            <div class="finding-top"><strong>Range Violation</strong><span class="sev high">HIGH</span></div>
+            <p class="evidence">311,583.70 is above the expected maximum of 25,161.04 and 8.8x the previous value.</p>
+            <p class="suggest"><b>Suggested:</b> verify the figure. 31,158.37, with one extra digit removed, would sit close to the previous value.</p>
+            <div class="meta"><span class="mono">check_range · compare_history</span><a href="#">SOP-RANGE-01: Out-of-range values</a></div>
+            <div class="actions"><button class="btn primary">Accept fix</button><button class="btn">Dismiss with reason</button></div>
+          </div>
+
+          <div class="finding">
+            <div class="finding-top"><strong>Possible duplicate</strong><span class="sev med">MEDIUM</span></div>
+            <p class="evidence">A revenue_ttm entry for GlobalTech Inc was submitted 2 days earlier with a similar value.</p>
+            <div class="meta"><span class="mono">find_duplicates</span><a href="#">SOP-DUP-02: Duplicate filings</a></div>
+          </div>
+
+          <div class="finding">
+            <div class="finding-top"><strong>Analyst pattern</strong><span class="sev low">LOW</span></div>
+            <p class="evidence">This field has a higher than usual rejection rate for this analyst.</p>
+            <div class="meta"><span class="mono">error_patterns</span><span>Learned from 2 analyst decisions</span></div>
+          </div>
+        </section>
+
+        <section class="card" aria-label="Agent trace">
+          <div class="panel-title"><h2>Agent trace</h2><span>Job #1042</span></div>
+          <ol class="trace">
+            <li><span class="pip plan" aria-hidden="true"></span><span class="step">Plan: numeric financial field, run range, history, duplicate, pattern checks</span><span class="ms">210 ms</span></li>
+            <li><span class="pip fail" aria-hidden="true"></span><span class="step"><span class="mono">check_range</span> <span class="muted">failed</span></span><span class="ms">12 ms</span></li>
+            <li><span class="pip fail" aria-hidden="true"></span><span class="step"><span class="mono">compare_history</span> <span class="muted">8.8x jump</span></span><span class="ms">18 ms</span></li>
+            <li><span class="pip fail" aria-hidden="true"></span><span class="step"><span class="mono">find_duplicates</span> <span class="muted">1 near match</span></span><span class="ms">41 ms</span></li>
+            <li><span class="pip ok" aria-hidden="true"></span><span class="step"><span class="mono">check_documents</span> <span class="muted">passed</span></span><span class="ms">6 ms</span></li>
+            <li><span class="pip plan" aria-hidden="true"></span><span class="step">Reviewer: 3 findings kept, ranked by severity</span><span class="ms">2.9 s</span></li>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<aside class="cw" id="cw" aria-label="Colour wheel" aria-hidden="true">
+  <header>
+    <div><h2>Colour wheel</h2><small id="cwTheme">Editing dark theme</small></div>
+    <div style="display:flex;gap:6px;align-items:center"><label for="theme" class="cw-theme" tabindex="0">Switch theme</label><button class="x" id="cwClose" aria-label="Close colour wheel">&times;</button></div>
+  </header>
+  <div class="body">
+    <div class="wheel-wrap">
+      <canvas id="wheel" width="400" height="400" aria-label="Hue and saturation wheel"></canvas>
+      <div class="picked">
+        <div class="big" id="bigSwatch"></div>
+        <label>Hex<input type="text" id="hexIn" maxlength="7" spellcheck="false"></label>
+        <label>Lightness <span id="lightOut"></span><input type="range" id="light" min="0" max="100" step="1"></label>
+      </div>
+    </div>
+    <p class="which">Editing: <b id="tokName"></b> &middot; <span id="tokRule"></span></p>
+    <div id="tokList"></div>
+  </div>
+  <footer>
+    <button class="pri" id="copyCss">Copy CSS</button>
+    <button id="resetTok">Reset colour</button>
+    <button id="resetAll">Reset theme</button>
+    <span class="msg" id="msg" role="status"></span>
+  </footer>
+</aside>
+
+<script>
+(function () {
+  var themeBox = document.getElementById('theme');
+  var app = document.querySelector('.app');
+  var DEF = {
+    dark: { 'bg':'#0A1430','surface':'#14234A','surface-2':'#1A2B57','ink':'#F6F2E4','ink-2':'#A3ACC2','line':'#26355E','nav-bg':'#0C1A3A','nav-active':'#1A2B57','primary-bg':'#F6F2E4','primary-fg':'#102248','link':'#8FB0FF','mark':'#FB5A5B','pass':'#4FD1B5','fix':'#8FB0FF','hold':'#FF8A80','ask':'#F5B544' },
+    light: { 'bg':'#F6F2E4','surface':'#FFFFFF','surface-2':'#FBF9F3','ink':'#102248','ink-2':'#5A6378','line':'#DDD6C3','nav-bg':'#102248','nav-active':'#1A2E5E','primary-bg':'#102248','primary-fg':'#F6F2E4','link':'#2F5FD0','mark':'#FB5A5B','pass':'#0F7B6C','fix':'#2F5FD0','hold':'#C23B3C','ask':'#9A5B00' }
+  };
+  var TOKENS = [
+    { g:'Brand' },
+    { k:'mark', n:'Coral mark', on:'surface', min:3, rule:'icons and marks, 3:1 on cards' },
+    { k:'nav-bg', n:'Sidebar', fg:'#F6F2E4', min:4.5, rule:'cream nav text needs 4.5:1' },
+    { k:'nav-active', n:'Sidebar active item', fg:'#F6F2E4', min:4.5, rule:'cream nav text needs 4.5:1' },
+    { k:'primary-bg', n:'Primary button', rule:'pairs with button text' },
+    { k:'primary-fg', n:'Primary button text', on:'primary-bg', min:4.5, rule:'4.5:1 on the button' },
+    { g:'Surfaces and text' },
+    { k:'bg', n:'Page background', rule:'everything sits on this' },
+    { k:'surface', n:'Cards', rule:'text is checked against this' },
+    { k:'surface-2', n:'Inner panels', rule:'findings, hover rows' },
+    { k:'ink', n:'Main text', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { k:'ink-2', n:'Slate, secondary text', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { k:'line', n:'Borders', on:'surface', min:1.2, rule:'just visible on cards' },
+    { k:'link', n:'Links', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { g:'Statuses' },
+    { k:'pass', n:'Pass', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { k:'fix', n:'Auto-fixed', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { k:'hold', n:'Held', on:'surface', min:4.5, rule:'4.5:1 on cards' },
+    { k:'ask', n:'Asked reviewer', on:'surface', min:4.5, rule:'4.5:1 on cards' }
+  ];
+  var store = { dark:{}, light:{} };
+  try { var saved = JSON.parse(localStorage.getItem('ps08-colour-tweaks') || 'null'); if (saved && saved.dark && saved.light) store = saved; } catch (e) {}
+  var selected = 'mark';
+
+  function theme() { return themeBox.checked ? 'light' : 'dark'; }
+  function val(k) { var t = theme(); return store[t][k] || DEF[t][k]; }
+  function hexToRgb(h) { h = h.replace('#',''); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
+  function rgbToHex(r,g,b) { return '#' + [r,g,b].map(function (x) { x = Math.max(0, Math.min(255, Math.round(x))); return (x < 16 ? '0' : '') + x.toString(16); }).join('').toUpperCase(); }
+  function lum(h) { return hexToRgb(h).map(function (c) { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }).reduce(function (a, c, i) { return a + c * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function hslToRgb(h, s, l) { s /= 100; l /= 100; var k = function (n) { return (n + h / 30) % 12; }; var a = s * Math.min(l, 1 - l); var f = function (n) { return l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); }; return [f(0) * 255, f(8) * 255, f(4) * 255]; }
+  function rgbToHsl(r, g, b) { r /= 255; g /= 255; b /= 255; var mx = Math.max(r, g, b), mn = Math.min(r, g, b), h = 0, s = 0, l = (mx + mn) / 2; if (mx !== mn) { var d = mx - mn; s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; } return [h, s * 100, l * 100]; }
+  function tint(hex) { var c = hexToRgb(hex); return theme() === 'dark' ? 'rgba(' + c.join(',') + ',.12)' : rgbToHex(c[0] * 0.12 + 255 * 0.88, c[1] * 0.12 + 255 * 0.88, c[2] * 0.12 + 255 * 0.88); }
+
+  function apply() {
+    app.removeAttribute('style');
+    var t = theme(), o = store[t];
+    Object.keys(o).forEach(function (k) { app.style.setProperty('--' + k, o[k]); });
+    ['pass', 'fix', 'hold', 'ask'].forEach(function (k) { if (o[k]) app.style.setProperty('--tint-' + k, tint(o[k])); });
+    try { localStorage.setItem('ps08-colour-tweaks', JSON.stringify(store)); } catch (e) {}
+    document.getElementById('cwTheme').textContent = 'Editing ' + t + ' theme';
+    renderList(); syncPicker();
+  }
+
+  function renderList() {
+    var list = document.getElementById('tokList'); list.innerHTML = '';
+    TOKENS.forEach(function (tk) {
+      if (tk.g) { var g = document.createElement('div'); g.className = 'group'; g.textContent = tk.g; list.appendChild(g); return; }
+      var v = val(tk.k), row = document.createElement('div');
+      row.className = 'tok' + (tk.k === selected ? ' sel' : ''); row.tabIndex = 0; row.setAttribute('role', 'button');
+      var badge = '';
+      if (tk.min) {
+        var against = tk.fg ? tk.fg : val(tk.on), r = tk.fg ? contrast(tk.fg, v) : contrast(v, against);
+        badge = '<span class="cr ' + (r >= tk.min ? 'ok' : 'bad') + '">' + r.toFixed(1) + ':1</span>';
+      }
+      row.innerHTML = '<span class="sw" style="background:' + v + '"></span><span class="nm">' + tk.n + '<small>' + v + (store[theme()][tk.k] ? ' · edited' : '') + '</small></span>' + badge;
+      row.onclick = function () { selected = tk.k; renderList(); syncPicker(); };
+      row.onkeydown = function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.onclick(); } };
+      list.appendChild(row);
+    });
+  }
+
+  var canvas = document.getElementById('wheel'), ctx = canvas.getContext('2d');
+  var lightIn = document.getElementById('light'), hexIn = document.getElementById('hexIn');
+  var cur = { h: 0, s: 0, l: 50 };
+
+  function drawWheel() {
+    var W = canvas.width, R = W / 2, img = ctx.createImageData(W, W), d = img.data;
+    for (var y = 0; y < W; y++) for (var x = 0; x < W; x++) {
+      var dx = x - R, dy = y - R, dist = Math.sqrt(dx * dx + dy * dy), i = (y * W + x) * 4;
+      if (dist > R) { d[i + 3] = 0; continue; }
+      var hue = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360, rgb = hslToRgb(hue, dist / R * 100, cur.l);
+      d[i] = rgb[0]; d[i + 1] = rgb[1]; d[i + 2] = rgb[2]; d[i + 3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+    var a = cur.h * Math.PI / 180, rr = cur.s / 100 * R, mx = R + Math.cos(a) * rr, my = R + Math.sin(a) * rr;
+    ctx.lineWidth = 4; ctx.strokeStyle = cur.l > 55 ? '#102248' : '#FFFFFF';
+    ctx.beginPath(); ctx.arc(mx, my, 12, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  function syncPicker() {
+    var v = val(selected), hsl = rgbToHsl.apply(null, hexToRgb(v));
+    cur = { h: hsl[0], s: hsl[1], l: hsl[2] };
+    lightIn.value = Math.round(cur.l); document.getElementById('lightOut').textContent = Math.round(cur.l) + '%';
+    hexIn.value = v; document.getElementById('bigSwatch').style.background = v;
+    var tk = TOKENS.filter(function (t) { return t.k === selected; })[0];
+    document.getElementById('tokName').textContent = tk.n; document.getElementById('tokRule').textContent = tk.rule;
+    drawWheel();
+  }
+
+  function setColour(hex) {
+    store[theme()][selected] = hex.toUpperCase();
+    apply();
+  }
+  function fromHsl() { var c = hslToRgb(cur.h, cur.s, cur.l); setColour(rgbToHex(c[0], c[1], c[2])); }
+
+  var dragging = false;
+  function pick(e) {
+    var r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * canvas.width, y = (e.clientY - r.top) / r.height * canvas.height;
+    var R = canvas.width / 2, dx = x - R, dy = y - R, dist = Math.min(Math.sqrt(dx * dx + dy * dy), R);
+    cur.h = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360; cur.s = dist / R * 100; fromHsl();
+  }
+  canvas.addEventListener('pointerdown', function (e) { dragging = true; canvas.setPointerCapture(e.pointerId); pick(e); });
+  canvas.addEventListener('pointermove', function (e) { if (dragging) pick(e); });
+  canvas.addEventListener('pointerup', function () { dragging = false; });
+  lightIn.addEventListener('input', function () { cur.l = +lightIn.value; fromHsl(); });
+  hexIn.addEventListener('change', function () { var v = hexIn.value.trim(); if (v[0] !== '#') v = '#' + v; if (/^#[0-9a-fA-F]{6}$/.test(v)) setColour(v); else { hexIn.value = val(selected); flash('Use a 6-digit hex, like #102248'); } });
+
+  function flash(t) { var m = document.getElementById('msg'); m.textContent = t; clearTimeout(flash.t); flash.t = setTimeout(function () { m.textContent = ''; }, 2500); }
+  document.getElementById('resetTok').onclick = function () { delete store[theme()][selected]; apply(); flash('Colour reset'); };
+  document.getElementById('resetAll').onclick = function () { store[theme()] = {}; apply(); flash('Theme reset'); };
+  document.getElementById('copyCss').onclick = function () {
+    function block(t) { var o = Object.assign({}, DEF[t], store[t]); return Object.keys(o).map(function (k) { return '  --' + k + ': ' + o[k] + ';'; }).join('\n'); }
+    var css = '/* Dark theme */\n.theme-dark {\n' + block('dark') + '\n}\n\n/* Light theme */\n.theme-light {\n' + block('light') + '\n}\n';
+    var done = function () { flash('CSS copied'); };
+    if (navigator.clipboard) navigator.clipboard.writeText(css).then(done, function () { prompt('Copy the CSS', css); });
+    else prompt('Copy the CSS', css);
+  };
+
+  var panel = document.getElementById('cw');
+  document.getElementById('cwOpen').onclick = function () { panel.classList.add('open'); panel.setAttribute('aria-hidden', 'false'); syncPicker(); };
+  document.getElementById('cwClose').onclick = function () { panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); };
+  themeBox.addEventListener('change', apply);
+  apply();
+})();
+</script>
+</body>
+</html>

@@ -41,6 +41,10 @@ Open `http://127.0.0.1:8080/`. For real agent calls, set `GEMINI_API_KEY` in the
 
 The container serves both the API and fallback UI. The backend team owns GCP deployment and keeps the origin in [docs/api.md](docs/api.md). The primary UI uses that one origin through `VITE_API_BASE_URL`.
 
+## Frontend
+
+Frontend deployment scaffolding is in [`frontend/`](frontend/README.md): three Vite/React apps, shared packages, and the standalone widget build. The platform console (`frontend/apps/platform`) calls these same routes and is designed to be served by the backend at `/`; see `frontend/apps/platform/BACKEND_INTEGRATION.md`.
+
 ## Team
 
 Rayyan, Abdullah, and the backend lead. See [docs/team/team-plan.md](docs/team/team-plan.md).
