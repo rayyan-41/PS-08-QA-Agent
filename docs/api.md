@@ -1,11 +1,11 @@
 # Backend API and UI addresses
 
-**Status:** The Cloud Run API is live in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The Pokayoke console is being integrated at `/`; the existing review desk remains at `/fallback`. Both call the same `/api/*` routes. The console uses same-origin `apiBaseUrl: ""` from `/config.json`; no client secret belongs in the frontend.
+**Status:** The Pokayoke console and API are live in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The console is at `/`; the existing review desk remains at `/fallback`. Both call the same `/api/*` routes. The console uses same-origin `apiBaseUrl: ""` from `/config.json`; no client secret belongs in the frontend.
 
 | Environment | Backend origin | Console | Fallback UI |
 |---|---|---|---|
 | Local without console build | `http://localhost:8080` | Build required | `http://localhost:8080/fallback` |
-| GCP after console deployment | `https://ps08-quality-agent-447065735152.asia-south1.run.app` | `/` and `/jobs/*` | `/fallback` |
+| GCP | `https://ps08-quality-agent-447065735152.asia-south1.run.app` | `/` and `/jobs/*` | `/fallback` |
 
 `/assets/*`, `/widget/*`, `/test-assets/*` and `/config.json` serve the console build. `/docs`, `/redoc`, `/openapi.json`, `/procedures/*`, `/tools/*` and `/api/*` retain backend behavior.
 

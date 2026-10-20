@@ -1,6 +1,6 @@
-# Pokayoke frontend scaffold
+# Pokayoke frontend
 
-Deployment-first foundations from `../MASTER_UI.md`. These are setup pages, not the finished product. They display actual connectivity to the configured backend's `GET /health`; they do not fabricate jobs, sign-in, findings, uploads, or release results.
+The platform console at `/` is connected to the FastAPI backend and deployed on Cloud Run. Its upload, inspection, profile, review, correction, and release flow uses real `/api/*` routes. The marketing and client portal apps remain setup pages. See [`../docs/INTEGRATION_HANDOFF.md`](../docs/INTEGRATION_HANDOFF.md) for the live link and demo steps.
 
 ## Local setup
 
@@ -77,13 +77,8 @@ Set `VITE_API_BASE_URL` and the public platform/Firebase configuration on that s
 
 Create separate projects with Root Directory `frontend/apps/marketing` and `frontend/apps/client-portal`. Enable access to files outside the Root Directory so the shared workspace packages can build. Each app's `vercel.json` supplies workspace install/build commands, `dist` output, and SPA fallback. Set public `VITE_*` values per project. Vercel supports these Vite apps; Next.js is not required.
 
-## Remaining deployment handoff
+## Remaining work outside the deployed console
 
-- Confirm GCP project, region, organizer credits, and frontend deployment access with Ibtasaam.
-- Deploy the real backend with `GET /health`, then configure API CORS for the three exact frontend origins.
-- Create the two Vercel projects and deploy the platform/widget to Cloud Run.
-- Configure Firebase authorized domains and provision the demo account before authentication work.
-- Obtain the Halden workspace publishable key and agreed OpenAPI contract.
-- Verify every deployed page reaches the real backend before starting feature milestones.
-
-Backend phase documents govern whole-batch release and separate upload/inspection requests where the frontend proposal differs. Cloud deployment and the full demo are not completed by this local scaffold.
+- Marketing and client portal are separate setup apps. Deploying those and adding authentication are future work.
+- The standalone nginx platform Dockerfiles describe an alternative deployment. The active hackathon deployment builds the platform into the root FastAPI Dockerfile and serves it from the same Cloud Run origin as the API.
+- Backend phase documents govern whole-batch release and separate upload/inspection requests.
