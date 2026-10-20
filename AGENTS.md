@@ -10,6 +10,15 @@ The product is a QA agent that reviews a data entry **before** an analyst submit
 
 Full brief: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-problem-statement.md)
 
+### Vision and positioning
+
+Full notes: [docs/strategy/vision-and-competitors.md](docs/strategy/vision-and-competitors.md)
+
+- Data observability tools (Monte Carlo, Anomalo, Acceldata, Soda) work on tables and pipelines. This product works **at the entry form, before the analyst submits**. Keep features at that layer; pipeline monitoring is out of scope.
+- **Suggest, do not silently change.** The agent proposes fixes and the analyst decides. Never auto-apply a correction to an entry without an explicit analyst action.
+- Every suggestion must say why it was flagged, how severe it is, and what to do. Keep false alarms low; it is a scored metric.
+- Target user: an analyst entering company financials at a data provider. Use their domain language in UI text and issue messages.
+
 ### Required capabilities (from the brief)
 
 1. Pre-submission validation using LLM reasoning over data context
@@ -48,6 +57,7 @@ Breaking these can disqualify the team. Never work around them.
 └── docs/
     ├── README.md             Index of docs
     ├── problem/              PS-08 brief
+    ├── strategy/             Vision and competitor landscape
     ├── event/                Participant guide and agenda (PDF)
     └── team/                 Team plan and frontend handoff
 ```

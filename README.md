@@ -13,6 +13,7 @@ Problem statement: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-
 ├── data/                Sample dataset and data notes
 └── docs/
     ├── problem/         PS-08 brief
+    ├── strategy/        Vision and competitor landscape
     ├── event/           Participant guide and agenda (PDF)
     └── team/            Team plan and frontend handoff
 ```
