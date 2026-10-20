@@ -1,29 +1,5 @@
-# Secrets: provided API keys and cloud credentials must never be committed
-.env
-.env.*
-!.env.example
-*.pem
-*service-account*.json
-*credentials*.json
-
-# Python
-__pycache__/
-*.pyc
 .venv/
-venv/
-
-# Node
-node_modules/
-dist/
-build/
-.next/
-.vercel/
-
-# OS and editors
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Local git bundles
-*.bundle
+__pycache__/
+.pytest_cache/
+.env
+*.pyc
