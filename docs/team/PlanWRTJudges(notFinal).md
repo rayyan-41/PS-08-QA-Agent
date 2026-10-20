@@ -1,9 +1,11 @@
 # PS-08 QA Agent: Tech Stack and Build Plan
 
+> **Status: unapproved technical proposal.** The team has not selected a stack. Read the current [problem scope](../problem/initial-problem-scope.md) and [first iteration journey](../problem/first-iteration-solution.md) before using this draft. The first journey now includes upload, saved profiles, and a gate before the accepted destination; the single-entry architecture below is an option to revisit, not an agreed implementation. The supplied-label evaluation below is supplementary: the current scope requires reviewed answers for primary accuracy claims. Severity reflects consequence, confidence reflects evidence, and dismissals must not automatically suppress required checks. Technical choices and judge-preference claims below remain proposals rather than established requirements.
+
 **For:** Abdullah, Rayyan and the backend lead. **Written:** 20 Oct 2026, 11:50 AM PKT (about 4 hours before the 3:45 PM submission).
 **Based on:** the PS-08 brief, `AGENTS.md`, `docs/problem/problem-scoping.md`, `data/README.md`, the participant guide and agenda PDFs, and the judges profile.
 
-> **Decision in one line:** use Python with FastAPI and **Google ADK** on **Gemini via Vertex AI**, deploy on **Cloud Run** and store feedback in **Firestore**. The frontend is React (Vite) on **Firebase Hosting**. Deterministic Python tools find the evidence, and the agent plans the checks, reasons across fields, ranks issues and suggests fixes. Every finding must cite evidence from a tool.
+> **Proposed option:** use Python with FastAPI and **Google ADK** on **Gemini via Vertex AI**, deploy on **Cloud Run** and store feedback in **Firestore**. The frontend is React (Vite) on **Firebase Hosting**. Deterministic Python tools find the evidence, and the agent plans the checks, reasons across fields, ranks issues and suggests fixes. Every finding must cite evidence from a tool.
 
 ---
 
@@ -22,7 +24,7 @@
 **Why not other options**
 - **OpenAI keys, which were provided:** keep them as the **fallback model only**. ADK can call them through LiteLLM with a one-line model change. Gemini on Vertex scores better with this panel and removes the risk of a secret leaking.
 - **LangGraph or CrewAI:** both are fine, but neither carries the Google/Vertex story, and CrewAI's multi-agent chatter is harder to explain in 3 minutes of Q&A.
-- **BigQuery ML and Cloud Tasks (from the suggested stack):** **leave them out of today's build.** The dataset has 300 rows and the labels don't follow from the columns (see `data/README.md`), so a trained model would score near chance and cost an hour. Present both in the scale-up slide: BigQuery for history across millions of entries and Cloud Tasks for batch review.
+- **BigQuery ML and Cloud Tasks (from the suggested stack):** this draft proposes deferring them. The dataset has 300 rows and label inconsistencies (see `data/README.md`); that limits supervised training claims, but does not establish expected performance or rule out statistical or unsupervised detection. The team will discuss analytical models and execution options after scope review.
 - **Vercel for the frontend:** it's allowed, but Firebase Hosting keeps the submitted link on GCP and takes about the same effort. If Rayyan is much faster on Vercel, use it, because the backend is what has to be on GCP.
 
 ---

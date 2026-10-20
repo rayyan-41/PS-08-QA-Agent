@@ -3,6 +3,8 @@
 **Date:** 20 October 2026  
 **Status:** Record of the team's problem discussion and proposed evaluation approach. This document does not select the technical stack or claim measured product performance.
 
+**Current scope:** The updated [initial problem scope](initial-problem-scope.md) and [first iteration journey](first-iteration-solution.md) describe the current direction: saved review profiles and a quality gate before the accepted destination. This file preserves the earlier discussion and detailed evaluation definitions; read workflow questions below alongside the newer documents.
+
 ## What the problem asks us to build
 
 Build a predictive QA agent that reviews an analyst's data entry before submission. It acts like a spell-checker for data: find likely mistakes, explain the evidence, rank their severity, and suggest what the analyst should do next.

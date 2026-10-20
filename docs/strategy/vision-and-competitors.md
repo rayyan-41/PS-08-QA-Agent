@@ -1,6 +1,8 @@
 # Vision and Competitor Landscape
 
-Where PS-08 fits in the market, what already exists, where the open space is, and what we build to stand out. Read with [problem-scoping.md](../problem/problem-scoping.md), which defines the user journey, metric definitions, and evaluation process; where the two differ, the scoping doc wins. Every factual claim about a company links to a source in the [Sources](#sources) list. Vendor figures (acceptance rates, "X% faster") are the vendor's own claims with no published method; quote them as such or not at all.
+Where PS-08 fits in the market, what already exists, where the open space is, and what we build to stand out. The [initial problem scope](../problem/initial-problem-scope.md) and [first iteration journey](../problem/first-iteration-solution.md) define the current build boundary; [problem-scoping.md](../problem/problem-scoping.md) retains evaluation definitions and earlier discussion. This document also describes longer-term capabilities. Every factual claim about a company links to a source in the [Sources](#sources) list. Vendor figures (acceptance rates, "X% faster") are the vendor's own claims with no published method; quote them as such or not at all.
+
+**Research interpretation:** This is desk research, not a hands-on usability study or an exhaustive market survey. Unverified absence is not a competitive advantage we can claim as fact. The current documentation corrections for Flatfile and Ataccama below supersede older comparisons.
 
 **Contents**
 
@@ -21,7 +23,7 @@ Where PS-08 fits in the market, what already exists, where the open space is, an
 
 **An automated data QA layer, delivered as SaaS, that sits in front of the client's database and stops bad data before it is written.**
 
-Almost every data quality product on the market watches tables and pipelines and alerts a data engineer after something lands. We sit one step earlier. Every entry, whether typed by an analyst or arriving from a feed or import, passes through our agents on the way to the database.
+Many reviewed observability products focus on stored tables and pipelines. Import tools also validate before submission, so early validation alone is not unique. Our proposed focus is an analyst-facing quality gate with contextual evidence, linked procedures, saved review profiles, and feedback before records enter the accepted destination. Forms, feeds, and imports are part of the broader vision; the first journey uses a file upload.
 
 After an initial setup (connect the entry points, load history, procedures, and business rules), the platform learns the client's data: normal ranges per field and entity, how values move over time, which errors each team tends to make, and which flags analysts confirm or dismiss. From then on it runs on its own:
 
@@ -32,7 +34,7 @@ After an initial setup (connect the entry points, load history, procedures, and 
 
 **Autonomy grows with confidence.** On day one, more cases go to people. As the platform proves its precision on a field or error type, it takes over that slice. Over time, human review shrinks to the genuinely hard cases. A spell-check for data that turns into an autopilot for data quality.
 
-**The proof of concept** we build today demonstrates this loop end to end on the PS-08 dataset: entries arrive, agents check them, the gate passes or holds them, findings come with evidence and procedures, and analyst decisions change what the system does next.
+**The first proof of concept** follows the current journey: upload a draft file, confirm and save a review profile, run checks, hold issues, accept a supported correction, recheck, and submit reviewed records. It demonstrates a recorded, bounded feedback effect. Autonomous corrections and other entry methods remain later capabilities unless separately agreed.
 
 ### Who it is for
 
@@ -43,9 +45,9 @@ Secondary user: the **QA reviewer or team lead** who today checks analysts' work
 ### Product principles
 
 - **Prevent, then explain.** Catch the issue before submission and say why, in the analyst's terms.
-- **Automated by default, accountable always.** The gate decides pass, hold, or auto-fix without waiting for a person. Every decision is explained and logged, and the client sets which actions may run automatically.
+- **Automated checks, accountable actions.** The gate determines ready or held status. The first journey uses analyst-approved corrections and batch release; the longer-term vision includes explicitly authorized automatic fixes. Decisions are explained and recorded.
 - **Show the evidence.** Every flag points to what triggered it: a range, a past value, a related field, a similar past rejection, a duplicate record.
-- **Learn from every decision.** Analyst confirmations and dismissals change future predictions and widen what the platform handles on its own (brief requirement 5).
+- **Use feedback within clear limits.** Analyst decisions can improve advisory ranking or later evaluated models. Feedback alone does not prove correctness, waive required checks, or authorize greater autonomy (brief requirement 5).
 - **Few, accurate flags.** A checker that cries wolf gets ignored. False alarm rate is a scored metric.
 
 ---
@@ -119,8 +121,9 @@ Earlier notes said 170,000 checks. No source for that was found; use "over 155,0
 - **Gap for us:** enterprise estate level, heavy platform, steward-facing.
 
 **Ataccama ONE (November 2025)**
-- An "autonomous data worker" agent that profiles data, creates and applies quality rules in bulk, detects duplicates and inconsistencies, and "doesn't just find problems; it acts on them". Steps are documented for review; no formal approval step is described. Vendor claim: AI-ready data "83% faster", no method published ([source](https://www.globenewswire.com/news-release/2025/11/06/3182705/0/en/Ataccama-launches-Agentic-data-trust-platform-powered-by-an-autonomous-AI-agent-that-delivers-AI-ready-data-83-faster.html)).
-- **Gap for us:** acts autonomously on data at rest. Our stance is the opposite for financial entries: suggest, explain, let the analyst decide.
+- The launch announcement describes an autonomous worker for profiling, rules, duplicates, and inconsistencies. Its "83% faster" figure is a vendor claim, not an independently established result ([announcement](https://www.globenewswire.com/news-release/2025/11/06/3182705/0/en/Ataccama-launches-Agentic-data-trust-platform-powered-by-an-autonomous-AI-agent-that-delivers-AI-ready-data-83-faster.html)).
+- Current official documentation explicitly describes a planning agent that calls tools, requests approval before applying changes, and supports undo. Approval is therefore not a defensible differentiator for us ([AI Agent documentation](https://docs.ataccama.com/ataccama-one-agentic/latest/gen-ai/ai-agent.html)).
+- **Positioning hypothesis:** focus our demonstration on the analyst's incoming records and pre-submission workflow, without claiming that contextual agents or approval controls are unique.
 
 **Collibra Data Quality**
 - Builds a behavioral model per dataset from column profiles (nulls, cardinality, type shifts, row counts, min, max, mean) over a lookback window. Users can **Pass, validate, or Suppress** findings, which resets scores and keeps breaking runs out of the baseline ([source](https://productresources.collibra.com/docs/collibra/latest/Content/DataQuality/DQCoreComponents/co_behavior.htm)).
@@ -145,12 +148,12 @@ Earlier notes said 170,000 checks. No source for that was found; use "over 155,0
 ### E. Data import and onboarding
 
 **Flatfile**
-- ML column mapping trained on over 1.8 billion rows (vendor claim: predicts over 90% of mappings). A final review step shows the data in the target format **before the import completes**: yellow cells are warnings, red cells are errors that must be fixed, hover shows the message. Fixes are manual (cell edits, bulk find-and-replace) ([source](https://support.flatfile.com/articles/7763163677-importing-data-with-flatfile-overview)).
+- Provides column mapping and pre-import review ([import overview](https://support.flatfile.com/articles/7763163677-importing-data-with-flatfile-overview)). Its Transform add-on also offers agentic cleanup suggestions based on schema, rules, and historic account transformation patterns. Users can edit suggestions, preview, and apply changes. Suggestions depend on available context and currently target columns with validation errors ([Analyze and Suggestions](https://support.flatfile.com/articles/7462518044-How%20to%20use%20Analyze%20and%20Suggestions%C2%A0in%20Flatfile)). Mapping history is scoped by schema and environment ([mapping history](https://support.flatfile.com/articles/8421984657-how-does-flatfile-ensure-mapping-is-as-accurate-as-possible)).
 
 **OneSchema**
 - Automatic format conversion (dates, numbers, country codes, phone numbers), format inference, inline correction with bulk find-and-replace and undo ([source](https://www.oneschema.co/blog/advanced-csv-import-features)).
 
-**Gap for us:** these prove that **pre-submission review in the UI** is a pattern users already accept. But they check against a static destination schema. They do not use history, cross-record logic, error patterns, or learn from the user's decisions.
+**Implication for us:** pre-submission review is an established product pattern, though these sources do not independently establish user acceptance. Flatfile also documents history and agentic suggestions. Treat guided questions, procedure-linked findings, and a reusable review profile as design hypotheses to test; do not claim import competitors universally lack history, learning, agents, or cross-record checks.
 
 ### A. The status quo (the real competitor)
 
@@ -172,34 +175,38 @@ This is what we replace first. In the pitch, compare against this, not against M
 |---|---|---|---|---|---|---|---|---|---|---|
 | Checks a record **before** it is submitted | ✓ static | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ static | **✓** |
 | Analyst-facing explanation per issue | ◐ error text | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ◐ error text | **✓** |
-| Proposes an action or corrected value to the user | ✗ | ✗ | ✗ | ✗ | ◐ acts itself | ✗ | ✗ | ✗ | ◐ auto-formats | **✓** |
+| Proposes an action or corrected value to the user | ✗ | ✗ | ✗ | ✗ | ✓ agent proposals | ✗ | ✗ | ✗ | ✓ Transform suggestions | **Planned** |
 | Links to the procedure to follow | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **✓** |
-| Uses history | ✗ | ◐ metric baselines | ◐ table ML | ✓ | ? | ✓ behavior model | ◐ profile | ◐ | ◐ mapping history | **✓ error patterns** |
+| Uses history | ✗ | ◐ metric baselines | ◐ table ML | ✓ | ? | ✓ behavior model | ◐ profile | ◐ | ✓ mapping and transformation history | **Planned error patterns** |
 | Cross-field logic | ◐ hand-coded | ? | ? | ? | ✓ inconsistencies | ? | ✓ SQL rules | ? | ◐ schema | **✓** |
 | Cross-record checks (duplicates, conflicts) | ✗ | ? | ? | ✓ duplicates | ✓ duplicates | ? | ✓ uniqueness | ? | ? | **✓** |
 | Ranks issues by importance | ✗ | ✓ alerts | ? | ? | ? | ? | ✗ | ? | ◐ warning / error | **✓ severity + confidence** |
 | Learns from user decisions | ✗ | ◐ accepted monitors | ? | ◐ approvals | ✗ | ✓ pass / suppress | ✗ | ◐ survey | ◐ mapping choices | **✓ per entry** |
-| AI agents | ✗ | ✓ | ✓ | ✓ | ✓ | ? | ◐ via Antigravity codelab | ◐ ExpectAI | ✗ | **✓** |
-| Data changed only with human approval | n/a | ✓ read-only | ? | ✓ | ✗ not described | n/a | n/a | n/a | ◐ auto-formats | **◐ client policy, every action logged** |
+| AI agents | ✗ | ✓ | ✓ | ✓ | ✓ | ? | ◐ via Antigravity codelab | ◐ ExpectAI | ✓ Transform agent | **Planned** |
+| Human approval controls | n/a | ✓ read-only | ? | ✓ | ✓ approval and undo | n/a | n/a | n/a | ✓ preview and apply | **Planned approval and recorded decisions** |
 | Gates writes before the database, automatically | ◐ static rules | ✗ (pipeline jobs) | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ◐ import step | **✓** |
 
-**Reading the matrix:** the top four rows are empty for everyone except the static status quo and import tools. That row block is our position.
+**Reading the matrix:** feature availability can depend on product version and add-ons. Remaining absence marks describe what the cited review found, not proof that a feature is unavailable. Every mark in the PS-08 column is a proposed capability, not an implemented or measured result.
 
 ---
 
 ## 6. The open space
 
-1. **No one coaches the person entering the data.** Observability and governance tools serve engineers and stewards after the fact. Import tools serve the uploader but only against a fixed schema.
-2. **No one links an issue to the procedure.** The brief asks for "linked procedures". None of the tools above document this.
-3. **Feedback loops exist, but at the wrong grain.** Collibra, Metaplane, and GX learn from engineers' responses to table-level alerts. Nobody learns from an analyst's accept or dismiss decision, with a reason, on a single finding.
-4. **Autonomous agents exist, but they act after the data is stored.** Ataccama and Acceldata have agents that remediate, on tables and pipelines that already hold the bad data. Nobody runs autonomous QA in the write path, before the database, with autonomy that is earned per field and error type from measured precision and analyst feedback.
-5. **Vendor metrics are unaudited.** "83% faster", "80% faster", "60% acceptance" come with no method. An honest evaluation panel (catch rate, false alarm rate, precision, set size, method, and real vs synthetic results shown separately) stands out in front of technical judges.
+These are opportunities to investigate, not established market absences:
+
+1. **Reduce setup work.** Inspect the file first, ask targeted questions about unresolved business meaning, and save the resulting review profile.
+2. **Make findings actionable.** Show record-level evidence, a relevant procedure, and the next action in the same review. The brief requires linked procedures; the research does not prove competitors cannot provide them.
+3. **Make feedback specific.** Record a reason on each finding and demonstrate a bounded effect on later advisory results. Evaluate whether it reduces unnecessary review without hiding real errors.
+4. **Make the submission boundary visible.** Show held drafts staying out of the accepted destination and corrected records reaching it. Pre-import checks, agents, and approval controls already exist in reviewed products; our combined workflow needs evaluation.
+5. **Publish defensible evidence.** Report catch rate, false alarm rate, precision, set size, method, and reviewed versus generated results. Do not repeat unverified vendor performance claims as facts.
 
 ---
 
 ## 7. How we stand out: features mapped to gaps
 
 Ordered by value for the demo. **Must** = needed for the core journey. **Should** = strong differentiator if time allows. **Could** = only if everything else works.
+
+**Build boundary update:** The table below records the broader feature backlog. The current [first iteration journey](../problem/first-iteration-solution.md) is the controlling scope: one file upload, a saved profile, automatic ready/held decisions, evidence-linked review, analyst-approved correction, recheck, and release. A separate entry form, simulated live feed, autonomous fixes, and an autonomy dial are later paths. Procedure links and recorded decisions are required for the supported first-iteration findings regardless of their older priorities below. Confidence percentages require validation; severity and confidence remain separate.
 
 | # | Feature | Gap it fills | Brief req. | Judging criterion | Priority |
 |---|---|---|---|---|---|
@@ -225,7 +232,7 @@ Based on the journey in [problem-scoping.md](../problem/problem-scoping.md). An 
 
 ## 8. What we must not claim
 
-- **Do not claim "first" or "only".** We found no entry-time analyst-facing competitor; that does not prove there is none. Say "we found no tool that does this at the point of entry".
+- **Do not claim "first", "only", or market absence.** Import products document pre-submission review and agentic suggestions. Describe our particular proposed workflow and measured results; the review does not establish that no competitor offers the same combination.
 - **Do not quote a catch rate we have not measured.** The sample labels are inconsistent with the columns (see [data/README.md](../../data/README.md)). Report measured numbers with the counting unit, set size, split, and method from the scoping doc, keep real and synthetic results separate, and do not call the labels synthetic as fact; say they disagree with the visible fields.
 - **Do not present S&P Global as our client or sponsor.**
 - **Pitch the full vision, demo only what runs.** The participant guide disqualifies "features shown that do not exist". Slides can show the whole SaaS platform; mark roadmap items as roadmap, and keep the live demo to the working proof of concept.
@@ -248,14 +255,14 @@ Answers assume the planned work is done by demo time. Drop any part that the run
 | Isn't sending financial data to an LLM a risk? | Prototype: only the single entry and its derived evidence go to the model, through the backend; keys stay server-side. Product: a private model endpoint on Vertex AI within the client's GCP project, plus redaction of identifiers. |
 | What stops the agent from changing data wrongly? | The client decides which actions run automatically. By default the platform passes or holds; auto-fix is switched on per error type only after its precision is proven. Every decision is logged and reversible, and uncertain cases always go to a person. |
 | Why would a bank trust an automated gate? | It earns autonomy the same way a new analyst does: starts supervised, takes over the slices where it has proven accurate, and keeps a full audit trail. The client can see the measured precision behind every automated decision. |
-| How does it scale? | Stateless check service on Cloud Run, history and patterns in BigQuery, feedback in Firestore. Show measured latency and concurrency results if we have them; otherwise state the plan as a plan. |
+| How does it scale? | The stack is still under discussion. This document proposes Cloud Run, BigQuery, and Firestore as options, not selected components. Show latency and concurrency results only after measuring the chosen implementation. |
 | Who pays? | Data providers, banks, and back-office teams with manual entry and maker-checker review. Saving is fewer rejections, less rework, fewer second-person reviews. Pricing hypothesis: per analyst seat or per thousand checks. |
 
 ---
 
 ## 10. Path from proof of concept to platform
 
-1. **Proof of concept (event day):** the PS-08 dataset flows through the agents; the gate passes, holds, or auto-fixes entries; findings carry evidence, severity, proposed actions, and procedures; analyst decisions feed back; deployed on GCP; evaluation panel with measured numbers.
+1. **First proof of concept:** upload a draft file, confirm and save a profile, run checks, hold a supported mistake, review and approve its correction, recheck, and release the batch to the accepted destination. Record a bounded feedback effect, deploy on GCP, and report measured evaluation results. Autonomous fixes and separate input paths are later scope.
 2. **MVP:** multi-tenant SaaS. Connectors for entry forms, file imports, and API feeds placed in front of the client database; setup wizard that loads history, rules, and procedures; per-client learning from history and decisions in BigQuery and Firestore; autonomy dial per field and error type.
 3. **Platform:** the QA layer for every write into the client's data estate. Self-tuning thresholds, cross-client pattern models (privacy-preserving) so new clients start smarter, export of learned rules to Dataplex and other DQ tools, compliance-grade audit trail, private model hosting per client.
 
@@ -279,6 +286,7 @@ Answers assume the planned work is done by demo time. Drop any part that the run
 - [TechCrunch, Datadog acquires Metaplane (2025)](https://techcrunch.com/2025/04/23/datadog-acquires-ai-powered-observability-startup-metaplane)
 - [Informatica, CLAIRE Agents announcement (2025)](https://www.businesswire.com/news/home/20250514956132/en/Informatica-Unveils-Agentic-AI-Offerings-on-Its-AI-Powered-Cloud-Data-Management-Platform)
 - [Ataccama, Agentic data trust platform (2025)](https://www.globenewswire.com/news-release/2025/11/06/3182705/0/en/Ataccama-launches-Agentic-data-trust-platform-powered-by-an-autonomous-AI-agent-that-delivers-AI-ready-data-83-faster.html)
+- [Ataccama, current AI Agent documentation and approval controls](https://docs.ataccama.com/ataccama-one-agentic/latest/gen-ai/ai-agent.html)
 - [Collibra Data Quality, Behaviors](https://productresources.collibra.com/docs/collibra/latest/Content/DataQuality/DQCoreComponents/co_behavior.htm)
 - [SiliconANGLE, Qualytics Series A (2025)](https://siliconangle.com/2025/06/23/qualytics-gets-10m-use-ai-monitor-data-ai/)
 - [Soda, Automate anomaly detection](https://docs.soda.io/soda/quick-start-automate.html)
@@ -286,4 +294,6 @@ Answers assume the planned work is done by demo time. Drop any part that the run
 - [Google Cloud, Dataplex auto data quality](https://docs.cloud.google.com/dataplex/docs/use-auto-data-quality)
 - [Google Codelab, Programmatic Data Quality with Dataplex and Generative AI](https://codelabs.developers.google.com/programmatic-dq)
 - [Flatfile, Importing data overview](https://support.flatfile.com/articles/7763163677-importing-data-with-flatfile-overview)
+- [Flatfile, Analyze and Suggestions](https://support.flatfile.com/articles/7462518044-How%20to%20use%20Analyze%20and%20Suggestions%C2%A0in%20Flatfile)
+- [Flatfile, Mapping history and accuracy](https://support.flatfile.com/articles/8421984657-how-does-flatfile-ensure-mapping-is-as-accurate-as-possible)
 - [OneSchema, Advanced CSV import features](https://www.oneschema.co/blog/advanced-csv-import-features)
