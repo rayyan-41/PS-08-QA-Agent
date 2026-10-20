@@ -1,0 +1,83 @@
+.marketing-page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.marketing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.setup-label {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.marketing-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  padding: 88px 0;
+}
+.marketing-intro h1 {
+  margin: 0 0 28px;
+  max-width: 10ch;
+  font-size: clamp(42px, 4.8vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.marketing-lead {
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 42ch;
+  margin: 0 0 32px;
+  color: var(--ink-2);
+}
+.marketing-stage {
+  font-size: 13px;
+  max-width: 48ch;
+  padding-left: 16px;
+  border-left: 2px solid var(--line);
+  color: var(--ink-2);
+}
+.marketing-connection {
+  padding-top: 8px;
+  min-width: 0;
+}
+.marketing-footer {
+  padding: 24px 0;
+  font-size: 12px;
+  color: var(--ink-2);
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 860px) {
+  .marketing-main {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 0;
+  }
+  .marketing-intro h1 {
+    max-width: 15ch;
+  }
+}
+@media (max-width: 480px) {
+  .marketing-page {
+    padding: 0 20px;
+  }
+  .marketing-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+  .marketing-main {
+    padding: 40px 0;
+  }
+}

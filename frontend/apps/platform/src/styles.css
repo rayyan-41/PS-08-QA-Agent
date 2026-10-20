@@ -1,0 +1,112 @@
+.platform-shell {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+}
+.platform-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+  background: var(--pk-navy);
+  color: var(--pk-cream);
+}
+.platform-sidebar > p {
+  margin: 56px 0 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.platform-sidebar > span {
+  margin-top: auto;
+  padding-top: 40px;
+  font-size: 12px;
+}
+.platform-body {
+  min-width: 0;
+}
+.platform-topbar {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 40px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.platform-topbar span:last-child {
+  color: var(--ink-2);
+}
+.platform-main {
+  max-width: 880px;
+  padding: 64px 40px;
+  margin: 0 auto;
+}
+.platform-intro {
+  margin-bottom: 32px;
+}
+.platform-intro h1 {
+  margin: 0 0 16px;
+  font-size: clamp(30px, 3.4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+.platform-intro p {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 16px;
+}
+.platform-access {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.platform-access h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+.platform-access p {
+  max-width: 65ch;
+  font-size: 14px;
+  color: var(--ink-2);
+  margin: 0 0 12px;
+}
+@media (max-width: 760px) {
+  .platform-shell {
+    grid-template-columns: 1fr;
+  }
+  .platform-sidebar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+  }
+  .platform-sidebar > p {
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  .platform-sidebar > span {
+    display: none;
+  }
+  .platform-topbar {
+    padding: 16px 20px;
+    min-height: 60px;
+  }
+  .platform-main {
+    padding: 40px 20px;
+  }
+}
+@media (max-width: 400px) {
+  .platform-sidebar > p {
+    font-size: 12px;
+  }
+  .platform-topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}

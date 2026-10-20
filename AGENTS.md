@@ -70,7 +70,7 @@ Breaking these can disqualify the team. Never work around them.
 When code is added, use this layout unless the team agrees otherwise, and update this section:
 
 - `backend/` : agent workflow and API (deployed to Cloud Run)
-- `frontend/` : main website
+- `frontend/` : pnpm workspace with marketing, platform, client portal, and shared brand/UI/API/widget packages; see `frontend/README.md`
 - `fallback/` : backup website, built against the same backend
 - `docs/api.md` : the endpoint contract (see below)
 
@@ -109,13 +109,16 @@ Read [data/README.md](data/README.md) before touching the CSV. Key points:
 
 ## Commands
 
-No application code exists yet. Add the install, run, test, and deploy commands here as soon as they exist, for example:
+Frontend deployment scaffolding exists. Product workflow endpoints and backend deployment remain the backend owner's work. Run frontend commands from `frontend/` using Node 22 LTS and pnpm 11.25.0:
 
 ```bash
-# backend
-# cd backend && pip install -r requirements.txt && uvicorn app.main:app --reload
-# frontend
-# cd frontend && npm install && npm run dev
-# deploy
-# gcloud run deploy ...
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm test:e2e
+# After GCP project/region/access and the real backend are ready:
+# gcloud run deploy pokayoke-platform --source frontend --region <agreed-region> --allow-unauthenticated
 ```

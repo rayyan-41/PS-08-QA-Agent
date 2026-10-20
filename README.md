@@ -20,7 +20,7 @@ Problem statement: [docs/problem/ps-08-problem-statement.md](docs/problem/ps-08-
 
 ## Status
 
-Planning only. Application code, deployment link, and setup steps will be added here during the build.
+Frontend deployment scaffolding is in [`frontend/`](frontend/README.md): three Vite/React apps, shared packages, and the standalone widget build. Setup pages check the configured backend's real health endpoint. The agent workflow, authentication, data intake, and release flow are not implemented yet; no deployment link is claimed.
 
 ## Team
 

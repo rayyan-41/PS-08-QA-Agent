@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+# Browser artifacts are shipped; these install-time scripts are unnecessary.
+allowBuilds:
+  '@firebase/util': false
+  protobufjs: false

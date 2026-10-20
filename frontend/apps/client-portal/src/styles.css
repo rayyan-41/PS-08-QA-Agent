@@ -1,0 +1,131 @@
+:root {
+  --bg: #f5f6f6;
+  --surface: #fff;
+  --surface-2: #eff2f0;
+  --ink: #26332d;
+  --ink-2: #59655f;
+  --line: #d9dfdb;
+  --primary-bg: #2f6b4f;
+  --primary-fg: #fff;
+  --link: #2f6b4f;
+  --focus: #2f6b4f;
+  --pass: #2f6b4f;
+  --hold: #a32f32;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --font-display: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui: var(--font-display);
+  --font-mono: ui-monospace, Consolas, monospace;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.portal-page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+.portal-header {
+  background: var(--surface);
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.portal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 650;
+  font-size: 18px;
+}
+.portal-monogram {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-content: center;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 15px;
+  color: var(--primary-bg);
+}
+.portal-header-note {
+  color: var(--ink-2);
+  font-size: 13px;
+}
+.portal-main {
+  width: 100%;
+  max-width: 1200px;
+  padding: 48px 40px;
+  margin: 0 auto;
+  flex: 1;
+}
+.portal-intro {
+  margin-bottom: 32px;
+}
+.portal-intro h1 {
+  font-size: 30px;
+  font-weight: 650;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.portal-intro > p {
+  color: var(--ink-2);
+  margin: 0;
+  font-size: 14px;
+}
+.portal-columns {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.portal-pending {
+  padding: 24px 0;
+  border-top: 2px solid var(--primary-bg);
+}
+.portal-pending h2 {
+  font-size: 18px;
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+.portal-pending p {
+  color: var(--ink-2);
+  font-size: 14px;
+  max-width: 52ch;
+}
+.portal-connection {
+  min-width: 0;
+}
+.portal-footer {
+  padding: 20px 40px;
+  background: var(--surface);
+  color: var(--ink-2);
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+@media (max-width: 860px) {
+  .portal-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .portal-header {
+    padding: 16px 20px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .portal-main {
+    padding: 32px 20px;
+  }
+  .portal-footer {
+    padding: 20px;
+  }
+}
