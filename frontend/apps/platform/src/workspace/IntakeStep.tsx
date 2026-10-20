@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { Link } from 'react-router';
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from '@tanstack/react-table';
 import type { Draft, Inspection } from '@pokayoke/api-client';
 import { ActivityItem, Empty } from '../components/states';
@@ -75,16 +74,10 @@ export function IntakeStep({ draft }: { draft: Draft }) {
         </div>
       </section>
 
-      <section className="stack">
-        <h2 className="h3">Preview (first {inspection.preview.length} rows, original text)</h2>
+      <details>
+        <summary>Preview first {inspection.preview.length} rows (original text)</summary>
         <PreviewGrid inspection={inspection} />
-      </section>
-
-      <div className="row">
-        <Link className="btn btn--primary" to="../profile" relative="path">
-          Continue to profile
-        </Link>
-      </div>
+      </details>
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { useId, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { Play } from '@pokayoke/ui';
 import type { Draft, Plan, Profile, ProfileApproval } from '@pokayoke/api-client';
@@ -7,6 +6,7 @@ import { useBackend } from '../api/context';
 import { keys } from '../api/keys';
 import { ActivityItem, ErrorPanel, Skeleton } from '../components/states';
 import { readLastReference, ReferenceUpload } from '../screens/NewJobScreen';
+import { readableNote } from '../lib/format';
 import type { LaunchState } from './JobWorkspace';
 
 /** Phase 2: verify the recommended profile, then "Launch ninjas". */
@@ -73,7 +73,13 @@ function PlannerStatus({ plan }: { plan: Plan }) {
         <dt>planner_status</dt>
         <dd className="mono">{plan.planner_status}</dd>
         <dt>planner_note</dt>
-        <dd>{plan.planner_note ?? <span className="muted">(none)</span>}</dd>
+        <dd style={{ whiteSpace: 'pre-line' }}>
+          {plan.planner_note ? (
+            readableNote(plan.planner_note)
+          ) : (
+            <span className="muted">(none)</span>
+          )}
+        </dd>
         <dt>planner_error</dt>
         <dd className={plan.planner_error ? 'text-hold' : undefined}>
           {plan.planner_error ?? <span className="muted">(none)</span>}
@@ -268,7 +274,7 @@ function ProfileForm({
           From the backend&apos;s available checks. Recommended checks are pre-selected.
         </p>
         <ul className="checklist">
-          {checkOptions.map((check) => (
+          {recommended.checks.map((check) => (
             <li key={check}>
               <label>
                 <input
@@ -277,9 +283,7 @@ function ProfileForm({
                   onChange={(e) => setChecks(toggle(checks, check, e.target.checked))}
                 />{' '}
                 <code>{check}</code>
-                {recommended.checks.includes(check) ? (
-                  <span className="muted"> recommended</span>
-                ) : null}
+                <span className="muted"> recommended</span>
                 {!plan.available_checks.includes(check) ? (
                   <span className="text-hold"> not in available_checks</span>
                 ) : null}
@@ -287,6 +291,25 @@ function ProfileForm({
             </li>
           ))}
         </ul>
+        <details>
+          <summary>Additional model checks</summary>
+          <ul className="checklist">
+            {checkOptions
+              .filter((check) => !recommended.checks.includes(check))
+              .map((check) => (
+                <li key={check}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={checks.includes(check)}
+                      onChange={(e) => setChecks(toggle(checks, check, e.target.checked))}
+                    />{' '}
+                    <code>{check}</code>
+                  </label>
+                </li>
+              ))}
+          </ul>
+        </details>
       </section>
 
       <fieldset className="panel stack" ref={questionsRef}>
@@ -402,11 +425,7 @@ function LaunchStatus({
   if (launch.phase === 'reviewing') {
     return (
       <p className="notice">
-        Ninjas launched.{' '}
-        <Link to="../run" relative="path">
-          Follow the run
-        </Link>
-        .
+        Ninjas launched. <a href="#review">Follow the run</a>.
       </p>
     );
   }

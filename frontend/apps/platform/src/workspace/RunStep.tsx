@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
 import type { Review } from '@pokayoke/api-client';
 import { ActivityItem, Empty, ErrorPanel } from '../components/states';
-import { formatTime, sinceText } from '../lib/format';
+import { formatTime, readableNote, sinceText } from '../lib/format';
 import type { LaunchState } from './JobWorkspace';
 
 /**
@@ -36,13 +35,7 @@ export function RunStep({
       ) : null}
       {!review ? (
         <Empty title="No review has run for this job">
-          <p>
-            Verify the profile and press Launch ninjas on the{' '}
-            <Link to="../profile" relative="path">
-              Profile
-            </Link>{' '}
-            step.
-          </p>
+          <p>Confirm the profile in Configure to produce findings.</p>
         </Empty>
       ) : (
         <RunRecord review={review} />
@@ -90,6 +83,17 @@ function RunRecord({ review }: { review: Review }) {
         <dd>{formatTime(review.created_at)}</dd>
       </dl>
 
+      <section className="panel stack" aria-label="Investigation agent">
+        <h2 className="h3">Investigation agent</h2>
+        <p>
+          Status: <strong>{review.agent?.status ?? 'not rerun after an edit'}</strong>
+        </p>
+        {review.agent?.note ? (
+          <p style={{ whiteSpace: 'pre-line' }}>{readableNote(review.agent.note)}</p>
+        ) : null}
+        {review.agent?.reason ? <p className="text-hold">{review.agent.reason}</p> : null}
+      </section>
+
       <section className="stack">
         <h2 className="h3">Check outcomes</h2>
         {review.outcomes.length === 0 ? (
@@ -106,14 +110,18 @@ function RunRecord({ review }: { review: Review }) {
             <tbody>
               {review.outcomes.map((outcome, index) => {
                 const { model, status, ...rest } = outcome;
-                const failed = !/^(completed|ok|passed|success)$/i.test(status);
+                const tone = /^(completed|ok|passed|success)$/i.test(status)
+                  ? 'chip--pass'
+                  : status === 'ineligible'
+                    ? 'chip--ask'
+                    : status === 'not_selected'
+                      ? ''
+                      : 'chip--hold';
                 return (
                   <tr key={index}>
                     <td className="mono">{model}</td>
                     <td>
-                      <span className={`chip ${failed ? 'chip--hold' : 'chip--pass'}`}>
-                        {status}
-                      </span>
+                      <span className={`chip ${tone}`}>{status}</span>
                     </td>
                     <td className="mono small">
                       {Object.keys(rest).length ? JSON.stringify(rest) : ''}
@@ -141,11 +149,9 @@ function RunRecord({ review }: { review: Review }) {
         )}
       </section>
 
-      <div className="row">
-        <Link className="btn btn--primary" to="../review" relative="path">
-          Review findings
-        </Link>
-      </div>
+      <a className="btn btn--primary" href="#review-findings">
+        Review findings
+      </a>
     </div>
   );
 }

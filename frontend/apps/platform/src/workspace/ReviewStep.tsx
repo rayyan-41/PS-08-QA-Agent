@@ -1,5 +1,4 @@
 import { useId, useState } from 'react';
-import { Link } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { ExternalLink, X } from '@pokayoke/ui';
@@ -55,13 +54,7 @@ export function ReviewStep({
   if (!review) {
     return (
       <Empty title="No review yet">
-        <p>
-          Launch ninjas on the{' '}
-          <Link to="../profile" relative="path">
-            Profile
-          </Link>{' '}
-          step to produce findings.
-        </p>
+        <p>Confirm the profile in Configure to produce findings.</p>
       </Empty>
     );
   }
@@ -78,7 +71,7 @@ export function ReviewStep({
   }
 
   return (
-    <div className="stack-lg">
+    <div id="review-findings" className="stack-lg">
       <div className="summary-chips" aria-label="Review summary">
         <span className="chip chip--hold">{review.holds} holding release</span>
         <span className="chip chip--ask">{review.total - review.holds} advisories</span>
@@ -206,9 +199,9 @@ export function ReviewStep({
       />
 
       <div className="row">
-        <Link className="btn btn--secondary" to="../release" relative="path">
+        <a className="btn btn--secondary" href="#release">
           Go to release
-        </Link>
+        </a>
       </div>
     </div>
   );

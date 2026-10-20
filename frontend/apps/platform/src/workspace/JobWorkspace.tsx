@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { toast } from 'sonner';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { ProfileApproval } from '@pokayoke/api-client';
@@ -14,12 +14,12 @@ import { RunStep } from './RunStep';
 import { ReviewStep } from './ReviewStep';
 import { ReleaseStep } from './ReleaseStep';
 
-export const STEPS = ['intake', 'profile', 'run', 'review', 'release'] as const;
+export const STEPS = ['upload', 'inspect', 'configure', 'review', 'release'] as const;
 export type Step = (typeof STEPS)[number];
 const LABELS: Record<Step, string> = {
-  intake: 'Intake',
-  profile: 'Profile',
-  run: 'Run',
+  upload: 'Upload',
+  inspect: 'Inspect',
+  configure: 'Configure',
   review: 'Review',
   release: 'Release',
 };
@@ -33,10 +33,9 @@ export type LaunchState =
   | { phase: 'approve-failed'; error: unknown };
 
 export function JobWorkspace() {
-  const { id = '', step } = useParams();
+  const { id = '' } = useParams();
   const { backend, target } = useBackend();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const [launch, setLaunch] = useState<LaunchState>({ phase: 'idle' });
 
   const draft = useQuery({
@@ -89,15 +88,11 @@ export function JobWorkspace() {
       void queryClient.invalidateQueries({ queryKey: keys.draft(target, id) });
       setLaunch({ phase: 'reviewing', startedAt: Date.now(), profileId: approved.profile.id });
       toast.success('Ninjas launched');
-      navigate(`/jobs/${id}/run`);
       runReview.mutate();
     },
     onError: (error) => setLaunch({ phase: 'approve-failed', error }),
   });
 
-  if (!step) return <Navigate replace to={`/jobs/${id}/intake`} />;
-  if (!STEPS.includes(step as Step)) return <Navigate replace to={`/jobs/${id}/intake`} />;
-  const current = step as Step;
   const filename = draft.data?.filename ?? readRecentJobs().find((job) => job.id === id)?.filename;
 
   if (draft.isPending) {
@@ -130,11 +125,11 @@ export function JobWorkspace() {
   const data = draft.data;
   const hasReview = Boolean(review.data);
   const reached: Record<Step, boolean> = {
-    intake: true,
-    profile: Boolean(data.inspection),
-    run: hasReview || launch.phase !== 'idle',
+    upload: true,
+    inspect: Boolean(data.inspection),
+    configure: Boolean(data.profile_id),
     review: hasReview,
-    release: hasReview,
+    release: hasReview && review.data?.holds === 0,
   };
 
   return (
@@ -164,22 +159,13 @@ export function JobWorkspace() {
         />
       </header>
 
-      <nav aria-label="Job steps">
+      <nav aria-label="Job progress">
         <ol className="stepper">
           {STEPS.map((item, index) => (
-            <li key={item} className={item === current ? 'is-current' : undefined}>
-              {reached[item] ? (
-                <Link
-                  to={`/jobs/${id}/${item}`}
-                  aria-current={item === current ? 'step' : undefined}
-                >
-                  <span className="stepper__n">{index + 1}</span> {LABELS[item]}
-                </Link>
-              ) : (
-                <span className="stepper__locked">
-                  <span className="stepper__n">{index + 1}</span> {LABELS[item]}
-                </span>
-              )}
+            <li key={item} className={reached[item] ? 'is-current' : undefined}>
+              <a href={`#${item}`} aria-label={`${LABELS[item]} section`}>
+                <span className="stepper__n">{index + 1}</span> {LABELS[item]}
+              </a>
             </li>
           ))}
         </ol>
@@ -197,37 +183,59 @@ export function JobWorkspace() {
         {launch.phase === 'reviewing' ? 'Ninjas launched. Running the selected checks.' : ''}
       </div>
 
-      {current === 'intake' ? <IntakeStep draft={data} /> : null}
-      {current === 'profile' ? (
-        <ProfileStep
-          draft={data}
-          launch={launch}
-          onLaunch={(body) => launchNinjas.mutate(body)}
-          onRunReviewOnly={() => {
-            setLaunch((s) => ({
-              phase: 'reviewing',
-              startedAt: Date.now(),
-              profileId: 'profileId' in s ? s.profileId : undefined,
-            }));
-            runReview.mutate();
-          }}
-        />
+      <section id="upload" className="panel stack">
+        <h2 className="h2">Upload</h2>
+        <p>
+          The original CSV is preserved as <strong>{filename ?? 'this file'}</strong>.
+        </p>
+        <p className="muted">
+          Job <code>{data.id}</code> · version {data.version}
+        </p>
+        <Link className="btn btn--secondary" to="/jobs/new">
+          Upload another CSV
+        </Link>
+      </section>
+      <section id="inspect" className="panel stack">
+        <h2 className="h2">Inspect</h2>
+        <IntakeStep draft={data} />
+      </section>
+      {data.inspection ? (
+        <section id="configure" className="stack-lg">
+          <h2 className="h2">Configure</h2>
+          <ProfileStep
+            draft={data}
+            launch={launch}
+            onLaunch={(body) => launchNinjas.mutate(body)}
+            onRunReviewOnly={() => {
+              setLaunch((s) => ({
+                phase: 'reviewing',
+                startedAt: Date.now(),
+                profileId: 'profileId' in s ? s.profileId : undefined,
+              }));
+              runReview.mutate();
+            }}
+          />
+        </section>
       ) : null}
-      {current === 'run' ? (
-        <RunStep
-          launch={launch}
-          review={review.data ?? null}
-          onRunReview={() => {
-            setLaunch({ phase: 'reviewing', startedAt: Date.now() });
-            runReview.mutate();
-          }}
-        />
+      {hasReview || launch.phase !== 'idle' ? (
+        <section id="review" className="stack-lg">
+          <h2 className="h2">Review</h2>
+          <RunStep
+            launch={launch}
+            review={review.data ?? null}
+            onRunReview={() => {
+              setLaunch({ phase: 'reviewing', startedAt: Date.now() });
+              runReview.mutate();
+            }}
+          />
+          <ReviewStep draft={data} review={review.data ?? null} onReload={refreshAll} />
+        </section>
       ) : null}
-      {current === 'review' ? (
-        <ReviewStep draft={data} review={review.data ?? null} onReload={refreshAll} />
-      ) : null}
-      {current === 'release' ? (
-        <ReleaseStep draft={data} review={review.data ?? null} onReload={refreshAll} />
+      {hasReview ? (
+        <section id="release" className="stack-lg">
+          <h2 className="h2">Release</h2>
+          <ReleaseStep draft={data} review={review.data ?? null} onReload={refreshAll} />
+        </section>
       ) : null}
     </section>
   );

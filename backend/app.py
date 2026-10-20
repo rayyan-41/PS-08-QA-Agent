@@ -406,7 +406,7 @@ def procedure_page(code: str):
 app.mount("/tools", mcp_app)
 
 # The Vite build is optional for local API development and present in Cloud Run.
-CONSOLE_DIR = Path(__file__).resolve().parent / "static" / "console"
+CONSOLE_DIR = Path(os.getenv("PS08_CONSOLE_DIR", str(Path(__file__).resolve().parent / "static" / "console")))
 if CONSOLE_DIR.is_dir():
     for prefix in ("assets", "widget", "test-assets"):
         directory = CONSOLE_DIR / prefix

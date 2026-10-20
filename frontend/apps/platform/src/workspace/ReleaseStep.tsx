@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Download, ShieldCheck } from '@pokayoke/ui';
 import type { Draft, Receipt, Review } from '@pokayoke/api-client';
@@ -96,9 +95,7 @@ export function ReleaseStep({
             ))}
           </ul>
           <p>
-            <Link to="../review" relative="path">
-              Resolve these findings
-            </Link>
+            <a href="#review-findings">Resolve these findings</a>
           </p>
         </section>
       ) : null}
