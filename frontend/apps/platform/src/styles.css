@@ -66,55 +66,120 @@ code,
 }
 
 /* Layout */
+html {
+  scroll-behavior: smooth;
+}
 .shell {
   min-height: 100svh;
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 232px minmax(0, 1fr);
 }
 .shell--inspector {
-  grid-template-columns: 220px minmax(0, 1fr) minmax(360px, 34vw);
+  grid-template-columns: 232px minmax(0, 1fr) minmax(360px, 34vw);
 }
 .shell__sidebar {
   background: var(--pk-navy);
   color: var(--pk-cream);
-  padding: 24px 20px;
+  padding: 24px 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 36px;
   position: sticky;
   top: 0;
   height: 100svh;
+  /* A faint inner edge so the navy rail reads as one solid block against cream. */
+  box-shadow: inset -1px 0 0 rgb(255 255 255 / 0.06);
 }
-.shell__sidebar nav {
+.shell__brand {
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.shell__nav {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
-.shell__sidebar nav a {
-  color: var(--pk-cream);
+.shell__nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(246 242 228 / 0.78);
   text-decoration: none;
-  padding: 8px 10px;
+  padding: 9px 12px;
   border-radius: var(--radius-sm);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
 }
-.shell__sidebar nav a:hover {
-  background: rgb(255 255 255 / 0.08);
+.shell__nav a:hover {
+  background: rgb(255 255 255 / 0.07);
+  color: var(--pk-cream);
 }
-.shell__sidebar nav a.active {
-  background: rgb(255 255 255 / 0.14);
+.shell__nav a.active {
+  background: rgb(255 255 255 / 0.12);
+  color: var(--pk-cream);
   font-weight: 600;
+}
+/* Coral tick on the active item, grown from its centre. */
+.shell__nav a::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--pk-coral);
+  transform: scaleY(0);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.shell__nav a.active::before {
+  transform: scaleY(1);
+}
+.shell__foot {
+  margin-top: auto;
+  padding: 0 12px;
+  font-size: var(--text-caption);
+  line-height: 1.4;
+  color: rgb(246 242 228 / 0.55);
 }
 .shell__body {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.shell__body > main {
+  flex: 1;
 }
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding: 12px 24px;
+  min-height: 52px;
+  padding: 10px 32px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
   flex-wrap: wrap;
+}
+.topbar__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.topbar__product {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.topbar__sep {
+  color: var(--line);
 }
 .topbar__right {
   display: flex;
@@ -143,8 +208,9 @@ code,
   border-bottom: 1px solid var(--line);
 }
 .page {
-  padding: 24px;
-  max-width: 1440px;
+  padding: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -193,7 +259,12 @@ code,
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-1);
+}
+/* Workspace sections are anchor targets; keep them clear of the sticky bars. */
+.page > section[id] {
+  scroll-margin-top: 120px;
 }
 .panel--feature {
   border-color: var(--ink);
@@ -221,7 +292,12 @@ fieldset.panel {
   border: 1px solid transparent;
   text-decoration: none;
   line-height: 1.2;
-  transition: background-color var(--dur-fast) var(--ease-out);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
 }
 .btn--primary {
   background: var(--primary-bg);
@@ -331,6 +407,17 @@ fieldset.panel {
   overflow-x: auto;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+.table-wrap > .table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.table tbody tr {
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.table tbody tr:hover {
+  background: var(--surface-2);
 }
 .table-wrap--grid {
   max-height: 520px;
@@ -413,6 +500,14 @@ fieldset.panel {
 }
 
 /* Stepper */
+nav[aria-label='Job progress'] {
+  position: sticky;
+  top: 52px;
+  z-index: 4;
+  margin: 0 -32px;
+  padding: 0 32px;
+  background: var(--bg);
+}
 .stepper {
   display: flex;
   gap: 4px;
@@ -432,14 +527,30 @@ fieldset.panel {
   color: var(--ink);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+.stepper a {
+  color: var(--ink-2);
+}
+.stepper a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--line);
 }
 .stepper__locked {
   color: var(--ink-2);
   opacity: 0.6;
 }
 .stepper li.is-current a {
+  color: var(--ink);
   border-bottom-color: var(--ink);
   font-weight: 600;
+}
+.stepper li.is-current .stepper__n {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
 }
 .stepper__n {
   font-family: var(--font-mono);
@@ -457,6 +568,7 @@ fieldset.panel {
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: var(--surface);
+  box-shadow: var(--shadow-1);
 }
 .group > summary {
   padding: 12px 16px;
@@ -700,6 +812,94 @@ fieldset.panel {
   margin-left: auto;
 }
 
+/* Motion. Entrances use transform and opacity only, and are off for reduced motion. */
+:root {
+  --shadow-1: 0 1px 0 rgb(16 34 72 / 0.04), 0 1px 3px rgb(16 34 72 / 0.06);
+}
+/* Logo: the mark settles in first, then the wordmark rises beside it. */
+.shell__brand .pk-logo img {
+  animation: logo-mark 700ms var(--ease-out) both;
+}
+.shell__brand .pk-logo > span {
+  animation: rise-in 520ms var(--ease-out) 180ms both;
+}
+.shell__nav a,
+.shell__foot {
+  animation: rise-in 420ms var(--ease-out) both;
+}
+.shell__nav a:nth-child(1) {
+  animation-delay: 280ms;
+}
+.shell__nav a:nth-child(2) {
+  animation-delay: 330ms;
+}
+.shell__nav a:nth-child(3) {
+  animation-delay: 380ms;
+}
+.shell__foot {
+  animation-delay: 460ms;
+}
+@keyframes logo-mark {
+  from {
+    opacity: 0;
+    transform: scale(0.82) rotate(-8deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+/* Each route fades in; the blocks of the page follow in a short sequence. */
+.route-fade > .page > * {
+  animation: rise-in 380ms var(--ease-out) both;
+}
+.route-fade > .page > :nth-child(2) {
+  animation-delay: 40ms;
+}
+.route-fade > .page > :nth-child(3) {
+  animation-delay: 80ms;
+}
+.route-fade > .page > :nth-child(n + 4) {
+  animation-delay: 120ms;
+}
+/* A transform would break the sticky stepper during its entrance, so it only fades. */
+.route-fade > .page > nav[aria-label='Job progress'] {
+  animation-name: fade-in;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .shell__brand .pk-logo img,
+  .shell__brand .pk-logo > span,
+  .shell__nav a,
+  .shell__foot,
+  .route-fade > .page > * {
+    animation: none;
+  }
+  .shell__nav a::before {
+    transition: none;
+  }
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
+}
+
 /* Login */
 .login {
   min-height: 100svh;
@@ -714,7 +914,7 @@ fieldset.panel {
 @media (max-width: 900px) {
   .shell,
   .shell--inspector {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .shell__sidebar {
     position: static;
@@ -723,9 +923,26 @@ fieldset.panel {
     align-items: center;
     gap: 16px;
     padding: 12px 16px;
+    min-width: 0;
   }
-  .shell__sidebar nav {
+  .shell__nav {
     flex-direction: row;
+    min-width: 0;
+    overflow-x: auto;
+  }
+  .shell__nav a {
+    white-space: nowrap;
+  }
+  .shell__nav a::before,
+  .shell__foot {
+    display: none;
+  }
+  .topbar {
+    padding: 10px 16px;
+  }
+  nav[aria-label='Job progress'] {
+    margin: 0 -16px;
+    padding: 0 16px;
   }
   .inspector {
     position: static;

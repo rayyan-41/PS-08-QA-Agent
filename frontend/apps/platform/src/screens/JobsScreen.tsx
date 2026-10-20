@@ -53,68 +53,70 @@ export function JobsScreen() {
           ) : null}
         </Empty>
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">File</th>
-              <th scope="col">Job ID</th>
-              <th scope="col" className="num">
-                Version
-              </th>
-              <th scope="col">Status</th>
-              <th scope="col">Created</th>
-              <th scope="col">
-                <span className="sr-only">Actions</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((job, index) => {
-              const result = results[index];
-              const draft = result?.data;
-              const missing = isApiError(result?.error) && result.error.status === 404;
-              return (
-                <tr key={job.id}>
-                  <td>
-                    <Link to={`/jobs/${job.id}`}>{job.filename}</Link>
-                  </td>
-                  <td className="mono">{job.id}</td>
-                  <td className="num mono">{draft?.version ?? '–'}</td>
-                  <td>
-                    {result?.isPending ? (
-                      <span className="muted">Loading…</span>
-                    ) : missing ? (
-                      <span className="chip chip--hold">Not found on this backend</span>
-                    ) : result?.error ? (
-                      <span className="chip chip--hold">
-                        Could not load
-                        {isApiError(result.error) && result.error.status
-                          ? ` (HTTP ${result.error.status})`
-                          : ''}
-                      </span>
-                    ) : (
-                      <span className="chip">{draft?.status}</span>
-                    )}
-                  </td>
-                  <td className="muted">{formatTime(job.createdAt)}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn--ghost btn--small"
-                      onClick={() => {
-                        forgetJob(job.id);
-                        setJobs(readRecentJobs());
-                      }}
-                      aria-label={`Remove ${job.filename} from this list`}
-                    >
-                      <Trash2 aria-hidden size={14} />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="table-wrap">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">File</th>
+                <th scope="col">Job ID</th>
+                <th scope="col" className="num">
+                  Version
+                </th>
+                <th scope="col">Status</th>
+                <th scope="col">Created</th>
+                <th scope="col">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {visible.map((job, index) => {
+                const result = results[index];
+                const draft = result?.data;
+                const missing = isApiError(result?.error) && result.error.status === 404;
+                return (
+                  <tr key={job.id}>
+                    <td>
+                      <Link to={`/jobs/${job.id}`}>{job.filename}</Link>
+                    </td>
+                    <td className="mono">{job.id}</td>
+                    <td className="num mono">{draft?.version ?? '–'}</td>
+                    <td>
+                      {result?.isPending ? (
+                        <span className="muted">Loading…</span>
+                      ) : missing ? (
+                        <span className="chip chip--hold">Not found on this backend</span>
+                      ) : result?.error ? (
+                        <span className="chip chip--hold">
+                          Could not load
+                          {isApiError(result.error) && result.error.status
+                            ? ` (HTTP ${result.error.status})`
+                            : ''}
+                        </span>
+                      ) : (
+                        <span className="chip">{draft?.status}</span>
+                      )}
+                    </td>
+                    <td className="muted">{formatTime(job.createdAt)}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn--ghost btn--small"
+                        onClick={() => {
+                          forgetJob(job.id);
+                          setJobs(readRecentJobs());
+                        }}
+                        aria-label={`Remove ${job.filename} from this list`}
+                      >
+                        <Trash2 aria-hidden size={14} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );

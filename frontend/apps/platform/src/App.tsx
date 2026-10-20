@@ -1,6 +1,13 @@
 import { useState, type ReactNode } from 'react';
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router';
-import { Logo, LogOut, PanelRightOpen } from '@pokayoke/ui';
+import {
+  FilePlus2,
+  ListChecks,
+  Logo,
+  LogOut,
+  PanelRightOpen,
+  SlidersHorizontal,
+} from '@pokayoke/ui';
 import { BackendProvider, useBackend } from './api/context';
 import { useAuth } from './auth';
 import type { PlatformConfig } from './config';
@@ -55,26 +62,38 @@ function Shell({ children }: { children: ReactNode }) {
   const { config, devtools, target } = useBackend();
   const { state, signOut } = useAuth();
   const [inspectorOpen, setInspectorOpen] = useState(false);
+  const location = useLocation();
   return (
     <div className={`shell${inspectorOpen ? ' shell--inspector' : ''}`}>
       <a className="pk-skip-link" href="#main-content">
         Skip to content
       </a>
       <aside className="shell__sidebar">
-        <Link to="/" aria-label="Pokayoke jobs">
+        <Link to="/" aria-label="Pokayoke jobs" className="shell__brand">
           <Logo variant="reversed" />
         </Link>
-        <nav aria-label="Main">
+        <nav aria-label="Main" className="shell__nav">
           <NavLink to="/" end>
-            Jobs
+            <ListChecks aria-hidden size={16} /> Jobs
           </NavLink>
-          <NavLink to="/jobs/new">New job</NavLink>
-          <NavLink to="/profiles">Profiles</NavLink>
+          <NavLink to="/jobs/new">
+            <FilePlus2 aria-hidden size={16} /> New job
+          </NavLink>
+          <NavLink to="/profiles">
+            <SlidersHorizontal aria-hidden size={16} /> Profiles
+          </NavLink>
         </nav>
+        <p className="shell__foot">Pre-submission QA for company financials</p>
       </aside>
       <div className="shell__body">
         <header className="topbar">
-          <span>Pokayoke console</span>
+          <span className="topbar__title">
+            <span className="topbar__product">Pokayoke console</span>
+            <span aria-hidden className="topbar__sep">
+              /
+            </span>
+            <span>{sectionLabel(location.pathname)}</span>
+          </span>
           <div className="topbar__right">
             {devtools ? <TargetBadge target={target} /> : null}
             {devtools ? (
@@ -108,11 +127,24 @@ function Shell({ children }: { children: ReactNode }) {
             ))}
           </div>
         ) : null}
-        <main id="main-content">{children}</main>
+        <main id="main-content">
+          <div key={location.pathname.split('/').slice(0, 3).join('/')} className="route-fade">
+            {children}
+          </div>
+        </main>
       </div>
       {devtools && inspectorOpen ? <Inspector onClose={() => setInspectorOpen(false)} /> : null}
     </div>
   );
+}
+
+/** Topbar label for the current route; the job workspace shows its own breadcrumb. */
+function sectionLabel(pathname: string) {
+  if (pathname === '/') return 'Jobs';
+  if (pathname === '/jobs/new') return 'New job';
+  if (pathname.startsWith('/jobs/')) return 'Job workspace';
+  if (pathname === '/profiles') return 'Profiles';
+  return 'Not found';
 }
 
 function TargetBadge({ target }: { target: string }) {
