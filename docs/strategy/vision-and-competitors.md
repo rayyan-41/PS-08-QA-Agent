@@ -1,6 +1,6 @@
 # Vision and Competitor Landscape
 
-Where PS-08 fits in the market, what already exists, where the open space is, and what we build to stand out. Every factual claim about a company links to a source in the [Sources](#sources) list. Vendor figures (acceptance rates, "X% faster") are the vendor's own claims with no published method; quote them as such or not at all.
+Where PS-08 fits in the market, what already exists, where the open space is, and what we build to stand out. Read with [problem-scoping.md](../problem/problem-scoping.md), which defines the user journey, metric definitions, and evaluation process; where the two differ, the scoping doc wins. Every factual claim about a company links to a source in the [Sources](#sources) list. Vendor figures (acceptance rates, "X% faster") are the vendor's own claims with no published method; quote them as such or not at all.
 
 **Contents**
 
@@ -21,7 +21,7 @@ Where PS-08 fits in the market, what already exists, where the open space is, an
 
 **Stop bad data at the moment an analyst types it, and explain why, before it is submitted.**
 
-Almost every data quality product on the market watches tables and pipelines and alerts a data engineer after something lands. Our agent works one step earlier, at the entry form. It reviews each entry against the analyst's history, related fields, related records, and the organization's procedures, then returns a short, severity-ranked list of likely problems. Each issue has a reason, a suggested fix, and the procedure to follow. The analyst decides, and every decision teaches the agent. A spell-check for data.
+Almost every data quality product on the market watches tables and pipelines and alerts a data engineer after something lands. Our agent works one step earlier, at the entry form. It reviews each entry against the analyst's history, related fields, related records, and the organization's procedures, then returns a short, severity-ranked list of likely problems. Each finding has its evidence, a severity, a proposed action, and the procedure to follow. The analyst decides, and every decision teaches the agent. A spell-check for data.
 
 ### Who it is for
 
@@ -161,7 +161,7 @@ This is what we replace first. In the pitch, compare against this, not against M
 |---|---|---|---|---|---|---|---|---|---|---|
 | Checks a record **before** it is submitted | ✓ static | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✓ static | **✓** |
 | Analyst-facing explanation per issue | ◐ error text | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ◐ error text | **✓** |
-| Suggests a corrected value to the user | ✗ | ✗ | ✗ | ✗ | ◐ acts itself | ✗ | ✗ | ✗ | ◐ auto-formats | **✓** |
+| Proposes an action or corrected value to the user | ✗ | ✗ | ✗ | ✗ | ◐ acts itself | ✗ | ✗ | ✗ | ◐ auto-formats | **✓** |
 | Links to the procedure to follow | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | ✗ | **✓** |
 | Uses history | ✗ | ◐ metric baselines | ◐ table ML | ✓ | ? | ✓ behavior model | ◐ profile | ◐ | ◐ mapping history | **✓ error patterns** |
 | Cross-field logic | ◐ hand-coded | ? | ? | ? | ✓ inconsistencies | ? | ✓ SQL rules | ? | ◐ schema | **✓** |
@@ -179,9 +179,9 @@ This is what we replace first. In the pitch, compare against this, not against M
 
 1. **No one coaches the person entering the data.** Observability and governance tools serve engineers and stewards after the fact. Import tools serve the uploader but only against a fixed schema.
 2. **No one links an issue to the procedure.** The brief asks for "linked procedures". None of the tools above document this.
-3. **Feedback loops exist, but at the wrong grain.** Collibra, Metaplane, and GX learn from engineers' responses to table-level alerts. Nobody learns from an analyst's accept or reject on a single suggested fix.
+3. **Feedback loops exist, but at the wrong grain.** Collibra, Metaplane, and GX learn from engineers' responses to table-level alerts. Nobody learns from an analyst's accept or dismiss decision, with a reason, on a single finding.
 4. **Autonomy is the industry trend, and it is the wrong default for financial entries.** Ataccama and Acceldata emphasize agents that act. For figures that feed ratings and prices, an agent that changes values silently creates a new risk. "Agent investigates, human decides, agent learns" is a defensible differentiator, and it matches the brief's trust metric.
-5. **Vendor metrics are unaudited.** "83% faster", "80% faster", "60% acceptance" come with no method. A live, honest evaluation panel (catch rate, false alarm rate, acceptance rate, with the data split shown) stands out in front of technical judges.
+5. **Vendor metrics are unaudited.** "83% faster", "80% faster", "60% acceptance" come with no method. An honest evaluation panel (catch rate, false alarm rate, precision, set size, method, and real vs synthetic results shown separately) stands out in front of technical judges.
 
 ---
 
@@ -195,24 +195,24 @@ Ordered by value for the demo. **Must** = needed for the core journey. **Should*
 | 2 | **Visible agent plan**: show the agent choosing tools (range check, history lookup, duplicate search, cross-field check, pattern lookup, LLM reasoning) and what each returned | Agentic requirement, Q&A defence | 1, 2, 3 | Technical execution, Innovation | Must |
 | 3 | **Evidence on every flag**, for example: "Entered 31,158; expected -57 to 25,161; last value 35,343; 3 similar entries were rejected for Range Violation" | Status quo error text says nothing useful | 2, 3, 4 | Real-world impact (trust) | Must |
 | 4 | **Severity and confidence**: Critical / High / Medium / Low, plus a confidence score; low-confidence items collapsed under "worth a look" | False alarms, alert fatigue | 4 | Functionality | Must |
-| 5 | **Suggested fix with one-click accept**, and a reject button with a short reason ("value is correct", "doc attached later") | Open space 1 and 3 | 4, 5 | Real-world impact | Must |
-| 6 | **Feedback that visibly changes the next result**: reject a flag, re-check a similar entry, the flag is down-ranked or suppressed, with the reason shown | Open space 3 | 5 | Innovation | Must |
+| 5 | **Proposed action with one-click accept**: verify, correct, attach document, or merge duplicate; a corrected value only when the evidence supports one. Dismiss button with a short reason ("value is correct", "doc attached later") | Open space 1 and 3 | 4, 5 | Real-world impact | Must |
+| 6 | **Feedback that visibly changes the next result**: dismiss a flag with a reason, re-check a similar entry, the flag is down-ranked with the reason shown. Feedback adjusts ranking; it is not treated as proof that a suggestion was right or wrong | Open space 3 | 5 | Innovation | Must |
 | 7 | **Linked procedure** per error type: short SOP text for each of the 7 error types, retrieved and attached to the issue | Open space 2 | 4 | Real-world impact | Should |
-| 8 | **Live metrics panel**: catch rate and false alarm rate on a held-out split of the CSV, and acceptance rate from real clicks during the demo | Open space 5, brief metrics | Eval criteria | Technical execution, Scalability | Should |
+| 8 | **Evaluation panel**: catch rate, false alarm rate, and precision on the frozen, human-reviewed evaluation set (see the scoping doc), with real and synthetic results separate; acceptance rate from real clicks shown as an adoption signal | Open space 5, brief metrics | Eval criteria | Technical execution, Scalability | Should |
 | 9 | **Batch pre-flight**: run the agent over all `Draft` entries and show a ranked queue for the reviewer | Secondary user (checker) | 1, 3 | Scalability, Impact | Should |
 | 10 | **Analyst pattern hints**: "on `dividend_yield`, Stale Data is your most common rejection" | Historical patterns per person | 2 | Innovation | Could. Frame as coaching, not blame |
 | 11 | **Audit trail**: every suggestion, decision, and reason stored with time and analyst | Compliance story for finance | 5 | Scalability (market-ready) | Could |
 
 ### The demo story in one paragraph
 
-An analyst enters this quarter's `revenue_ttm` for a company. It is inside the allowed range, so a static rule passes it. Our agent flags it: it is far from last quarter's value, a near-identical entry exists for the same company and date, and similar entries were rejected before. It suggests the likely correct action, links the duplicate-entry procedure, and ranks it Critical. The analyst accepts, the entry is fixed before submission, and the metrics panel ticks up. Then the analyst rejects a low-severity flag as a false alarm, and the next similar entry no longer raises it. That last step is the feedback loop no one else shows at this level.
+Based on the journey in [problem-scoping.md](../problem/problem-scoping.md). An analyst enters a company's revenue as 100 million; the previous value was 10 million. A static range rule may pass it. Before submission, the agent shows its plan, pulls the history and supporting context, and flags the tenfold jump as **High: verify**, noting that an extra zero is one possible cause but that the increase may be legitimate. It also finds an acquisition date later than the reporting cutoff, checks the procedure, and raises that as a separate **Date Conflict** finding with the procedure linked. The analyst confirms the extra zero and corrects it, and dismisses another low-severity flag with the reason "value is correct". On the next similar entry, that flag is down-ranked and the reason is shown. The evaluation panel shows measured results on the reviewed set.
 
 ---
 
 ## 8. What we must not claim
 
 - **Do not claim "first" or "only".** We found no entry-time analyst-facing competitor; that does not prove there is none. Say "we found no tool that does this at the point of entry".
-- **Do not quote a catch rate we have not measured.** The sample labels are inconsistent with the columns (see [data/README.md](../../data/README.md)). Report measured numbers with the method and split, and say the labels are synthetic.
+- **Do not quote a catch rate we have not measured.** The sample labels are inconsistent with the columns (see [data/README.md](../../data/README.md)). Report measured numbers with the counting unit, set size, split, and method from the scoping doc, keep real and synthetic results separate, and do not call the labels synthetic as fact; say they disagree with the visible fields.
 - **Do not present S&P Global as our client or sponsor.**
 - **Do not compare against competitor features we have not checked.** Use only rows from the matrix above.
 - **Do not repeat vendor claims as facts.** If used, say "Monte Carlo reports...".
@@ -221,13 +221,15 @@ An analyst enters this quarter's `revenue_ttm` for a company. It is inside the a
 
 ## 9. Judge Q&A preparation
 
+Answers assume the planned work is done by demo time. Drop any part that the running product cannot back up.
+
 | Likely question | Answer |
 |---|---|
-| Why not just use Dataplex or Great Expectations? | They run scans on tables already in BigQuery. We check one entry before it is written, explain it to the analyst, suggest the fix, and learn from the decision. We can export our learned rules to Dataplex so the warehouse gets the same protection. |
+| Why not just use Dataplex or Great Expectations? | They run scans on tables already in BigQuery. We check one entry before it is written, explain it to the analyst, propose the next action, and learn from the decision. We can export our learned rules to Dataplex so the warehouse gets the same protection. |
 | Monte Carlo already blocks bad data with Circuit Breakers. | Circuit Breakers stop a pipeline after the data exists. They do not tell the analyst what is wrong or how to fix it. We stop the error at the person who made it, which is where rework starts. |
 | Is this just rules plus an LLM? | Rules are one tool. The agent plans which checks to run for this field and entity, pulls history and similar past rejections, checks other records, then reasons over the combined evidence and ranks it. The feedback loop changes future rankings. Show the plan on screen. |
-| How do you keep false alarms down? | Confidence scores, severity thresholds, low-confidence items collapsed, and analyst rejections that down-rank similar flags. We measure false alarm rate on held-out data and show it. |
-| Your dataset labels look noisy. How do you know it works? | Yes, and we say so. We report measured catch rate and false alarm rate on a held-out split, separate rule-based and model-based results, and track acceptance rate from real analyst decisions, which is the metric that matters in production. |
+| How do you keep false alarms down? | Confidence scores, severity thresholds, low-confidence items collapsed, and analyst rejections that down-rank similar flags. We measure false alarm rate on the frozen, human-reviewed evaluation set and show it. |
+| Your dataset labels look noisy. How do you know it works? | Yes, and we say so. We kept the raw CSV, built a human-reviewed evaluation set with reasons for each label, froze it before tuning, and kept its answers away from the agent. We report results on it separately from synthetic challenge cases, with set size and method. Acceptance rate tracks adoption, but acceptance alone does not prove a suggestion was correct. |
 | Isn't sending financial data to an LLM a risk? | Prototype: only the single entry and its derived evidence go to the model, through the backend; keys stay server-side. Product: a private model endpoint on Vertex AI within the client's GCP project, plus redaction of identifiers. |
 | What stops the agent from changing data wrongly? | It never writes. It suggests; the analyst accepts. Every decision is logged. |
 | How does it scale? | Stateless check service on Cloud Run, history and patterns in BigQuery, feedback in Firestore. Show measured latency and concurrency results if we have them; otherwise state the plan as a plan. |
@@ -239,7 +241,7 @@ An analyst enters this quarter's `revenue_ttm` for a company. It is inside the a
 
 This is a plan, not a description of the prototype.
 
-1. **Prototype (event day):** web UI over the sample dataset; agent reviews an entry, returns ranked issues with evidence, fixes, and procedures; analyst decisions recorded and used; deployed on GCP; metrics panel with measured numbers.
+1. **Prototype (event day):** web UI over the sample dataset; agent reviews an entry, returns ranked findings with evidence, proposed actions, and procedures; analyst decisions recorded and used; deployed on GCP; evaluation panel with measured numbers on the reviewed set.
 2. **MVP:** check API and an embeddable widget for existing entry forms; history and error patterns in BigQuery; feedback in Firestore; scheduled re-learning from decisions; per-client procedure library; batch pre-flight for reviewers.
 3. **Market-ready:** connectors for common entry and data management tools; export learned rules to Dataplex and other DQ tools; per-team dashboards (catch rate, false alarm rate, acceptance rate, time saved); full audit trail for compliance review; private model hosting per client.
 

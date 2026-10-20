@@ -37,9 +37,9 @@ The sample dataset provided with problem statement PS-08. It has 300 rows, one p
 ## Things to know before building on this data
 
 - **`None` is a string, not a missing value.** pandas turns it into `NaN` by default. Read with `pd.read_csv(path, keep_default_na=False)` or map it explicitly.
-- **The labels do not follow from the columns.** The data looks synthetic, and simple rules do not reproduce `error_type`:
+- **The labels do not follow from the columns.** Simple rules do not reproduce `error_type`. The data may be intentionally dirty, synthetic, or depend on context missing from the CSV; we do not know which (see [problem-scoping.md](../docs/problem/problem-scoping.md)):
   - 47 rows labelled `None` have `entered_value` outside `[expected_range_min, expected_range_max]`, while 8 of the 11 `Range Violation` rows are inside their range.
   - 6 of the 8 `Missing Document` rows have `has_supporting_doc = True`.
   - Every field, including `acquisition_date` and `completion_status`, stores a plain number in `entered_value`.
-- Because of this, a model trained only on these labels will score close to chance. Rule checks (range, missing document, duplicates, date order) and the historical labels will disagree on many rows. Report catch rate and false alarm rate against the labels honestly, and say what each check is based on.
+- Treat the labels as provisional until reviewed. Rule checks (range, missing document, duplicates, date order) and the historical labels will disagree on many rows. Evaluate on the human-reviewed set described in the scoping doc, and say what each check is based on.
 - `rejection_reason` and `was_rejected` are derived from `error_type`. Do not use them as input features when predicting `error_type`, or the evaluation leaks the answer.
