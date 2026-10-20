@@ -14,6 +14,7 @@ import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, Response
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import analysis, store
@@ -384,7 +385,14 @@ def download(receipt_id: str):
 
 
 @app.get("/")
-def placeholder():
+def console_home():
+    if CONSOLE_DIR.is_dir():
+        return FileResponse(CONSOLE_DIR / "index.html", headers={"Cache-Control": "no-cache"})
+    return FileResponse(Path(__file__).resolve().parent.parent / "fallback" / "index.html")
+
+
+@app.get("/fallback")
+def fallback_home():
     return FileResponse(Path(__file__).resolve().parent.parent / "fallback" / "index.html")
 
 
@@ -392,7 +400,25 @@ def placeholder():
 def procedure_page(code: str):
     from .mcp_server import procedure_for
     result = procedure_for(code)
-    return HTMLResponse(f"<!doctype html><html lang='en'><meta charset='utf-8'><title>Review procedure</title><body style='font:18px system-ui;max-width:680px;margin:50px auto;padding:20px;line-height:1.5'><a href='/'>← Review desk</a><h1>{html.escape(code.replace('_',' ').title())}</h1><p>{html.escape(result['procedure'])}</p><small>Source: {html.escape(result['source'])}</small></body></html>")
+    return HTMLResponse(f"<!doctype html><html lang='en'><meta charset='utf-8'><title>Review procedure</title><body style='font:18px system-ui;max-width:680px;margin:50px auto;padding:20px;line-height:1.5'><a href='/fallback'>← Review desk</a><h1>{html.escape(code.replace('_',' ').title())}</h1><p>{html.escape(result['procedure'])}</p><small>Source: {html.escape(result['source'])}</small></body></html>")
 
 
 app.mount("/tools", mcp_app)
+
+# The Vite build is optional for local API development and present in Cloud Run.
+CONSOLE_DIR = Path(__file__).resolve().parent / "static" / "console"
+if CONSOLE_DIR.is_dir():
+    for prefix in ("assets", "widget", "test-assets"):
+        directory = CONSOLE_DIR / prefix
+        if directory.is_dir():
+            app.mount(f"/{prefix}", StaticFiles(directory=directory), name=f"console-{prefix}")
+
+    @app.get("/config.json", include_in_schema=False)
+    def console_config():
+        return FileResponse(CONSOLE_DIR / "config.json", headers={"Cache-Control": "no-store"})
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def console_route(path: str):
+        if path.split("/", 1)[0] in {"api", "tools", "procedures", "docs", "redoc", "openapi.json", "fallback", "static", "assets", "widget", "test-assets", "config.json"}:
+            raise HTTPException(404, "Not found")
+        return FileResponse(CONSOLE_DIR / "index.html", headers={"Cache-Control": "no-cache"})

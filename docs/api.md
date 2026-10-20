@@ -1,11 +1,13 @@
 # Backend API and UI addresses
 
-**Status:** public GCP Cloud Run synthetic end-to-end review verified in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The fallback UI is served by the backend root (`/`). The primary UI should use one configurable base URL, `VITE_API_BASE_URL`, pointing at the deployed backend origin. Both UIs call these same routes. No client secret belongs in either UI.
+**Status:** The Cloud Run API is live in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The Pokayoke console is being integrated at `/`; the existing review desk remains at `/fallback`. Both call the same `/api/*` routes. The console uses same-origin `apiBaseUrl: ""` from `/config.json`; no client secret belongs in the frontend.
 
-| Environment | Backend origin | Fallback UI | Primary UI |
+| Environment | Backend origin | Console | Fallback UI |
 |---|---|---|---|
-| Local | `http://localhost:8080` | `http://localhost:8080/` | Team-owned URL, configure API base |
-| GCP | `https://ps08-quality-agent-447065735152.asia-south1.run.app` | `https://ps08-quality-agent-447065735152.asia-south1.run.app/` | Team-owned URL, configure `VITE_API_BASE_URL=https://ps08-quality-agent-447065735152.asia-south1.run.app` |
+| Local without console build | `http://localhost:8080` | Build required | `http://localhost:8080/fallback` |
+| GCP after console deployment | `https://ps08-quality-agent-447065735152.asia-south1.run.app` | `/` and `/jobs/*` | `/fallback` |
+
+`/assets/*`, `/widget/*`, `/test-assets/*` and `/config.json` serve the console build. `/docs`, `/redoc`, `/openapi.json`, `/procedures/*`, `/tools/*` and `/api/*` retain backend behavior.
 
 JSON errors use FastAPI's `{ "detail": "explanation" }`; HTTP 409 means stale state or a blocked release, 422 means invalid input, 413 means size limit, and 404 means unknown ID. Review may take several seconds and the UI should show a loading state. Calls are synchronous in this first version.
 
