@@ -1,98 +1,141 @@
-import { createApiClient } from '@pokayoke/api-client';
-import { useQuery } from '@tanstack/react-query';
-import { ConnectionStatus, Logo } from '@pokayoke/ui';
-import { Route, Routes } from 'react-router';
-import type { PlatformConfig as AppConfig } from './config';
+import { useState, type ReactNode } from 'react';
+import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router';
+import { Logo, LogOut, PanelRightOpen } from '@pokayoke/ui';
+import { BackendProvider, useBackend } from './api/context';
+import { useAuth } from './auth';
+import type { PlatformConfig } from './config';
+import { Inspector, useHealth } from './devtools/Inspector';
+import { JobsScreen } from './screens/JobsScreen';
+import { NewJobScreen } from './screens/NewJobScreen';
+import { LoginScreen, ProfilesScreen } from './screens/OtherScreens';
+import { JobWorkspace } from './workspace/JobWorkspace';
+import { targetLabel } from './lib/format';
 
-export function App({ config }: { config: AppConfig }) {
+// Console routes. None may start with a backend prefix:
+// /api, /tools, /procedures, /docs, /redoc, /openapi.json, /fallback, /static.
+export function App({ config, devtools }: { config: PlatformConfig; devtools: boolean }) {
+  const { getToken } = useAuth();
   return (
-    <Routes>
-      <Route path="/" element={<PlatformSetup config={config} />} />
-      <Route path="/login" element={<PlatformSetup config={config} />} />
-      <Route path="*" element={<PlatformSetup config={config} />} />
-    </Routes>
+    <BackendProvider config={config} devtools={devtools} getToken={getToken}>
+      <Routes>
+        <Route path="/login" element={<LoginScreen />} />
+        <Route
+          path="*"
+          element={
+            <RequireAuth>
+              <Shell>
+                <Routes>
+                  <Route path="/" element={<JobsScreen />} />
+                  <Route path="/jobs/new" element={<NewJobScreen />} />
+                  <Route path="/jobs/:id" element={<JobWorkspace />} />
+                  <Route path="/jobs/:id/:step" element={<JobWorkspace />} />
+                  <Route path="/profiles" element={<ProfilesScreen />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Shell>
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </BackendProvider>
   );
 }
 
-function PlatformSetup({ config }: { config: AppConfig }) {
-  // Placeholder until the console screens land: same-origin GET /api/health.
-  const health = useQuery({
-    queryKey: ['api-health', config.apiBaseUrl],
-    queryFn: async () => {
-      const result = await createApiClient(config.apiBaseUrl).GET('/api/health');
-      const response = result.response;
-      if (!result.data) throw new Error(`GET /api/health returned HTTP ${response.status}`);
-      return { status: response.status, checkedAt: new Date().toISOString() };
-    },
-    retry: false,
-  });
+/** With "auth": "firebase", signed-out users go to /login?next=… . With "none" there is no gate. */
+function RequireAuth({ children }: { children: ReactNode }) {
+  const { state } = useAuth();
+  const location = useLocation();
+  if (state.mode === 'none' || state.status === 'signed-in') return <>{children}</>;
+  if (state.status === 'loading') return <p className="page">Checking sign-in…</p>;
+  const next = encodeURIComponent(location.pathname + location.search);
+  return <Navigate replace to={`/login?next=${next}`} />;
+}
 
+function Shell({ children }: { children: ReactNode }) {
+  const { config, devtools, target } = useBackend();
+  const { state, signOut } = useAuth();
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   return (
-    <div className="platform-shell">
+    <div className={`shell${inspectorOpen ? ' shell--inspector' : ''}`}>
       <a className="pk-skip-link" href="#main-content">
         Skip to content
       </a>
-      <aside className="platform-sidebar">
-        <Logo variant="reversed" />
-        <p>Platform setup</p>
-        <span>Deployment scaffold</span>
+      <aside className="shell__sidebar">
+        <Link to="/" aria-label="Pokayoke jobs">
+          <Logo variant="reversed" />
+        </Link>
+        <nav aria-label="Main">
+          <NavLink to="/" end>
+            Jobs
+          </NavLink>
+          <NavLink to="/jobs/new">New job</NavLink>
+          <NavLink to="/profiles">Profiles</NavLink>
+        </nav>
       </aside>
-      <div className="platform-body">
-        <header className="platform-topbar">
-          <span>Pokayoke platform</span>
-          <span>Access not connected</span>
-        </header>
-        <main id="main-content" className="platform-main">
-          <div className="platform-intro">
-            <h1>Connect the foundation.</h1>
-            <p>
-              This page checks the connection to the backend before the review workspace is built.
-            </p>
+      <div className="shell__body">
+        <header className="topbar">
+          <span>Pokayoke console</span>
+          <div className="topbar__right">
+            {devtools ? <TargetBadge target={target} /> : null}
+            {devtools ? (
+              <button
+                type="button"
+                className="btn btn--secondary btn--small"
+                aria-expanded={inspectorOpen}
+                onClick={() => setInspectorOpen((open) => !open)}
+              >
+                <PanelRightOpen aria-hidden size={14} /> Inspector
+              </button>
+            ) : null}
+            {state.mode === 'firebase' && state.status === 'signed-in' ? (
+              <>
+                <span className="small">QA expert · {state.email}</span>
+                <button
+                  type="button"
+                  className="btn btn--ghost btn--small"
+                  onClick={() => void signOut()}
+                >
+                  <LogOut aria-hidden size={14} /> Sign out
+                </button>
+              </>
+            ) : null}
           </div>
-          <ConnectionStatus
-            state={
-              !config.apiBaseUrl
-                ? 'configuring'
-                : health.isPending || health.isFetching
-                  ? 'loading'
-                  : health.isError
-                    ? 'error'
-                    : 'success'
-            }
-            apiBaseUrl={config.apiBaseUrl || window.location.origin}
-            checkedAt={health.data?.checkedAt}
-            httpStatus={health.data?.status}
-            error={health.error?.message}
-            onRetry={() => {
-              void health.refetch();
-            }}
-          />
-          <PendingAccess />
-          {config.setupErrors.length > 0 ? (
-            <aside className="pk-setup-notes">
-              <h2>Configuration needed</h2>
-              <ul>
-                {config.setupErrors.map((error) => (
-                  <li key={error}>{error}</li>
-                ))}
-              </ul>
-            </aside>
-          ) : null}
-        </main>
+        </header>
+        {config.setupErrors.length > 0 ? (
+          <div className="setup-notes" role="alert">
+            {config.setupErrors.map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </div>
+        ) : null}
+        <main id="main-content">{children}</main>
       </div>
+      {devtools && inspectorOpen ? <Inspector onClose={() => setInspectorOpen(false)} /> : null}
     </div>
   );
 }
 
-function PendingAccess() {
+function TargetBadge({ target }: { target: string }) {
+  const health = useHealth();
+  const state = health.isPending ? 'checking' : health.error ? 'down' : health.data.status;
   return (
-    <section className="platform-access" aria-labelledby="access-heading">
-      <h2 id="access-heading">Sign-in is not connected yet</h2>
+    <span
+      className={`target-badge target-badge--${health.error ? 'down' : health.data?.status === 'ok' ? 'ok' : 'unknown'}`}
+      title={targetLabel(target)}
+    >
+      <span className="mono">{target === '' ? 'same origin' : target}</span> · {state}
+      {health.data ? ` · ${health.data.storage}` : ''}
+    </span>
+  );
+}
+
+function NotFound() {
+  return (
+    <section className="page">
+      <h1>Page not found</h1>
       <p>
-        Firebase Authentication and protected job routes will be added after deployment checks pass.
-        Access will be set up by your workspace admin.
+        <Link to="/">Back to jobs</Link>
       </p>
-      <p>No job data is available in this scaffold.</p>
     </section>
   );
 }
