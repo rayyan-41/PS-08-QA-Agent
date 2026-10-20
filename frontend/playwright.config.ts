@@ -11,13 +11,19 @@ export default defineConfig({
   use: {
     ...devices['Desktop Chrome'],
     channel: process.env.PLAYWRIGHT_CHANNEL,
+    baseURL: 'http://127.0.0.1:5173',
+    viewport: { width: 1440, height: 900 },
     trace: 'retain-on-failure',
   },
   webServer: apps.map(([app, port]) => ({
     command: `pnpm --filter @pokayoke/${app} dev`,
     url: `http://127.0.0.1:${port}`,
-    // The test configuration must not inherit an unrelated developer server.
-    reuseExistingServer: false,
-    env: { VITE_API_BASE_URL: process.env.E2E_BACKEND_TEST_URL ?? '', VITE_USE_MOCKS: 'false' },
+    reuseExistingServer: !process.env.CI,
+    env: {
+      VITE_API_BASE_URL: process.env.E2E_BACKEND_TEST_URL ?? '',
+      VITE_PORTAL_URL: 'http://127.0.0.1:5175',
+      VITE_PLATFORM_URL: 'http://127.0.0.1:5174',
+      VITE_USE_MOCKS: 'false',
+    },
   })),
 });

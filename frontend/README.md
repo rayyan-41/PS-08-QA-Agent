@@ -1,6 +1,6 @@
 # Pokayoke frontend scaffold
 
-Deployment-first foundations from `../MASTER_UI.md`. These are setup pages, not the finished product. They display actual connectivity to the configured backend's `GET /health`; they do not fabricate jobs, sign-in, findings, uploads, or release results.
+Frontend workspace from `../MASTER_UI.md`. The [marketing site](apps/marketing/README.md) now includes the nine-section presentation, GSAP/Lenis scrolling, and a demo link to the [sample client portal](apps/client-portal/README.md). The portal uploads and inspects real backend drafts before handing them to Pokayoke for review. Read the app-specific guides for current behavior; the original deployment scaffold notes below also cover unfinished integrations.
 
 ## Local setup
 

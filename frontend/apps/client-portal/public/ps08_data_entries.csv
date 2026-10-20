@@ -1,0 +1,301 @@
+entry_id,analyst_id,entity_name,field_name,entered_value,expected_range_min,expected_range_max,previous_value,entry_date,status_at_entry,has_supporting_doc,error_type,was_rejected,rejection_reason
+ENT-00001,ANA-132,GlobalTech Inc,revenue_ttm,31158.37,-57.41,25161.04,35342.91,2026-08-25,Approved,True,None,False,
+ENT-00002,ANA-177,Cascade Industries,acquisition_date,11685.28,-15.0,54507.86,34930.75,2026-07-14,Draft,True,Format Error,True,Format Error
+ENT-00003,ANA-193,Pinnacle Systems,eps,45188.93,-35.97,39594.67,33182.41,2026-05-12,Draft,True,None,False,
+ENT-00004,ANA-162,Vertex Energy,net_income,29082.1,-77.86,49039.03,12920.59,2026-08-18,Rejected,False,None,False,
+ENT-00005,ANA-175,GlobalTech Inc,revenue_ttm,28569.09,-88.25,78762.76,17715.39,2026-07-27,Rejected,True,None,False,
+ENT-00006,ANA-156,Atlas Mining,market_cap,28453.92,-47.72,94617.73,40564.61,2026-07-22,Draft,True,None,False,
+ENT-00007,ANA-142,GlobalTech Inc,completion_status,14259.98,-58.79,12553.71,22559.47,2026-05-12,Approved,True,Format Error,True,Format Error
+ENT-00008,ANA-200,Acme Corp,debt_equity_ratio,15887.88,-30.09,67132.66,38314.86,2026-03-07,Approved,False,None,False,
+ENT-00009,ANA-122,Atlas Mining,market_cap,42760.64,-66.62,65476.25,36862.9,2026-04-11,Approved,True,None,False,
+ENT-00010,ANA-140,Atlas Mining,net_income,31793.49,-24.34,28193.42,42726.79,2026-08-12,Approved,False,None,False,
+ENT-00011,ANA-121,Cascade Industries,market_cap,304.33,-81.02,37947.48,25059.02,2026-09-10,Submitted,False,None,False,
+ENT-00012,ANA-125,GlobalTech Inc,completion_status,4072.38,-40.2,88923.97,19934.17,2026-05-05,Approved,True,None,False,
+ENT-00013,ANA-113,Pinnacle Systems,dividend_yield,30477.71,-2.93,39145.27,10853.66,2026-01-08,Submitted,True,Duplicate Entry,True,Duplicate Entry
+ENT-00014,ANA-188,Vertex Energy,revenue_ttm,11890.26,-77.42,68310.55,10406.39,2026-01-10,Submitted,True,None,False,
+ENT-00015,ANA-156,Zenith Financial,completion_status,27594.28,-0.16,27301.52,8895.93,2026-09-19,Rejected,False,None,False,
+ENT-00016,ANA-146,Pinnacle Systems,eps,21281.39,-63.55,93295.52,11352.64,2026-09-12,Draft,True,None,False,
+ENT-00017,ANA-189,Vertex Energy,market_cap,39675.63,-42.1,18695.93,45832.71,2026-09-23,Rejected,True,None,False,
+ENT-00018,ANA-177,Vertex Energy,net_income,35865.37,-28.24,68046.94,27480.68,2026-04-15,Approved,True,None,False,
+ENT-00019,ANA-163,Zenith Financial,operating_margin,2765.22,-0.42,11990.37,22147.65,2026-01-12,Rejected,True,None,False,
+ENT-00020,ANA-108,Pinnacle Systems,net_income,28272.56,-5.26,75498.45,35537.42,2026-08-14,Submitted,False,None,False,
+ENT-00021,ANA-139,Pinnacle Systems,debt_equity_ratio,16191.93,-43.01,88837.18,47286.52,2026-03-25,Approved,True,None,False,
+ENT-00022,ANA-145,GlobalTech Inc,completion_status,38618.36,-92.9,15726.59,20392.43,2026-03-24,Submitted,True,Stale Data,True,Stale Data
+ENT-00023,ANA-122,Meridian Holdings,completion_status,989.12,-7.12,75580.04,16255.4,2026-02-13,Rejected,False,None,False,
+ENT-00024,ANA-117,Cascade Industries,dividend_yield,8740.97,-68.88,25966.99,21233.22,2026-05-16,Draft,True,None,False,
+ENT-00025,ANA-129,Cascade Industries,eps,49274.62,-36.7,40574.82,37466.68,2026-09-09,Draft,True,None,False,
+ENT-00026,ANA-112,Meridian Holdings,acquisition_date,-412.69,-1.49,11132.06,16006.41,2026-05-01,Approved,True,Missing Document,True,Missing Document
+ENT-00027,ANA-163,Meridian Holdings,total_assets,26528.31,-2.42,18726.92,34000.64,2026-03-20,Approved,True,Date Conflict,True,Date Conflict
+ENT-00028,ANA-198,Meridian Holdings,operating_margin,25120.1,-18.56,50059.58,30915.17,2026-09-26,Draft,True,None,False,
+ENT-00029,ANA-123,Meridian Holdings,eps,44961.65,-50.23,64315.3,49865.77,2026-06-15,Rejected,False,Format Error,True,Format Error
+ENT-00030,ANA-108,Cascade Industries,net_income,11934.22,-85.86,96434.84,24283.79,2026-07-02,Approved,True,None,False,
+ENT-00031,ANA-184,GlobalTech Inc,operating_margin,42312.6,-90.9,68932.37,45549.28,2026-09-17,Rejected,True,None,False,
+ENT-00032,ANA-157,Vertex Energy,eps,14294.44,-37.37,46381.43,18541.88,2026-08-01,Rejected,True,None,False,
+ENT-00033,ANA-178,Zenith Financial,market_cap,14947.83,-0.77,79366.67,38427.56,2026-01-17,Draft,True,None,False,
+ENT-00034,ANA-175,Meridian Holdings,net_income,31867.09,-26.07,58086.29,1883.98,2026-05-13,Submitted,True,None,False,
+ENT-00035,ANA-187,Zenith Financial,acquisition_date,36796.27,-47.6,26046.11,18226.61,2026-01-07,Draft,False,Stale Data,True,Stale Data
+ENT-00036,ANA-191,Cascade Industries,total_assets,3184.66,-79.64,28606.32,31841.27,2026-01-02,Rejected,True,None,False,
+ENT-00037,ANA-100,Vertex Energy,net_income,32809.51,-8.48,39767.56,8441.42,2026-07-27,Submitted,True,None,False,
+ENT-00038,ANA-176,Vertex Energy,dividend_yield,30899.07,-74.18,92996.0,33859.98,2026-05-07,Approved,False,Logical Inconsistency,True,Logical Inconsistency
+ENT-00039,ANA-152,Zenith Financial,revenue_ttm,13543.38,-9.89,83505.22,24154.93,2026-01-21,Rejected,True,None,False,
+ENT-00040,ANA-128,GlobalTech Inc,operating_margin,31698.65,-88.47,91199.54,24171.11,2026-03-18,Approved,True,Format Error,True,Format Error
+ENT-00041,ANA-191,Zenith Financial,eps,13882.74,-71.36,86995.73,12705.71,2026-02-13,Submitted,True,None,False,
+ENT-00042,ANA-125,Meridian Holdings,acquisition_date,25670.39,-96.43,53093.78,5126.03,2026-01-27,Rejected,True,None,False,
+ENT-00043,ANA-108,Vertex Energy,net_income,21515.41,-62.91,76451.17,21822.2,2026-01-22,Submitted,True,None,False,
+ENT-00044,ANA-119,Cascade Industries,market_cap,42904.12,-74.92,25797.61,22832.79,2026-01-13,Rejected,True,Range Violation,True,Range Violation
+ENT-00045,ANA-128,Meridian Holdings,eps,31174.29,-66.41,74906.3,778.14,2026-08-03,Submitted,True,None,False,
+ENT-00046,ANA-140,Acme Corp,acquisition_date,5123.97,-93.49,56624.26,381.82,2026-03-24,Approved,True,Date Conflict,True,Date Conflict
+ENT-00047,ANA-187,Vertex Energy,revenue_ttm,-201.97,-99.66,15257.58,19070.13,2026-02-28,Submitted,True,Range Violation,True,Range Violation
+ENT-00048,ANA-102,Atlas Mining,completion_status,46829.15,-35.52,35422.16,30610.48,2026-08-24,Submitted,False,None,False,
+ENT-00049,ANA-181,Atlas Mining,completion_status,23696.02,-10.14,50880.09,43911.94,2026-04-05,Approved,True,None,False,
+ENT-00050,ANA-120,Cascade Industries,dividend_yield,36870.28,-56.83,36987.19,1649.02,2026-07-23,Submitted,False,None,False,
+ENT-00051,ANA-145,Vertex Energy,total_assets,47065.0,-57.89,47595.31,36539.19,2026-08-13,Rejected,True,None,False,
+ENT-00052,ANA-151,Meridian Holdings,market_cap,36027.04,-79.41,29526.34,9143.74,2026-04-28,Approved,False,None,False,
+ENT-00053,ANA-152,Cascade Industries,acquisition_date,32022.0,-78.65,22719.83,4986.83,2026-08-10,Rejected,True,None,False,
+ENT-00054,ANA-120,Zenith Financial,debt_equity_ratio,46824.66,-56.82,94887.94,703.69,2026-04-13,Submitted,True,Date Conflict,True,Date Conflict
+ENT-00055,ANA-182,Zenith Financial,completion_status,28540.99,-19.92,23561.49,15482.78,2026-04-28,Submitted,False,None,False,
+ENT-00056,ANA-197,Acme Corp,market_cap,33647.57,-21.3,17717.51,-62.23,2026-01-11,Draft,True,None,False,
+ENT-00057,ANA-127,Pinnacle Systems,market_cap,41954.26,-63.71,91832.1,28964.15,2026-08-16,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00058,ANA-171,Meridian Holdings,eps,44991.26,-84.8,47366.73,26381.41,2026-07-06,Rejected,True,None,False,
+ENT-00059,ANA-184,Meridian Holdings,debt_equity_ratio,45413.83,-90.29,13544.05,43951.71,2026-08-13,Rejected,True,None,False,
+ENT-00060,ANA-146,Atlas Mining,revenue_ttm,29037.01,-81.82,90458.92,48499.98,2026-06-11,Draft,True,None,False,
+ENT-00061,ANA-138,Zenith Financial,net_income,45796.58,-88.9,94152.6,48000.93,2026-04-21,Approved,True,Date Conflict,True,Date Conflict
+ENT-00062,ANA-163,Acme Corp,net_income,30904.04,-40.97,99253.16,17943.41,2026-05-07,Approved,True,None,False,
+ENT-00063,ANA-121,Acme Corp,operating_margin,32294.96,-29.95,33680.21,49805.77,2026-06-02,Approved,False,None,False,
+ENT-00064,ANA-104,Meridian Holdings,net_income,43538.02,-7.35,10961.01,28469.46,2026-05-13,Submitted,False,None,False,
+ENT-00065,ANA-188,Pinnacle Systems,dividend_yield,34691.23,-66.44,82283.14,42608.15,2026-07-14,Approved,True,None,False,
+ENT-00066,ANA-170,Vertex Energy,market_cap,24185.94,-73.33,92202.16,45898.19,2026-02-26,Approved,True,None,False,
+ENT-00067,ANA-197,GlobalTech Inc,revenue_ttm,11769.53,-82.29,15846.33,28381.39,2026-04-25,Draft,True,None,False,
+ENT-00068,ANA-194,Cascade Industries,revenue_ttm,43443.06,-38.25,24061.94,31119.38,2026-08-21,Approved,True,None,False,
+ENT-00069,ANA-117,Vertex Energy,completion_status,45859.11,-7.34,26701.73,35771.85,2026-02-01,Rejected,True,Format Error,True,Format Error
+ENT-00070,ANA-149,Cascade Industries,debt_equity_ratio,31085.31,-80.74,83579.58,35266.0,2026-08-20,Submitted,False,Range Violation,True,Range Violation
+ENT-00071,ANA-175,Acme Corp,eps,21847.07,-49.24,17160.25,48696.61,2026-05-05,Submitted,True,None,False,
+ENT-00072,ANA-141,Vertex Energy,net_income,7702.39,-36.47,63307.74,29878.48,2026-09-21,Approved,True,Stale Data,True,Stale Data
+ENT-00073,ANA-144,Vertex Energy,dividend_yield,26292.82,-34.52,97132.51,12209.24,2026-03-03,Draft,True,None,False,
+ENT-00074,ANA-193,Acme Corp,operating_margin,30802.19,-18.23,17195.65,38103.91,2026-08-01,Draft,True,None,False,
+ENT-00075,ANA-146,GlobalTech Inc,completion_status,28244.66,-27.29,38715.76,17584.68,2026-08-12,Rejected,True,None,False,
+ENT-00076,ANA-195,Vertex Energy,operating_margin,11019.64,-82.94,72177.82,20191.49,2026-08-11,Rejected,False,None,False,
+ENT-00077,ANA-118,Zenith Financial,operating_margin,20689.66,-97.55,22548.88,15494.54,2026-03-13,Approved,True,None,False,
+ENT-00078,ANA-184,Meridian Holdings,dividend_yield,7127.45,-5.4,29529.44,327.66,2026-08-05,Approved,True,None,False,
+ENT-00079,ANA-120,Pinnacle Systems,debt_equity_ratio,41403.8,-14.62,34990.26,9092.28,2026-08-14,Rejected,True,Duplicate Entry,True,Duplicate Entry
+ENT-00080,ANA-107,Cascade Industries,operating_margin,48052.69,-93.31,39095.43,23573.36,2026-05-05,Submitted,False,None,False,
+ENT-00081,ANA-101,Pinnacle Systems,debt_equity_ratio,31391.18,-66.14,37955.07,30733.25,2026-02-20,Submitted,True,None,False,
+ENT-00082,ANA-188,Meridian Holdings,market_cap,18163.16,-2.96,15681.25,22077.45,2026-07-08,Submitted,True,None,False,
+ENT-00083,ANA-140,Atlas Mining,debt_equity_ratio,39233.71,-44.5,61949.78,16218.57,2026-04-05,Approved,True,None,False,
+ENT-00084,ANA-131,Atlas Mining,completion_status,27946.55,-10.94,38211.4,43976.77,2026-07-25,Submitted,True,None,False,
+ENT-00085,ANA-159,Pinnacle Systems,net_income,2879.74,-61.04,27386.35,38382.26,2026-03-12,Draft,False,None,False,
+ENT-00086,ANA-141,Cascade Industries,debt_equity_ratio,41154.26,-51.74,23150.82,13274.26,2026-06-16,Approved,True,Range Violation,True,Range Violation
+ENT-00087,ANA-176,GlobalTech Inc,debt_equity_ratio,14428.79,-93.94,89629.45,25936.86,2026-09-10,Submitted,False,None,False,
+ENT-00088,ANA-101,Pinnacle Systems,dividend_yield,12679.89,-85.59,12275.53,32407.57,2026-07-03,Approved,False,None,False,
+ENT-00089,ANA-148,Meridian Holdings,total_assets,29489.18,-24.15,19697.04,13314.38,2026-05-07,Rejected,True,None,False,
+ENT-00090,ANA-141,Acme Corp,total_assets,5757.7,-13.23,59731.76,18125.51,2026-06-27,Rejected,True,None,False,
+ENT-00091,ANA-150,Meridian Holdings,dividend_yield,15993.83,-16.39,13108.06,13786.9,2026-01-17,Draft,True,None,False,
+ENT-00092,ANA-117,Meridian Holdings,operating_margin,4663.79,-83.66,74246.84,4138.9,2026-06-12,Approved,True,Range Violation,True,Range Violation
+ENT-00093,ANA-108,Atlas Mining,dividend_yield,19728.27,-93.78,47471.76,39381.3,2026-03-18,Draft,True,None,False,
+ENT-00094,ANA-133,Vertex Energy,operating_margin,11582.9,-35.52,60191.61,2150.4,2026-04-16,Draft,True,Stale Data,True,Stale Data
+ENT-00095,ANA-119,Meridian Holdings,debt_equity_ratio,24779.49,-67.7,78036.68,33348.28,2026-01-17,Approved,False,None,False,
+ENT-00096,ANA-189,Zenith Financial,revenue_ttm,27276.57,-95.99,63070.18,10046.25,2026-08-01,Approved,True,None,False,
+ENT-00097,ANA-165,Meridian Holdings,completion_status,19557.67,-84.77,10661.5,31197.83,2026-05-09,Approved,False,None,False,
+ENT-00098,ANA-196,Pinnacle Systems,total_assets,16391.53,-67.29,33430.77,5517.97,2026-05-15,Draft,False,None,False,
+ENT-00099,ANA-185,Zenith Financial,completion_status,9831.8,-88.73,44870.69,4889.85,2026-04-07,Approved,True,None,False,
+ENT-00100,ANA-146,Atlas Mining,completion_status,2245.56,-37.39,61016.19,44161.21,2026-05-07,Draft,True,None,False,
+ENT-00101,ANA-142,Vertex Energy,revenue_ttm,24729.43,-28.01,74797.23,22623.16,2026-07-20,Submitted,False,Logical Inconsistency,True,Logical Inconsistency
+ENT-00102,ANA-136,Vertex Energy,operating_margin,3422.54,-89.27,10024.37,1075.6,2026-01-28,Draft,True,None,False,
+ENT-00103,ANA-148,Meridian Holdings,revenue_ttm,4410.25,-63.2,68119.49,48532.48,2026-06-03,Approved,False,None,False,
+ENT-00104,ANA-104,GlobalTech Inc,revenue_ttm,14753.53,-73.73,93711.32,44311.78,2026-04-04,Draft,False,None,False,
+ENT-00105,ANA-192,Vertex Energy,total_assets,22489.85,-11.36,72542.67,13293.29,2026-01-23,Rejected,True,Range Violation,True,Range Violation
+ENT-00106,ANA-186,Zenith Financial,total_assets,1009.85,-50.26,84740.61,20327.42,2026-01-19,Draft,True,Duplicate Entry,True,Duplicate Entry
+ENT-00107,ANA-192,Atlas Mining,eps,9736.28,-73.27,70411.83,48141.08,2026-04-08,Rejected,True,None,False,
+ENT-00108,ANA-155,Atlas Mining,revenue_ttm,39494.17,-28.44,76827.34,13969.11,2026-02-20,Approved,False,None,False,
+ENT-00109,ANA-147,Cascade Industries,operating_margin,36173.03,-45.92,38864.01,31785.37,2026-07-06,Rejected,True,None,False,
+ENT-00110,ANA-198,Pinnacle Systems,operating_margin,6955.48,-32.73,90048.62,33623.39,2026-07-12,Rejected,True,None,False,
+ENT-00111,ANA-117,Cascade Industries,completion_status,46198.31,-35.45,50569.19,26730.2,2026-03-02,Approved,True,None,False,
+ENT-00112,ANA-180,Meridian Holdings,completion_status,42480.44,-42.63,97950.88,39510.03,2026-07-03,Rejected,True,None,False,
+ENT-00113,ANA-166,GlobalTech Inc,acquisition_date,28560.96,-74.53,59540.37,47085.64,2026-04-22,Approved,False,None,False,
+ENT-00114,ANA-147,Zenith Financial,net_income,25917.61,-18.06,29716.43,17232.29,2026-07-23,Draft,True,None,False,
+ENT-00115,ANA-196,Vertex Energy,operating_margin,35668.2,-10.68,97235.24,39896.73,2026-08-05,Draft,True,Format Error,True,Format Error
+ENT-00116,ANA-138,Vertex Energy,debt_equity_ratio,26869.33,-90.34,83304.49,687.03,2026-01-10,Draft,True,None,False,
+ENT-00117,ANA-187,GlobalTech Inc,total_assets,2884.6,-54.74,20705.76,47216.17,2026-07-01,Approved,True,None,False,
+ENT-00118,ANA-138,Zenith Financial,dividend_yield,30772.52,-8.04,67169.76,29463.48,2026-08-02,Rejected,True,None,False,
+ENT-00119,ANA-160,Zenith Financial,market_cap,37522.36,-23.02,48043.15,29149.8,2026-06-22,Rejected,True,Format Error,True,Format Error
+ENT-00120,ANA-197,GlobalTech Inc,dividend_yield,23481.03,-45.63,17466.82,36076.07,2026-02-15,Rejected,True,Duplicate Entry,True,Duplicate Entry
+ENT-00121,ANA-160,Acme Corp,debt_equity_ratio,15805.06,-44.74,73363.61,22285.55,2026-07-04,Draft,True,None,False,
+ENT-00122,ANA-199,Acme Corp,completion_status,46744.68,-55.56,55186.54,22890.59,2026-07-26,Draft,True,None,False,
+ENT-00123,ANA-162,Meridian Holdings,completion_status,45064.22,-70.66,24647.16,14159.48,2026-06-14,Draft,True,Date Conflict,True,Date Conflict
+ENT-00124,ANA-131,Acme Corp,net_income,19058.84,-25.55,68848.44,8419.9,2026-07-02,Approved,True,Duplicate Entry,True,Duplicate Entry
+ENT-00125,ANA-187,Atlas Mining,debt_equity_ratio,11050.99,-55.53,73070.2,45538.59,2026-02-06,Submitted,True,None,False,
+ENT-00126,ANA-156,Atlas Mining,completion_status,18017.12,-30.11,11848.38,26021.35,2026-06-21,Draft,False,None,False,
+ENT-00127,ANA-171,Zenith Financial,operating_margin,2880.4,-91.28,89000.29,33067.47,2026-08-13,Submitted,True,Duplicate Entry,True,Duplicate Entry
+ENT-00128,ANA-173,Meridian Holdings,net_income,33064.37,-55.39,99686.84,18352.5,2026-05-16,Draft,True,Range Violation,True,Range Violation
+ENT-00129,ANA-171,Acme Corp,completion_status,11228.54,-85.26,21989.33,34924.43,2026-01-12,Draft,True,None,False,
+ENT-00130,ANA-134,Acme Corp,net_income,14818.88,-18.85,38757.63,11805.65,2026-08-26,Submitted,True,None,False,
+ENT-00131,ANA-127,GlobalTech Inc,operating_margin,8207.11,-44.7,66432.68,42863.99,2026-02-05,Submitted,True,None,False,
+ENT-00132,ANA-109,Meridian Holdings,net_income,11976.92,-24.66,85579.39,17766.99,2026-04-27,Approved,False,None,False,
+ENT-00133,ANA-105,Cascade Industries,revenue_ttm,38921.92,-97.23,70449.04,46504.39,2026-07-15,Submitted,True,None,False,
+ENT-00134,ANA-165,Zenith Financial,operating_margin,32125.07,-24.46,24155.66,29748.43,2026-05-16,Draft,False,None,False,
+ENT-00135,ANA-171,GlobalTech Inc,completion_status,35075.96,-22.3,79562.63,1517.4,2026-05-13,Approved,False,Range Violation,True,Range Violation
+ENT-00136,ANA-168,Cascade Industries,market_cap,45926.0,-14.46,52292.07,24133.27,2026-09-22,Submitted,False,None,False,
+ENT-00137,ANA-143,GlobalTech Inc,market_cap,12205.44,-73.18,34412.61,14091.82,2026-09-08,Approved,True,Duplicate Entry,True,Duplicate Entry
+ENT-00138,ANA-144,Pinnacle Systems,debt_equity_ratio,9188.25,-66.5,70849.01,13565.37,2026-07-22,Submitted,True,None,False,
+ENT-00139,ANA-146,Cascade Industries,eps,9825.46,-53.73,56810.14,5419.14,2026-05-21,Submitted,True,Format Error,True,Format Error
+ENT-00140,ANA-143,Meridian Holdings,completion_status,44307.3,-19.04,43749.88,19277.33,2026-05-19,Rejected,True,None,False,
+ENT-00141,ANA-109,Pinnacle Systems,total_assets,5783.68,-62.34,59561.51,19350.59,2026-02-07,Approved,False,None,False,
+ENT-00142,ANA-170,Pinnacle Systems,operating_margin,25311.48,-57.95,33913.11,49069.67,2026-08-20,Draft,False,None,False,
+ENT-00143,ANA-115,Meridian Holdings,dividend_yield,8645.79,-63.87,82116.98,2252.36,2026-02-09,Draft,True,None,False,
+ENT-00144,ANA-195,Zenith Financial,total_assets,9847.08,-10.87,60991.06,-2.27,2026-06-20,Approved,True,None,False,
+ENT-00145,ANA-179,Pinnacle Systems,dividend_yield,46356.5,-64.64,31272.61,659.18,2026-06-25,Submitted,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00146,ANA-102,Meridian Holdings,dividend_yield,4104.48,-25.95,98080.52,13121.32,2026-08-04,Draft,True,Date Conflict,True,Date Conflict
+ENT-00147,ANA-178,Meridian Holdings,dividend_yield,44540.2,-8.24,35152.36,-340.0,2026-05-14,Rejected,False,Duplicate Entry,True,Duplicate Entry
+ENT-00148,ANA-110,Zenith Financial,debt_equity_ratio,35477.46,-55.75,76524.79,18916.01,2026-07-01,Approved,True,Stale Data,True,Stale Data
+ENT-00149,ANA-167,Cascade Industries,operating_margin,15765.04,-50.1,65407.41,41830.06,2026-04-12,Submitted,True,None,False,
+ENT-00150,ANA-187,Zenith Financial,completion_status,8003.27,-59.6,29613.55,17339.91,2026-05-08,Approved,True,None,False,
+ENT-00151,ANA-160,Acme Corp,dividend_yield,34167.85,-43.67,68092.95,2767.1,2026-01-13,Approved,True,None,False,
+ENT-00152,ANA-192,Atlas Mining,dividend_yield,45414.0,-91.05,32943.32,11042.12,2026-06-09,Rejected,True,Duplicate Entry,True,Duplicate Entry
+ENT-00153,ANA-182,Vertex Energy,total_assets,42218.08,-2.08,42811.47,37915.87,2026-02-23,Submitted,True,Date Conflict,True,Date Conflict
+ENT-00154,ANA-106,Pinnacle Systems,completion_status,3502.4,-6.8,50779.07,14304.22,2026-07-09,Submitted,True,None,False,
+ENT-00155,ANA-166,GlobalTech Inc,dividend_yield,11206.69,-90.77,14693.19,32558.41,2026-03-10,Rejected,False,None,False,
+ENT-00156,ANA-125,GlobalTech Inc,total_assets,2902.8,-89.85,83556.08,8525.9,2026-02-25,Rejected,True,Stale Data,True,Stale Data
+ENT-00157,ANA-131,Acme Corp,total_assets,15936.63,-82.82,34510.37,40571.94,2026-09-17,Draft,False,Logical Inconsistency,True,Logical Inconsistency
+ENT-00158,ANA-119,Meridian Holdings,total_assets,11717.24,-39.1,43047.18,39049.45,2026-08-08,Rejected,True,Duplicate Entry,True,Duplicate Entry
+ENT-00159,ANA-120,Acme Corp,net_income,2887.24,-62.26,10051.61,22769.02,2026-08-22,Rejected,False,None,False,
+ENT-00160,ANA-182,Cascade Industries,acquisition_date,39212.43,-42.25,85386.5,19962.53,2026-05-17,Rejected,True,None,False,
+ENT-00161,ANA-116,Acme Corp,acquisition_date,9948.1,-40.02,43075.11,14571.33,2026-07-13,Rejected,True,None,False,
+ENT-00162,ANA-125,Acme Corp,market_cap,10386.31,-22.49,77531.28,22221.99,2026-03-21,Approved,False,Duplicate Entry,True,Duplicate Entry
+ENT-00163,ANA-156,Pinnacle Systems,debt_equity_ratio,24082.18,-53.37,51868.42,44060.36,2026-08-05,Rejected,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00164,ANA-181,GlobalTech Inc,debt_equity_ratio,14418.61,-94.69,51858.05,19021.12,2026-07-03,Approved,True,None,False,
+ENT-00165,ANA-105,Atlas Mining,acquisition_date,2921.66,-66.85,37930.76,25089.24,2026-01-04,Submitted,True,None,False,
+ENT-00166,ANA-180,Cascade Industries,revenue_ttm,719.06,-59.66,81866.01,22744.69,2026-06-10,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00167,ANA-156,Atlas Mining,acquisition_date,21387.11,-48.6,69968.8,27173.48,2026-09-03,Submitted,False,None,False,
+ENT-00168,ANA-156,Pinnacle Systems,market_cap,6769.55,-23.79,27670.08,30652.15,2026-05-13,Submitted,True,None,False,
+ENT-00169,ANA-117,Vertex Energy,revenue_ttm,20627.98,-80.63,81952.45,44099.91,2026-07-18,Approved,True,None,False,
+ENT-00170,ANA-120,Acme Corp,revenue_ttm,12908.14,-51.73,15948.02,23149.48,2026-03-22,Rejected,True,None,False,
+ENT-00171,ANA-143,Cascade Industries,net_income,42454.99,-4.43,33227.5,27707.71,2026-06-21,Approved,True,None,False,
+ENT-00172,ANA-135,Vertex Energy,completion_status,10923.04,-97.78,53505.64,16071.76,2026-09-10,Rejected,False,None,False,
+ENT-00173,ANA-138,Pinnacle Systems,revenue_ttm,4878.09,-85.2,30126.27,39065.56,2026-04-15,Submitted,True,None,False,
+ENT-00174,ANA-152,Zenith Financial,acquisition_date,20674.22,-66.88,17301.63,7703.5,2026-08-22,Draft,True,None,False,
+ENT-00175,ANA-155,Meridian Holdings,revenue_ttm,20418.26,-2.16,40040.73,18204.19,2026-05-08,Rejected,False,None,False,
+ENT-00176,ANA-151,Zenith Financial,dividend_yield,42397.23,-71.35,64951.55,7827.17,2026-03-20,Approved,False,None,False,
+ENT-00177,ANA-194,Acme Corp,net_income,7077.34,-57.15,90692.32,46685.9,2026-03-02,Draft,False,Range Violation,True,Range Violation
+ENT-00178,ANA-146,Cascade Industries,total_assets,33135.94,-91.25,24869.94,15143.25,2026-02-02,Draft,True,Missing Document,True,Missing Document
+ENT-00179,ANA-121,Zenith Financial,completion_status,41121.64,-50.96,34059.73,14217.14,2026-09-03,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00180,ANA-133,Meridian Holdings,net_income,31994.93,-30.01,18650.82,30127.42,2026-05-02,Rejected,True,None,False,
+ENT-00181,ANA-157,Cascade Industries,total_assets,47561.08,-69.36,68814.05,40639.22,2026-07-26,Submitted,True,None,False,
+ENT-00182,ANA-119,Meridian Holdings,market_cap,1358.28,-94.13,88762.75,6957.84,2026-08-05,Submitted,True,Duplicate Entry,True,Duplicate Entry
+ENT-00183,ANA-188,Cascade Industries,eps,28753.15,-28.14,49180.14,5692.23,2026-09-24,Approved,True,None,False,
+ENT-00184,ANA-146,Meridian Holdings,operating_margin,19235.11,-65.49,14402.1,41976.63,2026-05-13,Submitted,False,None,False,
+ENT-00185,ANA-150,Cascade Industries,operating_margin,22205.42,-18.42,77075.31,35222.92,2026-06-25,Submitted,True,None,False,
+ENT-00186,ANA-153,GlobalTech Inc,total_assets,24088.16,-1.16,23335.1,44153.07,2026-04-17,Rejected,True,None,False,
+ENT-00187,ANA-153,Acme Corp,debt_equity_ratio,38428.43,-36.85,74022.87,39910.54,2026-06-11,Draft,True,None,False,
+ENT-00188,ANA-164,Vertex Energy,operating_margin,10158.62,-66.75,69279.91,36695.55,2026-09-09,Rejected,True,None,False,
+ENT-00189,ANA-193,Acme Corp,dividend_yield,22475.1,-28.09,59241.09,26709.01,2026-08-02,Approved,True,None,False,
+ENT-00190,ANA-180,GlobalTech Inc,revenue_ttm,23463.14,-12.18,93614.36,45662.31,2026-04-11,Submitted,False,None,False,
+ENT-00191,ANA-183,Acme Corp,eps,40745.18,-33.16,62160.74,19438.04,2026-01-17,Submitted,True,None,False,
+ENT-00192,ANA-157,Vertex Energy,debt_equity_ratio,19547.5,-57.0,96277.37,40020.75,2026-05-18,Rejected,True,None,False,
+ENT-00193,ANA-193,Pinnacle Systems,acquisition_date,38329.49,-33.67,54697.2,28798.9,2026-09-22,Approved,True,None,False,
+ENT-00194,ANA-149,Cascade Industries,debt_equity_ratio,8450.45,-34.39,11279.02,21189.77,2026-06-21,Submitted,False,None,False,
+ENT-00195,ANA-193,Pinnacle Systems,revenue_ttm,8035.64,-70.77,33138.32,7674.0,2026-07-07,Submitted,True,Format Error,True,Format Error
+ENT-00196,ANA-136,Pinnacle Systems,net_income,49893.2,-30.84,67512.03,3349.4,2026-03-28,Draft,True,None,False,
+ENT-00197,ANA-197,Pinnacle Systems,debt_equity_ratio,48239.76,-88.66,50616.24,5632.67,2026-09-15,Draft,False,Stale Data,True,Stale Data
+ENT-00198,ANA-110,Cascade Industries,completion_status,39344.5,-64.68,44909.26,9059.66,2026-05-24,Draft,True,None,False,
+ENT-00199,ANA-120,Vertex Energy,net_income,23673.86,-7.53,66841.32,1004.35,2026-07-26,Rejected,True,Missing Document,True,Missing Document
+ENT-00200,ANA-151,Vertex Energy,acquisition_date,7959.91,-37.89,53508.08,29110.9,2026-02-24,Submitted,False,None,False,
+ENT-00201,ANA-149,Cascade Industries,acquisition_date,31947.63,-80.09,13776.82,22371.93,2026-01-19,Approved,True,None,False,
+ENT-00202,ANA-153,Acme Corp,market_cap,48463.98,-13.8,17670.27,42072.63,2026-09-18,Draft,True,None,False,
+ENT-00203,ANA-170,Cascade Industries,operating_margin,5547.53,-18.92,80753.16,31723.05,2026-04-10,Rejected,True,None,False,
+ENT-00204,ANA-107,Pinnacle Systems,revenue_ttm,33073.6,-0.16,72631.61,40692.51,2026-03-09,Approved,False,None,False,
+ENT-00205,ANA-146,GlobalTech Inc,net_income,24663.5,-26.14,46618.38,820.46,2026-05-11,Submitted,True,None,False,
+ENT-00206,ANA-177,GlobalTech Inc,total_assets,17807.87,-90.48,33777.99,16356.15,2026-02-06,Submitted,True,None,False,
+ENT-00207,ANA-197,GlobalTech Inc,debt_equity_ratio,40484.64,-45.11,61962.57,34369.35,2026-05-18,Approved,True,Missing Document,True,Missing Document
+ENT-00208,ANA-105,Pinnacle Systems,dividend_yield,45901.33,-57.98,69210.78,13086.93,2026-01-05,Draft,True,None,False,
+ENT-00209,ANA-105,Atlas Mining,completion_status,40379.78,-59.4,19620.18,7519.75,2026-09-26,Submitted,True,Duplicate Entry,True,Duplicate Entry
+ENT-00210,ANA-172,GlobalTech Inc,market_cap,31357.36,-98.32,29657.61,35262.16,2026-03-24,Submitted,False,Format Error,True,Format Error
+ENT-00211,ANA-134,Vertex Energy,revenue_ttm,24378.97,-76.21,48675.08,30469.53,2026-07-07,Approved,True,None,False,
+ENT-00212,ANA-175,Zenith Financial,total_assets,45492.68,-71.23,32412.76,42735.07,2026-02-23,Rejected,True,None,False,
+ENT-00213,ANA-114,Zenith Financial,completion_status,29332.24,-25.32,72217.0,28619.11,2026-02-22,Submitted,True,None,False,
+ENT-00214,ANA-195,Acme Corp,revenue_ttm,36428.25,-31.59,21966.59,10515.85,2026-02-19,Draft,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00215,ANA-101,Zenith Financial,net_income,4901.16,-79.37,22994.53,36077.87,2026-02-28,Approved,True,None,False,
+ENT-00216,ANA-166,Pinnacle Systems,dividend_yield,21892.29,-79.85,67154.64,9942.46,2026-06-07,Submitted,False,None,False,
+ENT-00217,ANA-155,Acme Corp,operating_margin,12231.62,-56.67,24274.46,38960.35,2026-01-24,Rejected,True,None,False,
+ENT-00218,ANA-136,Meridian Holdings,debt_equity_ratio,13814.03,-82.29,79214.82,23398.32,2026-09-03,Rejected,True,None,False,
+ENT-00219,ANA-157,Vertex Energy,eps,34265.76,-72.44,52915.17,19225.04,2026-03-16,Submitted,False,None,False,
+ENT-00220,ANA-182,Atlas Mining,total_assets,18921.37,-1.35,59657.19,31915.37,2026-03-04,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00221,ANA-112,Pinnacle Systems,acquisition_date,43031.12,-48.35,37919.55,19887.59,2026-02-19,Draft,True,None,False,
+ENT-00222,ANA-131,Meridian Holdings,eps,31189.73,-2.25,10303.38,47910.39,2026-06-25,Rejected,True,None,False,
+ENT-00223,ANA-123,GlobalTech Inc,revenue_ttm,36497.26,-27.91,48236.38,34649.36,2026-05-19,Submitted,False,None,False,
+ENT-00224,ANA-145,GlobalTech Inc,completion_status,18686.04,-37.54,90123.14,15898.11,2026-06-12,Rejected,True,None,False,
+ENT-00225,ANA-129,Zenith Financial,acquisition_date,47853.84,-98.36,16864.14,28040.53,2026-03-08,Rejected,True,None,False,
+ENT-00226,ANA-168,GlobalTech Inc,debt_equity_ratio,4682.07,-1.02,59371.13,35780.76,2026-04-24,Submitted,True,None,False,
+ENT-00227,ANA-101,Zenith Financial,market_cap,5574.01,-71.96,62976.36,22216.76,2026-04-03,Approved,True,Missing Document,True,Missing Document
+ENT-00228,ANA-132,Vertex Energy,completion_status,1730.61,-31.1,58696.76,32693.5,2026-01-27,Rejected,True,Stale Data,True,Stale Data
+ENT-00229,ANA-112,GlobalTech Inc,dividend_yield,24936.87,-77.07,61810.73,-495.31,2026-06-12,Rejected,True,None,False,
+ENT-00230,ANA-180,Acme Corp,revenue_ttm,33198.58,-80.75,84008.26,11328.09,2026-01-24,Submitted,True,None,False,
+ENT-00231,ANA-158,Acme Corp,debt_equity_ratio,32913.89,-77.44,22106.35,5452.75,2026-04-12,Approved,False,Missing Document,True,Missing Document
+ENT-00232,ANA-120,Atlas Mining,total_assets,18593.35,-82.86,13161.66,8342.33,2026-07-04,Draft,True,None,False,
+ENT-00233,ANA-113,Zenith Financial,debt_equity_ratio,11077.48,-18.74,33952.61,25773.22,2026-09-22,Approved,False,Duplicate Entry,True,Duplicate Entry
+ENT-00234,ANA-176,Vertex Energy,total_assets,47657.71,-57.51,64985.39,39633.19,2026-05-11,Approved,True,None,False,
+ENT-00235,ANA-148,Atlas Mining,revenue_ttm,46326.0,-12.53,20381.28,34573.14,2026-01-08,Draft,False,Missing Document,True,Missing Document
+ENT-00236,ANA-174,Meridian Holdings,dividend_yield,2168.0,-82.02,88821.92,39846.62,2026-04-02,Draft,True,None,False,
+ENT-00237,ANA-143,GlobalTech Inc,acquisition_date,12612.74,-66.79,22256.2,8504.66,2026-07-16,Submitted,True,None,False,
+ENT-00238,ANA-111,Meridian Holdings,debt_equity_ratio,31054.42,-92.86,74882.79,27109.68,2026-06-15,Submitted,True,None,False,
+ENT-00239,ANA-101,Acme Corp,market_cap,38652.86,-30.91,87659.72,36016.05,2026-02-11,Submitted,True,Stale Data,True,Stale Data
+ENT-00240,ANA-161,GlobalTech Inc,net_income,21668.44,-10.57,68279.29,2391.0,2026-01-24,Submitted,True,None,False,
+ENT-00241,ANA-114,Pinnacle Systems,market_cap,37502.73,-73.92,17653.64,40544.68,2026-09-16,Approved,False,None,False,
+ENT-00242,ANA-109,Meridian Holdings,acquisition_date,8374.11,-23.68,55127.39,39309.65,2026-06-13,Rejected,True,None,False,
+ENT-00243,ANA-103,Acme Corp,acquisition_date,29760.19,-99.72,33515.68,11903.45,2026-06-21,Approved,True,None,False,
+ENT-00244,ANA-135,Meridian Holdings,market_cap,19961.76,-43.7,31222.16,7038.29,2026-05-17,Submitted,True,None,False,
+ENT-00245,ANA-146,Pinnacle Systems,market_cap,40989.7,-21.49,43779.3,1614.59,2026-01-21,Rejected,True,None,False,
+ENT-00246,ANA-177,Atlas Mining,dividend_yield,30713.6,-21.35,11529.49,31032.11,2026-09-06,Submitted,True,Duplicate Entry,True,Duplicate Entry
+ENT-00247,ANA-106,GlobalTech Inc,revenue_ttm,43195.19,-74.72,57571.82,44455.35,2026-09-24,Draft,True,None,False,
+ENT-00248,ANA-182,Meridian Holdings,eps,27147.62,-52.64,89240.86,12075.27,2026-04-13,Submitted,True,None,False,
+ENT-00249,ANA-119,GlobalTech Inc,dividend_yield,6645.8,-59.99,71011.27,36162.48,2026-09-19,Approved,False,None,False,
+ENT-00250,ANA-153,Meridian Holdings,eps,18096.95,-27.48,57548.89,10300.65,2026-05-25,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00251,ANA-149,Pinnacle Systems,operating_margin,47245.37,-36.84,24100.48,47280.16,2026-06-25,Approved,True,None,False,
+ENT-00252,ANA-129,Cascade Industries,total_assets,16666.5,-31.68,36444.98,47940.53,2026-01-22,Draft,False,None,False,
+ENT-00253,ANA-135,Pinnacle Systems,dividend_yield,25405.5,-4.0,57731.94,45771.86,2026-01-25,Submitted,True,None,False,
+ENT-00254,ANA-164,Meridian Holdings,market_cap,41435.99,-72.46,75294.52,6279.82,2026-01-22,Approved,True,Format Error,True,Format Error
+ENT-00255,ANA-107,Pinnacle Systems,eps,11560.26,-8.35,28804.35,38134.84,2026-06-07,Approved,True,None,False,
+ENT-00256,ANA-128,Meridian Holdings,net_income,40200.37,-90.99,74017.5,22464.57,2026-08-24,Draft,True,None,False,
+ENT-00257,ANA-130,GlobalTech Inc,completion_status,31359.12,-80.2,29510.4,19952.22,2026-06-08,Draft,False,None,False,
+ENT-00258,ANA-110,Atlas Mining,revenue_ttm,37799.12,-67.26,45040.66,22816.51,2026-09-28,Rejected,True,None,False,
+ENT-00259,ANA-126,Acme Corp,revenue_ttm,49861.79,-97.06,19607.12,38820.97,2026-02-18,Submitted,True,None,False,
+ENT-00260,ANA-142,Atlas Mining,debt_equity_ratio,31660.09,-50.26,75633.5,41063.57,2026-02-24,Rejected,True,None,False,
+ENT-00261,ANA-150,Cascade Industries,completion_status,30292.0,-65.42,89729.55,3350.72,2026-02-26,Draft,True,None,False,
+ENT-00262,ANA-128,Vertex Energy,net_income,19548.61,-52.27,85425.87,29121.13,2026-07-07,Submitted,True,None,False,
+ENT-00263,ANA-164,Meridian Holdings,debt_equity_ratio,3211.83,-54.87,40167.21,20622.58,2026-02-09,Draft,True,None,False,
+ENT-00264,ANA-152,Acme Corp,total_assets,41393.95,-36.95,80021.66,16543.34,2026-08-13,Rejected,False,None,False,
+ENT-00265,ANA-112,GlobalTech Inc,revenue_ttm,37190.32,-57.35,86188.33,46911.68,2026-04-28,Draft,True,None,False,
+ENT-00266,ANA-177,GlobalTech Inc,market_cap,40817.7,-23.73,44765.57,34087.86,2026-02-11,Submitted,True,None,False,
+ENT-00267,ANA-132,Cascade Industries,total_assets,17467.66,-18.26,55816.82,8761.9,2026-02-16,Rejected,False,None,False,
+ENT-00268,ANA-118,Vertex Energy,acquisition_date,49187.95,-16.86,36136.07,48138.02,2026-02-08,Approved,True,None,False,
+ENT-00269,ANA-199,Vertex Energy,acquisition_date,16801.77,-76.26,87655.03,45592.58,2026-09-05,Rejected,True,None,False,
+ENT-00270,ANA-178,GlobalTech Inc,debt_equity_ratio,2196.72,-33.3,50638.05,34545.34,2026-01-17,Approved,True,Missing Document,True,Missing Document
+ENT-00271,ANA-123,Acme Corp,eps,35589.96,-54.69,32971.96,40269.9,2026-07-25,Rejected,False,None,False,
+ENT-00272,ANA-182,Atlas Mining,eps,4027.56,-47.78,23066.29,39068.3,2026-07-21,Submitted,True,None,False,
+ENT-00273,ANA-137,Acme Corp,market_cap,38501.12,-11.27,61253.34,39511.08,2026-04-06,Submitted,True,None,False,
+ENT-00274,ANA-128,Pinnacle Systems,total_assets,38916.67,-22.37,48688.71,27977.71,2026-01-14,Draft,False,None,False,
+ENT-00275,ANA-115,Atlas Mining,total_assets,38071.48,-2.77,12746.83,21820.46,2026-04-10,Submitted,True,None,False,
+ENT-00276,ANA-177,Cascade Industries,market_cap,32334.57,-10.15,56818.77,32691.59,2026-09-25,Draft,True,None,False,
+ENT-00277,ANA-152,GlobalTech Inc,revenue_ttm,49070.7,-9.78,60964.11,21424.48,2026-01-18,Submitted,False,None,False,
+ENT-00278,ANA-169,Meridian Holdings,completion_status,21424.35,-73.4,80524.08,18812.91,2026-07-12,Rejected,True,None,False,
+ENT-00279,ANA-154,GlobalTech Inc,debt_equity_ratio,33436.59,-31.43,23114.58,9109.47,2026-09-11,Approved,True,Duplicate Entry,True,Duplicate Entry
+ENT-00280,ANA-199,Pinnacle Systems,eps,19632.86,-85.1,62885.01,38543.81,2026-09-09,Draft,True,None,False,
+ENT-00281,ANA-128,Acme Corp,total_assets,-171.08,-14.78,49082.33,19228.99,2026-07-03,Draft,True,None,False,
+ENT-00282,ANA-109,GlobalTech Inc,dividend_yield,33249.91,-18.57,40135.69,48459.37,2026-01-02,Draft,False,None,False,
+ENT-00283,ANA-135,GlobalTech Inc,acquisition_date,14298.25,-39.35,87205.31,15730.34,2026-08-14,Submitted,True,Format Error,True,Format Error
+ENT-00284,ANA-182,Zenith Financial,completion_status,31162.37,-94.97,43152.5,31693.9,2026-05-01,Rejected,False,None,False,
+ENT-00285,ANA-150,Meridian Holdings,operating_margin,2438.19,-5.71,89689.2,36164.07,2026-07-22,Submitted,True,None,False,
+ENT-00286,ANA-111,Atlas Mining,market_cap,36111.9,-17.4,93054.6,46116.05,2026-03-19,Draft,True,Stale Data,True,Stale Data
+ENT-00287,ANA-167,Pinnacle Systems,revenue_ttm,2891.48,-80.47,28239.98,11221.71,2026-03-11,Approved,True,None,False,
+ENT-00288,ANA-151,GlobalTech Inc,debt_equity_ratio,23093.24,-7.28,51782.95,9848.31,2026-03-22,Draft,True,None,False,
+ENT-00289,ANA-114,Vertex Energy,completion_status,37392.05,-76.2,56196.5,33316.46,2026-03-15,Rejected,True,Duplicate Entry,True,Duplicate Entry
+ENT-00290,ANA-157,GlobalTech Inc,dividend_yield,44515.73,-45.48,37638.84,29424.03,2026-03-28,Approved,True,Logical Inconsistency,True,Logical Inconsistency
+ENT-00291,ANA-137,Acme Corp,total_assets,48640.47,-90.55,34785.26,49743.91,2026-04-15,Submitted,True,None,False,
+ENT-00292,ANA-168,GlobalTech Inc,net_income,46348.04,-9.5,76682.48,24732.74,2026-09-06,Submitted,True,None,False,
+ENT-00293,ANA-181,GlobalTech Inc,revenue_ttm,43848.16,-10.57,63009.38,41279.8,2026-02-21,Submitted,True,None,False,
+ENT-00294,ANA-153,Meridian Holdings,acquisition_date,28412.25,-65.99,84677.27,39111.92,2026-08-08,Rejected,True,None,False,
+ENT-00295,ANA-165,Meridian Holdings,acquisition_date,26947.34,-0.41,46758.27,16592.8,2026-08-24,Draft,False,Range Violation,True,Range Violation
+ENT-00296,ANA-181,Zenith Financial,completion_status,19840.46,-7.29,20709.55,23655.22,2026-01-13,Rejected,True,None,False,
+ENT-00297,ANA-118,Acme Corp,dividend_yield,17936.86,-99.77,58655.86,3759.8,2026-03-06,Submitted,True,None,False,
+ENT-00298,ANA-111,Zenith Financial,market_cap,33776.73,-34.04,11334.89,16420.08,2026-08-04,Approved,False,None,False,
+ENT-00299,ANA-166,Meridian Holdings,completion_status,3174.04,-42.94,39465.33,19595.49,2026-08-25,Draft,True,Range Violation,True,Range Violation
+ENT-00300,ANA-177,Pinnacle Systems,debt_equity_ratio,39059.14,-13.19,95777.82,5907.14,2026-01-28,Approved,True,None,False,
