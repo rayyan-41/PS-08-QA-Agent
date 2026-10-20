@@ -2,6 +2,9 @@
 
 | Folder | File | What it is |
 |---|---|---|
+| `docs/` | [phases.md](phases.md) | Six agreed outer phases, handoffs, and roles of ordinary code, statistics/ML, and LLM agents; detailed choices remain open |
+| `phases/` | [phase-1.md](phases/phase-1.md) | Confirmed CSV inspection behavior and remaining Phase 1 implementation decisions |
+| `phases/` | [phase-2.md](phases/phase-2.md) | Google ADK ReAct planner, free-tier Gemini development, configurable checks, and confirmed profile-reuse behavior |
 | `problem/` | [ps-08-problem-statement.md](problem/ps-08-problem-statement.md) | The PS-08 brief: problem, technical requirements, suggested GCP stack, evaluation criteria |
 | `problem/` | [problem-scoping.md](problem/problem-scoping.md) | Problem discussion, example user journey, evaluation definitions, dataset concerns, and proposed data preparation approach |
 | `problem/` | [initial-problem-scope.md](problem/initial-problem-scope.md) | Current user, problem, saved profiles, boundaries, and success criteria in plain language |
