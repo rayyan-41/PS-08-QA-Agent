@@ -517,7 +517,12 @@ A panel docked bottom-right, 360px wide, Pokayoke-branded (logo, navy text on wh
 
 ---
 
-## 10. API contract (frontend proposal, confirm with the backend lead)
+## 10. API contract
+
+**The real contract is `docs/api.md` (from the backend owner) plus the backend's `/openapi.json`. Where they differ from the proposal below, they win.** As of 20 October the real API uses `/api/...` routes, treats a *draft* as the job, runs review synchronously, has no authentication, and has no public widget routes, no draft list, no live events route and no audit route. Activity arrives inside the plan (`planner_activity`) and review (`activity`) responses. The proposal below remains the list of capabilities to request from the backend owner; mark each as "requested" until it exists.
+
+### 10.0 Original frontend proposal (for reference)
+
 
 These shapes are what the frontend needs. They are a **proposal**: agree them with the backend lead, then generate types from the real `/openapi.json` and delete anything that differs. The UI must follow the generated types, not this table.
 
