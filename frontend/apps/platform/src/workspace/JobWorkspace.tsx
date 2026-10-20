@@ -98,7 +98,7 @@ export function JobWorkspace() {
   if (!step) return <Navigate replace to={`/jobs/${id}/intake`} />;
   if (!STEPS.includes(step as Step)) return <Navigate replace to={`/jobs/${id}/intake`} />;
   const current = step as Step;
-  const filename = readRecentJobs().find((job) => job.id === id)?.filename;
+  const filename = draft.data?.filename ?? readRecentJobs().find((job) => job.id === id)?.filename;
 
   if (draft.isPending) {
     return (

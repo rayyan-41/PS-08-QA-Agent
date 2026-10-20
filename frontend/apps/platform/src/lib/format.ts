@@ -24,3 +24,18 @@ export function targetLabel(target: string): string {
 }
 
 export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+/** Agent notes arrive as Markdown; show them as plain readable text. */
+export function readableNote(text?: string | null): string {
+  return (text ?? '')
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/\*\*/g, '')
+    .replace(/`/g, '')
+    .trim();
+}
+
+/** "range_violation" → "Range violation". */
+export function humanize(code: string): string {
+  const text = code.replaceAll('_', ' ');
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}

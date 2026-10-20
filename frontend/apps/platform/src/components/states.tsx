@@ -20,7 +20,13 @@ export function ErrorPanel({
   title?: string;
 }) {
   const { target } = useBackend();
-  if (isStatus(error, 409)) {
+  // 409 means either stale state (offer Reload) or a refusal such as a blocked waiver
+  // or release; refusals are shown verbatim like any other error.
+  if (
+    isStatus(error, 409) &&
+    isApiError(error) &&
+    /refresh|changed|stale|version/i.test(error.detail)
+  ) {
     return (
       <div className="state state--warn" role="alert">
         <AlertTriangle aria-hidden size={18} />
@@ -180,10 +186,11 @@ export function ActivityItem({ item }: { item: unknown }) {
   if (typeof item === 'string') return <span>{item}</span>;
   if (!item || typeof item !== 'object') return <code>{JSON.stringify(item)}</code>;
   const record = item as Record<string, unknown>;
-  const tool = record.tool ?? record.name ?? record.model ?? record.type ?? record.kind;
+  const tool =
+    record.step ?? record.tool ?? record.name ?? record.model ?? record.type ?? record.kind;
   const status = record.status ?? record.result;
   const summary = record.summary ?? record.message ?? record.description ?? record.action;
-  const failed = typeof status === 'string' && /fail|error|unavailable/i.test(status);
+  const failed = typeof status === 'string' && /fail|error|unavailable|incomplete/i.test(status);
   return (
     <div className={`activity${failed || record.error ? ' activity--failed' : ''}`}>
       <div className="activity__head">

@@ -1,8 +1,10 @@
 /**
  * HAND-WRITTEN API TYPES.
  *
- * Written from docs/api.md on 20 October 2026 because the backend's /openapi.json
- * was unreachable. It follows the shape openapi-typescript generates (`paths`,
+ * Written from docs/api.md and checked against backend/app.py (merged 20 October
+ * 2026). The live /openapi.json types request bodies only: the routes return plain
+ * dicts, so every response there is `unknown`. `../generated/schema.d.ts` is kept
+ * for request-body reference. It follows the shape openapi-typescript generates (`paths`,
  * `components`) so `src/schema.ts` can switch to `src/generated/schema.d.ts`
  * without changing callers.
  *
@@ -50,8 +52,8 @@ export interface Inspection {
   columns: ColumnSummary[];
   /** First rows, values kept as the original text. */
   preview: Record<string, string | null>[];
-  /** Shape not documented; rendered as text or JSON. */
-  warnings: unknown[];
+  /** Plain sentences, e.g. "x contains mixed numeric and text values". */
+  warnings: string[];
   [extra: string]: unknown;
 }
 
@@ -61,13 +63,35 @@ export interface InspectResult {
   inspection: Inspection;
 }
 
+/** A recorded decision, or a correction history entry (both live in `draft.decisions`). */
+export interface DraftHistoryEntry {
+  finding_id?: string;
+  decision?: string;
+  reason?: string;
+  evidence?: string;
+  review_id?: string;
+  at?: string;
+  row?: number;
+  field?: string;
+  before?: string;
+  after?: string;
+  version?: number;
+  [extra: string]: unknown;
+}
+
 /** GET /api/drafts/{id}. Note: this route returns `id`, not `draft_id`. */
 export interface Draft {
   id: string;
+  filename?: string;
   version: number;
-  /** Values seen in docs: "uploaded", "inspected". Full set undocumented. */
+  /** uploaded → inspected → configured → held | ready (backend/app.py). */
   status: string;
+  created_at?: string;
   inspection?: Inspection | null;
+  profile_id?: string;
+  /** Pointer to the current review; removed when a correction creates a new version. */
+  review?: { id: string; holds: number; version: number } | null;
+  decisions?: DraftHistoryEntry[];
   [extra: string]: unknown;
 }
 
@@ -75,6 +99,8 @@ export interface RecommendedProfile {
   name: string;
   required_fields: string[];
   unique_fields: string[];
+  require_supporting_doc?: boolean;
+  hold_suspicions?: boolean;
   checks: string[];
   [extra: string]: unknown;
 }
@@ -92,9 +118,10 @@ export interface Plan {
   recommended_profile: RecommendedProfile;
   questions: PlanQuestion[];
   available_checks: string[];
+  /** completed | incomplete | failed | unavailable (agent run status, not the recommendation's source). */
   planner_status: string;
   planner_note?: string | null;
-  /** Shape not documented. */
+  /** Agent tool calls: {step, status: "called" | "observed"}. */
   planner_activity?: unknown[] | null;
   planner_error?: string | null;
 }
@@ -106,6 +133,13 @@ export interface Profile {
   checks: string[];
   required_fields?: string[];
   unique_fields?: string[];
+  require_supporting_doc?: boolean;
+  hold_suspicions?: boolean;
+  answers?: Record<string, string>;
+  reference_id?: string | null;
+  required_checks?: string[];
+  max_age_days?: number | null;
+  reused_from?: string | null;
   [extra: string]: unknown;
 }
 
@@ -130,6 +164,10 @@ export interface ProfileApproval {
   reference_id?: string | null;
   required_checks?: string[];
   reuse_profile_id?: string | null;
+  require_supporting_doc?: boolean;
+  hold_suspicions?: boolean;
+  max_age_days?: number | null;
+  relationships?: { left: string; operator: string; right: string }[];
 }
 
 export interface ProfileApproved {
@@ -152,13 +190,28 @@ export interface Finding {
   source: string;
   procedure?: string | null;
   draft_version: number;
+  /** "analyst_verification" | "acknowledged" once a decision is recorded. */
+  resolved_by?: string;
+  /** Feedback: earlier verified-valid decisions for this check under the same profile. */
+  prior_valid_verifications?: number;
   [extra: string]: unknown;
 }
 
 export interface Outcome {
   model: string;
+  /** completed | ineligible | not_selected */
   status: string;
+  reason?: string | null;
+  group?: string;
   [extra: string]: unknown;
+}
+
+/** Result of the investigation agent's turn during POST /review. */
+export interface AgentRun {
+  status: string;
+  reason?: string;
+  note?: string;
+  activity: unknown[];
 }
 
 export interface Review {
@@ -171,8 +224,9 @@ export interface Review {
   total: number;
   holds: number;
   by_code: Record<string, number>;
-  /** Shape not documented. */
+  /** {step, status} items: deterministic/statistical steps, then agent tool calls. */
   activity: unknown[];
+  agent?: AgentRun;
   created_at: string;
 }
 

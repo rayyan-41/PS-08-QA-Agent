@@ -186,7 +186,8 @@ const TESTS: TestCase[] = [
   },
   {
     name: '6. Waiver refusal',
-    expected: 'verified_valid on a confirmed required violation is refused (HTTP 4xx).',
+    expected:
+      'verified_valid on a confirmed required violation is refused (backend returns HTTP 409 with the reason).',
     run: async (backend, shared) => {
       const finding = shared.journeyReview?.findings.find(
         (f) => f.hold && f.evidence_strength === 'confirmed',
@@ -215,8 +216,7 @@ const TESTS: TestCase[] = [
           isApiError(error) &&
           error.status !== undefined &&
           error.status >= 400 &&
-          error.status < 500 &&
-          error.status !== 409;
+          error.status < 500;
         return { verdict: refused ? 'pass' : 'fail', actual: outcome(error) };
       }
     },
