@@ -349,6 +349,9 @@ def correct(draft_id: str, payload: Correction):
 @app.post("/api/drafts/{draft_id}/submit")
 def submit(draft_id: str):
     draft = get_draft(draft_id)
+    existing = store.get_doc("accepted", f"{draft_id}-{draft['version']}")
+    if existing:
+        return existing
     review = draft.get("review")
     if not review or review["version"] != draft["version"] or review["holds"]:
         raise HTTPException(409, "Current review is held, missing, or stale")

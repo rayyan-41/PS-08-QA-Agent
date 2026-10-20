@@ -23,8 +23,13 @@ def _cloud():
 def put_blob(key: str, payload: bytes, immutable=False):
     clients = _cloud()
     if clients:
+        from google.api_core.exceptions import PreconditionFailed
         blob = clients[1].blob(key)
-        blob.upload_from_string(payload, if_generation_match=0 if immutable else None)
+        try:
+            blob.upload_from_string(payload, if_generation_match=0 if immutable else None)
+        except PreconditionFailed:
+            if not immutable or blob.download_as_bytes() != payload:
+                raise
     else:
         path = ROOT / "blobs" / key
         path.parent.mkdir(parents=True, exist_ok=True)

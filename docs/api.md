@@ -1,13 +1,13 @@
 # Backend API and UI addresses
 
-**Status:** public GCP Cloud Run health verified in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The fallback UI is served by the backend root (`/`). The primary UI should use one configurable base URL, `VITE_API_BASE_URL`, pointing at the deployed backend origin. Both UIs call these same routes. No client secret belongs in either UI.
+**Status:** public GCP Cloud Run synthetic end-to-end review verified in project `ps08-quality-agent-20261020-ib`, region `asia-south1`. The fallback UI is served by the backend root (`/`). The primary UI should use one configurable base URL, `VITE_API_BASE_URL`, pointing at the deployed backend origin. Both UIs call these same routes. No client secret belongs in either UI.
 
 | Environment | Backend origin | Fallback UI | Primary UI |
 |---|---|---|---|
 | Local | `http://localhost:8080` | `http://localhost:8080/` | Team-owned URL, configure API base |
 | GCP | `https://ps08-quality-agent-447065735152.asia-south1.run.app` | `https://ps08-quality-agent-447065735152.asia-south1.run.app/` | Team-owned URL, configure `VITE_API_BASE_URL=https://ps08-quality-agent-447065735152.asia-south1.run.app` |
 
-All routes currently have status **working locally pending verification**. JSON errors use FastAPI's `{ "detail": "explanation" }`; HTTP 409 means stale state or a blocked release, 422 means invalid input, 413 means size limit, and 404 means unknown ID. Review may take several seconds and the UI should show a loading state. Calls are synchronous in this first version.
+JSON errors use FastAPI's `{ "detail": "explanation" }`; HTTP 409 means stale state or a blocked release, 422 means invalid input, 413 means size limit, and 404 means unknown ID. Review may take several seconds and the UI should show a loading state. Calls are synchronous in this first version.
 
 | Method/path | Purpose and request | Example success response |
 |---|---|---|
@@ -28,3 +28,7 @@ All routes currently have status **working locally pending verification**. JSON 
 | `GET /api/accepted/{receipt}/download` | Download accepted CSV | `text/csv` attachment |
 
 The planner returns a validated schema recommendation plus `planner_status`, `planner_note`, `planner_activity`, and `planner_error`. With `GEMINI_API_KEY`, ADK calls MCP `inspect_draft` and `supported_checks`; review calls MCP `execute_review`, `get_review_evidence`, and procedures, recording `agent` status and activity. Without a key, the API says `unavailable` and deterministic evidence still works. MCP Streamable HTTP is mounted at `/tools/mcp`; it is an internal agent tool interface, not a primary UI route. The reviewed sample's supplied labels are provisional and should not be presented as measured ground truth.
+
+## Deployed verification
+
+On 2026-10-20, a synthetic two-row CSV completed upload, inspection, agent-assisted planning, profile approval, agent-assisted review, blocked release, correction, and accepted release on Cloud Run. The planner called MCP `inspect_draft` and `supported_checks`; the reviewer called `execute_review`, `get_review_evidence`, and `procedure_for`. The active model is `gemini-3.5-flash-lite` through Secret Manager. A repeated submit exposed a GCS precondition issue; the idempotency fix is pending redeployment and verification.

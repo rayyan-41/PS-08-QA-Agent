@@ -20,7 +20,7 @@ async def run_turn(draft_id: str, purpose: str):
     else:
         instruction = "You investigate evidence for a pre-submission review. First call execute_review for the draft, then get_review_evidence using the returned review ID. Call procedure_for for at least one finding category if findings exist. Explain major holds and next actions grounded in tool evidence. Never authorize release or invent a correction. Keep the answer brief."
         prompt = f"Review draft {draft_id} through tools and explain its main issues."
-    agent = Agent(name=f"quality_{purpose}", model=os.getenv("PS08_GEMINI_MODEL", "gemini-2.5-flash"), instruction=instruction, tools=[toolset])
+    agent = Agent(name=f"quality_{purpose}", model=os.getenv("PS08_GEMINI_MODEL", "gemini-3.5-flash-lite"), instruction=instruction, tools=[toolset])
     sessions = InMemorySessionService()
     session = await sessions.create_session(app_name="ps08", user_id=draft_id)
     runner = Runner(agent=agent, app_name="ps08", session_service=sessions)
