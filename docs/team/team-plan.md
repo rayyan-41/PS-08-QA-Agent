@@ -117,5 +117,5 @@
 
 ## Source documents
 
-- [Participant Guide](../atomcamp%20National%20AI%20Hackathon%20Finale%20-%20Participant%20Guide.pdf)
-- [Event Agenda](../atomcamp%20National%20AI%20Hackathon%20Finale%20-%20Event%20Agenda.pdf)
+- [Participant Guide](../event/participant-guide.pdf)
+- [Event Agenda](../event/event-agenda.pdf)

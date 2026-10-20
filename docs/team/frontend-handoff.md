@@ -86,10 +86,10 @@
 **PRE HACKATHON NOTES**
 
 - Frontend can be on vercel with backend on GCP
-- 
+
 
 ## References
 
-- [Team plan](Hackathon%20Team%20Plan.md)
-- [Participant Guide](../atomcamp%20National%20AI%20Hackathon%20Finale%20-%20Participant%20Guide.pdf)
-- [Event Agenda](../atomcamp%20National%20AI%20Hackathon%20Finale%20-%20Event%20Agenda.pdf)
+- [Team plan](team-plan.md)
+- [Participant Guide](../event/participant-guide.pdf)
+- [Event Agenda](../event/event-agenda.pdf)
