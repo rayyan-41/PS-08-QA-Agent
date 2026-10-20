@@ -18,6 +18,8 @@ Full notes: [docs/strategy/vision-and-competitors.md](docs/strategy/vision-and-c
 - **Suggest, do not silently change.** The agent proposes fixes and the analyst decides. Never auto-apply a correction to an entry without an explicit analyst action.
 - Every suggestion must say why it was flagged, how severe it is, and what to do. Keep false alarms low; it is a scored metric.
 - Target user: an analyst entering company financials at a data provider. Use their domain language in UI text and issue messages.
+- Every flag shows its evidence (range, previous value, related field, similar past rejection, duplicate record). Feature priorities (Must / Should / Could) are in section 7 of the vision doc; build Must items first.
+- Only make competitor or market claims that appear, with a source, in the vision doc.
 
 ### Required capabilities (from the brief)
 
