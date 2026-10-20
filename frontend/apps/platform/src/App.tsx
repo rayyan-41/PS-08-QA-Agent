@@ -1,7 +1,8 @@
-import { useBackendHealth } from '@pokayoke/api-client';
+import { createApiClient } from '@pokayoke/api-client';
+import { useQuery } from '@tanstack/react-query';
 import { ConnectionStatus, Logo } from '@pokayoke/ui';
 import { Route, Routes } from 'react-router';
-import type { AppConfig } from './config';
+import type { PlatformConfig as AppConfig } from './config';
 
 export function App({ config }: { config: AppConfig }) {
   return (
@@ -14,7 +15,17 @@ export function App({ config }: { config: AppConfig }) {
 }
 
 function PlatformSetup({ config }: { config: AppConfig }) {
-  const health = useBackendHealth(config.apiBaseUrl);
+  // Placeholder until the console screens land: same-origin GET /api/health.
+  const health = useQuery({
+    queryKey: ['api-health', config.apiBaseUrl],
+    queryFn: async () => {
+      const result = await createApiClient(config.apiBaseUrl).GET('/api/health');
+      const response = result.response;
+      if (!result.data) throw new Error(`GET /api/health returned HTTP ${response.status}`);
+      return { status: response.status, checkedAt: new Date().toISOString() };
+    },
+    retry: false,
+  });
 
   return (
     <div className="platform-shell">
@@ -48,7 +59,7 @@ function PlatformSetup({ config }: { config: AppConfig }) {
                     ? 'error'
                     : 'success'
             }
-            apiBaseUrl={config.apiBaseUrl}
+            apiBaseUrl={config.apiBaseUrl || window.location.origin}
             checkedAt={health.data?.checkedAt}
             httpStatus={health.data?.status}
             error={health.error?.message}

@@ -15,6 +15,10 @@ The marketing app runs on port 5173, platform on 5174, and client portal on 5175
 
 All browser configuration is public. Never put model keys or service-account credentials in `VITE_*` variables. Firebase web configuration is public, but authentication itself is not connected in this scaffold.
 
+## Platform console: same origin
+
+The platform console is served by the FastAPI backend at `/` and calls `/api/...` on the same origin (see `apps/platform/BACKEND_INTEGRATION.md`). In development, `pnpm dev:platform` (port 5174) proxies `/api` and `/openapi.json` to `POKAYOKE_BACKEND_URL` (default `http://localhost:8080`), so no CORS setup is needed. Runtime settings live in `apps/platform/public/config.json`. API types come from `pnpm api:generate` (default `http://localhost:8080/openapi.json`, override with `POKAYOKE_OPENAPI_URL`); until it succeeds, `packages/api-client/src/hand-written/schema.ts` is used.
+
 ## Workspace
 
 | Path                  | Purpose                                                        |
