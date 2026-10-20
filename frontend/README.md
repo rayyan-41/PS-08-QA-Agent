@@ -1,6 +1,6 @@
 # Pokayoke frontend
 
-The platform console at `/` is connected to the FastAPI backend and deployed on Cloud Run. Its upload, inspection, profile, review, correction, and release flow uses real `/api/*` routes. The marketing and client portal apps remain setup pages. See [`../docs/INTEGRATION_HANDOFF.md`](../docs/INTEGRATION_HANDOFF.md) for the live link and demo steps.
+The platform console at `/` is connected to the FastAPI backend and deployed on Cloud Run. Its upload, inspection, profile, review, correction, and release flow uses real `/api/*` routes. See [`../docs/INTEGRATION_HANDOFF.md`](../docs/INTEGRATION_HANDOFF.md) for the live link and demo steps. The [marketing site](apps/marketing/README.md) includes the presentation and links to the [sample client portal](apps/client-portal/README.md), which uploads and inspects real backend drafts before handing them to the console. Those two apps have separate deployment paths.
 
 ## Local setup
 
@@ -79,6 +79,6 @@ Create separate projects with Root Directory `frontend/apps/marketing` and `fron
 
 ## Remaining work outside the deployed console
 
-- Marketing and client portal are separate setup apps. Deploying those and adding authentication are future work.
+- Marketing and client portal have their own working frontend flows; deploying those separately and adding authentication are future work.
 - The standalone nginx platform Dockerfiles describe an alternative deployment. The active hackathon deployment builds the platform into the root FastAPI Dockerfile and serves it from the same Cloud Run origin as the API.
 - Backend phase documents govern whole-batch release and separate upload/inspection requests.
